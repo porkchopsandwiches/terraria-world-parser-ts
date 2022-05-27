@@ -1,0 +1,78 @@
+{
+	"name": "@porkchopsandwich/terraria-world-parser",
+	"version": "0.0.1",
+	"description": "Library for parsing Terraria worlds",
+	"license": "MIT",
+	"repository": "porkchopsandwiches/terraria-world-parser-ts",
+	"author": {
+		"name": "Cameron Morrow",
+		"email": "cam.morrow+dev@gmail.com",
+		"url": "https://github.com/porkchopsandwiches/terraria-world-parser-ts"
+	},
+	"type": "commonjs",
+	"main": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"engines": {
+		"node": ">=12"
+	},
+	"scripts": {
+		"build": "del-cli dist && tsc",
+		"test:ava": "ava",
+		"test": "npm run lint && npm run test:ava && npm run build",
+		"lint": "xo",
+		"lint:fix": "xo --fix",
+		"prepack": "npm run build"
+	},
+	"files": [
+		"dist"
+	],
+	"keywords": [
+		"typescript",
+		"terraria",
+		"world"
+	],
+	"sideEffects": false,
+	"devDependencies": {
+		"ava": "^4.2.0",
+		"del-cli": "^4.0.1",
+		"dotenv": "^16.0.1",
+		"npm-check-updates": "^12.5.11",
+		"ts-node": "^10.7.0",
+		"typescript": "^4.6.4",
+		"xo": "^0.48.0"
+	},
+	"ava": {
+		"extensions": {
+			"ts": "module"
+		},
+		"nodeArguments": [
+			"--loader=ts-node/esm"
+		]
+	},
+	"xo": {
+		"prettier": true,
+		"rules": {
+			"unicorn/filename-case": "off",
+			"import/extensions": "off",
+			"@typescript-eslint/naming-convention": "off",
+			"@typescript-eslint/restrict-template-expressions": "off",
+			"@typescript-eslint/ban-types": [
+				"error",
+				{
+					"types": {},
+					"extendDefaults": true
+				}
+			],
+			"node/prefer-global/process": [
+				"error",
+				"always"
+			]
+		}
+	},
+	"dependencies": {
+		"@types/bytebuffer": "^5.0.43",
+		"@types/ramda": "^0.28.13",
+		"bytebuffer": "^5.0.1",
+		"ramda": "^0.28.0"
+	}
+}
