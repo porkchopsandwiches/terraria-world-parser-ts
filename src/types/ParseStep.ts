@@ -1,4 +1,3 @@
 import type { ByteBuffer } from "./ByteBuffer";
-import type { WorldBase } from "./Worlds/WorldBase";
 
-export type ParseStep<TInputWorld extends Partial<WorldBase>, TOutputWorld extends TInputWorld> = (byteBuffer: Readonly<ByteBuffer>, sourceWorld: Readonly<TInputWorld>) => Promise<TOutputWorld>;
+export type ParseStep<TInputWorld extends Record<string, unknown>, TOutputWorld extends Record<string, unknown>> = (byteBuffer: Readonly<ByteBuffer>, sourceWorld: Readonly<TInputWorld>) => Promise<TOutputWorld>;
