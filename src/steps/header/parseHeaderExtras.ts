@@ -1,7 +1,7 @@
-import { readInt32 } from "../bufferReader/readInt32";
-import type { ParseStep } from "../types/ParseStep";
-import type { WorldBase } from "../types/Worlds/WorldBase";
-import type { WorldV140 } from "../types/Worlds/WorldV140";
+import { readInt32 } from "../../bufferReader/readInt32";
+import type { ParseStep } from "../../types/ParseStep";
+import type { WorldBase } from "../../types/Worlds/WorldBase";
+import type { WorldV140 } from "../../types/Worlds/WorldV140";
 
 export const parseHeaderExtras: ParseStep<Pick<WorldBase, "version">, Partial<Pick<WorldV140, "fileRevision">>> = async (byteBuffer, sourceWorld) => {
 	if (sourceWorld.version < 140) {
