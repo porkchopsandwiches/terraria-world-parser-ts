@@ -3,9 +3,12 @@ import { readInt16 } from "../../bufferReader/readInt16";
 import type { ParseStep } from "../../types/ParseStep";
 import type { WorldBase } from "../../types/Worlds/WorldBase";
 
-export const parseHeaderTileFrameImportance: ParseStep<{}, Pick<WorldBase, "tileFrameImportance">> = async (byteBuffer) => {
+type InputWorld = {};
+type OutputWorld = Pick<WorldBase, "tileFrameImportance">;
+
+export const parseHeaderTileFrameImportance: ParseStep<InputWorld, OutputWorld> = async (byteBuffer) => {
 	// Read tile frame importance from bit-packed data
-	const world: Pick<WorldBase, "tileFrameImportance"> = { tileFrameImportance: [] };
+	const world: OutputWorld = { tileFrameImportance: [] };
 
 	// Number of bits
 	const bitsCount = readInt16(byteBuffer);

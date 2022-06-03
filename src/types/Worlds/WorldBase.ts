@@ -5,15 +5,8 @@ import type { NPC } from "../NPC";
 import type { Rectangle } from "../Rectangle";
 import type { Sign } from "../Sign";
 import type { Tile } from "../Tile";
-import type { BeatenBosses } from "./BeatenBosses/BeatenBosses";
-import type { Events } from "./Events/Events";
-import type { SavedNPCs } from "./SavedNPCs/SavedNPCs";
 
-export type WorldBase<
-	TWorldBeatenBosses extends BeatenBosses = BeatenBosses,
-	TWorldSavedNPCs extends SavedNPCs = SavedNPCs,
-	TWorldEvents extends Events = Events
-	> = Dimensions & {
+export type WorldBase = Dimensions & {
 	version: number;
 	title: string;
 	id: number;
@@ -36,10 +29,6 @@ export type WorldBase<
 	isEclipse: boolean;
 	isCrimson: boolean;
 	dungeon: Coordinate;
-
-	beaten: TWorldBeatenBosses;
-	saved: TWorldSavedNPCs;
-	events: TWorldEvents;
 
 	shadowOrbSmashed: boolean;
 	spawnMeteor: boolean;
@@ -80,4 +69,27 @@ export type WorldBase<
 	gems: Record<string, number>;
 	ores: Record<string, number>;
 	chests: Chest[];
+
+	// Saved NPCs
+	savedGoblin: boolean;
+	savedWizard: boolean;
+	savedMech: boolean;
+
+	// Bosses
+	beatBoss1: boolean;
+	beatBoss2: boolean;
+	beatBoss3: boolean;
+	beatQueenBee: boolean;
+	beatMechBoss1: boolean;
+	beatMechBoss2: boolean;
+	beatMechBoss3: boolean;
+	beatMechBossAny: boolean;
+	beatPlantBoss: boolean;
+	beatGolemBoss: boolean;
+
+	// Events
+	eventsGoblins: boolean;
+	eventsClown: boolean;
+	eventsFrost: boolean;
+	eventsPirates: boolean;
 }

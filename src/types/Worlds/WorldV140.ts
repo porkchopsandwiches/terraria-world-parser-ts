@@ -1,15 +1,8 @@
 import type { NPC } from "../NPC";
 import type { TileEntity } from "../TileEntity";
-import type { BeatenBosses } from "./BeatenBosses/BeatenBosses";
-import type { Events } from "./Events/Events";
-import type { SavedNPCsV140 } from "./SavedNPCs/SavedNPCsV140";
 import type { WorldV104 } from "./WorldV104";
 
-export type WorldV140<
-	TBeatenBosses extends BeatenBosses = BeatenBosses,
-	TSavedNPCs extends SavedNPCsV140 = SavedNPCsV140,
-	TEvents extends Events = Events
-	> = WorldV104<TBeatenBosses, TSavedNPCs, TEvents> & {
+export type WorldV140 = WorldV104 & {
 	mobs: NPC[];
 	fileRevision: number;
 	invasionSizeStart: number;
@@ -19,4 +12,24 @@ export type WorldV140<
 	fastForwardTime: boolean;
 	tileEntitiesNumber: number;
 	tileEntities: TileEntity[];
+	savedTaxCollector: boolean;
+
+	beatFishron: boolean;
+	beatMartians: boolean;
+	beatLunaticCultist: boolean;
+	beatMoonlord: boolean;
+	beatHalloweenKing: boolean;
+	beatHalloweenTree: boolean;
+	beatChristmasQueen: boolean;
+	beatSanta: boolean;
+	beatChristmasTree: boolean;
+	celestialSolarDown: boolean;
+	celestialVortexDown: boolean;
+	celestialNebulaDown: boolean;
+	celestialStardustDown: boolean;
+	celestialSolarActive: boolean;
+	celestialVortexActive: boolean;
+	celestialNebulaActive: boolean;
+	celestialStardustActive: boolean;
+	apocalypse: boolean;
 }

@@ -2,7 +2,10 @@ import { readUInt32 } from "../../bufferReader/readUInt32";
 import type { ParseStep } from "../../types/ParseStep";
 import type { WorldBase } from "../../types/Worlds/WorldBase";
 
-export const parseHeaderVersion: ParseStep<{}, Pick<WorldBase, "version">> = async (byteBuffer) => {
+type InputWorld = {};
+type OutputWorld = Pick<WorldBase, "version">;
+
+export const parseHeaderVersion: ParseStep<InputWorld, OutputWorld> = async (byteBuffer) => {
 	const world: Pick<WorldBase, "version"> = {
 		version: readUInt32(byteBuffer),
 	};
