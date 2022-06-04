@@ -5,6 +5,7 @@ import type { NPC } from "../NPC";
 import type { Rectangle } from "../Rectangle";
 import type { Sign } from "../Sign";
 import type { Tile } from "../Tile";
+import type { OreCounts } from "./Ores/OreCounts";
 
 export type WorldBase = Dimensions & {
 	version: number;
@@ -67,7 +68,7 @@ export type WorldBase = Dimensions & {
 	sectionPointers: number[];
 
 	gems: Record<string, number>;
-	ores: Record<string, number>;
+	ores: OreCounts;
 	chests: Chest[];
 
 	// Saved NPCs

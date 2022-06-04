@@ -24,6 +24,7 @@ import { parseHeaderSectionPointers } from "./header/parseHeaderSectionPointers"
 import { parseHeaderTileFrameImportance } from "./header/parseHeaderTileFrameImportance";
 import { parseHeaderVersion } from "./header/parseHeaderVersion";
 import { stepsAggregator } from "./stepsAggregator";
+import { parseTiles } from "./tiles/parseTiles";
 
 export const parse =
 
@@ -54,4 +55,8 @@ export const parse =
 	.add(parseFlagsStyles)
 	.add(parseFlagsExtras)
 	.add(validateOffset(ParserPointer.Flags))
+
+	// Tiles
+	.add(parseTiles)
+	.add(validateOffset(ParserPointer.Tiles))
 	.final;
