@@ -27,28 +27,28 @@ const tileProperties: WorldTileProperty[] = [];
 export const deserializeTile: TileDeserializer = (byteBuffer, tileFrameImportance, oreCounts) => {
 	const tile: Tile = { rle: 0 };
 	let tileType = -1;
-	const header1 = readByte(byteBuffer);
-	let header2 = 0;
-	let header3 = 0;
+	const activeFlags = readByte(byteBuffer);
+	let tileFlags = 0;
+	let tileFlagsHighByte = 0;
 
-	// check bit[0] to see if header 2 has data
-	if ((header1 & 1) === 1) {
-		header2 = readByte(byteBuffer);
+	// check Active Flags bit 0 to see if Tile Flags is present
+	if ((activeFlags & 1) === 1) {
+		tileFlags = readByte(byteBuffer);
 
-		// Check bit[0] to see if header 3 has data
-		if ((header2 & 1) === 1) {
-			header3 = readByte(byteBuffer);
+		// Check Tile Flags bit 0 to see if Tile Flags High Byte is present
+		if ((tileFlags & 1) === 1) {
+			tileFlagsHighByte = readByte(byteBuffer);
 		}
 	}
 
-	// check bit[1] for active tile
-	if ((header1 & 2) === 2) {
+	// Check Active Flags bit 1 for active tile
+	if ((activeFlags & 2) === 2) {
 		tile.isActive = true;
 
 		// Read tile type
 
 		// check bit[5] to see if tile is byte or little endian int16
-		if ((header1 & 32) !== 32) {
+		if ((activeFlags & 32) !== 32) {
 			tileType = readByte(byteBuffer); // tile is byte
 		} else {
 			// tile is little endian int 16
@@ -69,7 +69,7 @@ export const deserializeTile: TileDeserializer = (byteBuffer, tileFrameImportanc
 				if (u % 36 === 0 && tile.v === 18) {
 					const subType = u / 36;
 					if (subType === 16) {
-						tileType = WorldTileType.CoinPileCopper;
+						tileType  = WorldTileType.CoinPileCopper;
 					} else if (subType === 17) {
 						tileType = WorldTileType.CoinPileSilver;
 					} else if (subType === 18) {
@@ -121,7 +121,7 @@ export const deserializeTile: TileDeserializer = (byteBuffer, tileFrameImportanc
 		tile.defId = tileType;
 
 		// Check header 3 bit[3] for tile colour
-		if ((header3 & 8) === 8) {
+		if ((tileFlagsHighByte & 8) === 8) {
 			tile.color = readByte(byteBuffer);
 		}
 	}
@@ -129,41 +129,41 @@ export const deserializeTile: TileDeserializer = (byteBuffer, tileFrameImportanc
 	// Read walls
 
 	// Check bit[3] bit for active wall
-	if ((header1 & 4) === 4) {
+	if ((activeFlags & 4) === 4) {
 		const wallType = readByte(byteBuffer);
 		// tile.wall = definitions.wall_map[wall_type];
 		tile.wallId = wallType;
 
 		// Check bit[4] of header 3 to see if there is a wall colour
-		if ((header3 & 16) === 16) {
+		if ((tileFlagsHighByte & 16) === 16) {
 			tile.wallColour = readByte(byteBuffer);
 		}
 	}
 
 	// check for liquids, grab the bit[3] and bit[4], shift them to the 0 and 1 bits
-	const liquidType = (header1 & 24) >> 3;
+	const liquidType = (activeFlags & 24) >> 3;
 	if (liquidType !== 0) {
 		tile.liquidAmount = readByte(byteBuffer);
 		tile.liquidType = liquidType;
 	}
 
 	// check if we have data in header2 other than just telling us we have header3
-	if (header2 > 1) {
+	if (tileFlags > 1) {
 		// check bit[1] for red wire
-		if ((header2 & 2) === 2) {
+		if ((tileFlags & 2) === 2) {
 			tile.wireRed = true;
 		}
 		// check bit[2] for green wire
-		if ((header2 & 4) === 4) {
+		if ((tileFlags & 4) === 4) {
 			tile.wireGreen = true;
 		}
 		// check bit[3] for blue wire
-		if ((header2 & 8) === 8) {
+		if ((tileFlags & 8) === 8) {
 			tile.wireBlue = true;
 		}
 
 		// grab bits[4, 5, 6] and shift 4 places to 0,1,2. This byte is our brick style
-		const brickStyle = (header2 & 112) >> 4;
+		const brickStyle = (tileFlags & 112) >> 4;
 		// if (brick_style !== 0 && TileProperties.length > tile_type) {
 		//     if (!_.has(TileProperties, tile_type)) {
 		//         // "tile type not found", tile_type, TileProperties, tile
@@ -175,14 +175,14 @@ export const deserializeTile: TileDeserializer = (byteBuffer, tileFrameImportanc
 	}
 
 	// check if we have data in header3 to process
-	if (header3 > 0) {
+	if (tileFlagsHighByte > 0) {
 		// check bit[1] for actuator
-		if ((header3 & 2) === 2) {
+		if ((tileFlagsHighByte & 2) === 2) {
 			tile.isActuator = true;
 		}
 
 		// check bit[2] for inactive due to actuator
-		if ((header3 & 4) === 4) {
+		if ((tileFlagsHighByte & 4) === 4) {
 			tile.isInactive = true;
 		}
 	}
@@ -192,7 +192,7 @@ export const deserializeTile: TileDeserializer = (byteBuffer, tileFrameImportanc
 	// 1 = byte RLE counter
 	// 2 = int16 RLE counter
 	// 3 = ERROR
-	const rleStorageType = (header1 & 192) >> 6;
+	const rleStorageType = (activeFlags & 192) >> 6;
 
 	// read RLE distance
 	let rle = 0;

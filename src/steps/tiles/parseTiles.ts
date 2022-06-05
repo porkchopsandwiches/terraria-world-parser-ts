@@ -13,12 +13,11 @@ export const parseTiles: ParseStep<InputWorld, OutputWorld> = async (byteBuffer,
 
 		const columnTiles: Tile[] = [];
 		for (let y = 0; y < sourceWorld.height; y++) {
-			const deserialized = deserializeTile(byteBuffer, sourceWorld.tileFrameImportance, world.ores);
-			columnTiles[y] = deserialized.tile;
+			const { tile, rle: initialRle } = deserializeTile(byteBuffer, sourceWorld.tileFrameImportance, world.ores);
+			columnTiles[y] = tile;
+			let rle = initialRle;
 
-			const initialRle = deserialized.rle;
-
-			while (deserialized.rle > 0) {
+			while (rle > 0) {
 				y++;
 				if (y > sourceWorld.height) {
 					throw new Error(
@@ -27,14 +26,14 @@ export const parseTiles: ParseStep<InputWorld, OutputWorld> = async (byteBuffer,
 						"," +
 						y +
 						"], current RLE: " +
-						deserialized.rle +
+						rle +
 						"; initial RLE: " +
 						initialRle,
 					);
-				} else {
-					columnTiles[y] = deserialized.tile;
-					deserialized.rle--;
 				}
+
+				columnTiles[y] = tile;
+				rle--;
 			}
 		}
 		world.tiles[x] = columnTiles;
