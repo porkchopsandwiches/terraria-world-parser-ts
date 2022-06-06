@@ -1,9 +1,8 @@
 import type { NPC } from "../NPC";
-import type { TileEntity } from "../TileEntity";
-import type { WorldV104 } from "./WorldV104";
+import type { WorldV122 } from "./WorldV122";
 
-export type WorldV140 = WorldV104 & {
-	mobs: NPC[];
+export type WorldV140 = WorldV122 & {
+	homelessNPCs: NPC[];
 	fileRevision: number;
 	invasionSizeStart: number;
 	cultistDelay: number;
@@ -11,7 +10,6 @@ export type WorldV140 = WorldV104 & {
 	killedMobs: number[];
 	fastForwardTime: boolean;
 	tileEntitiesNumber: number;
-	tileEntities: TileEntity[];
 	savedTaxCollector: boolean;
 
 	beatFishron: boolean;

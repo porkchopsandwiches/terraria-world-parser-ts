@@ -4,16 +4,16 @@ import type { WorldCurrent } from "../../types/Worlds/WorldCurrent";
 import { deserializeTile } from "./deserializeTile";
 
 type InputWorld = Pick<WorldCurrent, "width" | "height" | "tileFrameImportance">;
-type OutputWorld = Pick<WorldCurrent, "tiles" | "ores">;
+type OutputWorld = Pick<WorldCurrent, "tiles" | "oreCounts">;
 
 export const parseTiles: ParseStep<InputWorld, OutputWorld> = async (byteBuffer, sourceWorld) => {
-	const world: OutputWorld = { tiles: [], ores: {} };
+	const world: OutputWorld = { tiles: [], oreCounts: {} };
 
 	for (let x = 0; x < sourceWorld.width; x++) {
 
 		const columnTiles: Tile[] = [];
 		for (let y = 0; y < sourceWorld.height; y++) {
-			const { tile, rle: initialRle } = deserializeTile(byteBuffer, sourceWorld.tileFrameImportance, world.ores);
+			const { tile, rle: initialRle } = deserializeTile(byteBuffer, sourceWorld.tileFrameImportance, world.oreCounts);
 			columnTiles[y] = tile;
 			let rle = initialRle;
 

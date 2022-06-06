@@ -1,6 +1,6 @@
-import type { WorldV209 } from "./WorldV209";
+import type { WorldV210 } from "./WorldV210";
 
-export type WorldV211 = WorldV209 & {
+export type WorldV211 = WorldV210 & {
 	treeTopCount: number;
 	treeTops: number[];
 }

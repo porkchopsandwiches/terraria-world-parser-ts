@@ -1,7 +1,12 @@
 import { ParserPointer } from "../enums/ParserPointer";
+import { parseBestiaryChatted } from "./bestiary/parseBestiaryChatted";
+import { parseBestiaryKills } from "./bestiary/parseBestiaryKills";
+import { parseBestiarySeen } from "./bestiary/parseBestiarySeen";
 import { parseChests } from "./chests/parseChests";
+import { conditionallyValidateOffset } from "./common/conditionallyValidateOffset";
 import { validateOffset } from "./common/validateOffset";
 import { validateVersion } from "./common/validateVersion";
+import { parseEntities } from "./entities/parseEntities";
 import { parseFlagsAnglerQuest } from "./flags/parseFlagsAnglerQuest";
 import { parseFlagsAnglers } from "./flags/parseFlagsAnglers";
 import { parseFlagsAttributes } from "./flags/parseFlagsAttributes";
@@ -24,9 +29,13 @@ import { parseHeaderExtras } from "./header/parseHeaderExtras";
 import { parseHeaderSectionPointers } from "./header/parseHeaderSectionPointers";
 import { parseHeaderTileFrameImportance } from "./header/parseHeaderTileFrameImportance";
 import { parseHeaderVersion } from "./header/parseHeaderVersion";
+import { parseHomelessNPCs } from "./npcs/parseHomelessNPCs";
+import { parseNPCs } from "./npcs/parseNPCs";
+import { parsePressurePlates } from "./pressurePlates/parsePressurePlates";
 import { parseSigns } from "./signs/parseSigns";
 import { stepsAggregator } from "./stepsAggregator";
 import { parseTiles } from "./tiles/parseTiles";
+import { parseTownManagerRecords } from "./townManager/parseTownManagerRecords";
 
 export const parse =
 
@@ -69,4 +78,27 @@ export const parse =
 	// Signs
 	.add(parseSigns)
 	.add(validateOffset(ParserPointer.Signs))
+
+	// NPCs
+	.add(parseNPCs)
+	.add(parseHomelessNPCs)
+	.add(validateOffset(ParserPointer.NPCs))
+
+	// Entities
+	.add(parseEntities)
+	.add(validateOffset(ParserPointer.Entities))
+
+	// Pressure Plates
+	.add(parsePressurePlates)
+	.add(conditionallyValidateOffset(170, ParserPointer.PressurePlates))
+
+	// Town Manager
+	.add(parseTownManagerRecords)
+	.add(conditionallyValidateOffset(198, ParserPointer.TownManager))
+
+	// Bestiary
+	.add(parseBestiaryKills)
+	.add(parseBestiarySeen)
+	.add(parseBestiaryChatted)
+	.add(conditionallyValidateOffset(210, ParserPointer.Bestiary))
 	.final;

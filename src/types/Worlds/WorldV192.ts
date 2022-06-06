@@ -1,5 +1,5 @@
-import type { WorldV181 } from "./WorldV181";
+import type { WorldV189 } from "./WorldV189";
 
-export type WorldV192 = WorldV181 & {
+export type WorldV192 = WorldV189 & {
 
 }

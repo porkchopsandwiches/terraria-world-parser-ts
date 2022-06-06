@@ -67,8 +67,7 @@ export type WorldBase = Dimensions & {
 	tileFrameImportance: boolean[];
 	sectionPointers: number[];
 
-	gems: Record<string, number>;
-	ores: OreCounts;
+	oreCounts: OreCounts;
 	chests: Chest[];
 
 	// Saved NPCs

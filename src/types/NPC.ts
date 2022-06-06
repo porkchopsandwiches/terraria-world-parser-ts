@@ -2,9 +2,10 @@ import type { Coordinate } from "./Coordinate";
 
 export type NPC = {
 	spriteId: number;
-	name: string;
+	spriteName: string;
 	displayName: string;
 	position: Coordinate;
-	home: Coordinate;
+	home?: Coordinate;
 	isHomeless: boolean;
+	townVariation?: number;
 }

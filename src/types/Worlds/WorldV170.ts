@@ -1,3 +1,4 @@
+import type { Coordinate } from "../Coordinate";
 import type { WorldV147 } from "./WorldV147";
 
 export type WorldV170 = WorldV147 & {
@@ -5,4 +6,5 @@ export type WorldV170 = WorldV147 & {
 	partyGenuine: boolean;
 	partyCooldown: number;
 	partyingNPCs: number[];
+	pressurePlates: Coordinate[];
 }

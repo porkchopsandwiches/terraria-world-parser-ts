@@ -120,7 +120,7 @@ export const deserializeTile: TileDeserializer = (byteBuffer, tileFrameImportanc
 		// tile.def = definitions.tile_map[tile_type];
 		tile.defId = tileType;
 
-		// Check header 3 bit[3] for tile colour
+		// Check tileFlagsHighByte bit[3] for tile colour
 		if ((tileFlagsHighByte & 8) === 8) {
 			tile.color = readByte(byteBuffer);
 		}
@@ -134,7 +134,7 @@ export const deserializeTile: TileDeserializer = (byteBuffer, tileFrameImportanc
 		// tile.wall = definitions.wall_map[wall_type];
 		tile.wallId = wallType;
 
-		// Check bit[4] of header 3 to see if there is a wall colour
+		// Check bit[4] of tileFlagsHighByte to see if there is a wall colour
 		if ((tileFlagsHighByte & 16) === 16) {
 			tile.wallColour = readByte(byteBuffer);
 		}

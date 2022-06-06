@@ -3,10 +3,14 @@ import { ParserPointer } from "../../enums/ParserPointer";
 import type { ParseStep } from "../../types/ParseStep";
 import type { WorldBase } from "../../types/Worlds/WorldBase";
 
-type InputWorld = Pick<WorldBase, "sectionPointers">;
+type InputWorld = Pick<WorldBase, "sectionPointers" | "version">;
 
-export const validateOffset = (pointer: ParserPointer): ParseStep<InputWorld, {}> => {
+export const conditionallyValidateOffset = (minVersion: number, pointer: ParserPointer): ParseStep<InputWorld, {}> => {
 	return async (byteBuffer, sourceWorld) => {
+		if (sourceWorld.version < minVersion) {
+			return {};
+		}
+
 		const offset = getOffset(byteBuffer);
 		const match = offset === sourceWorld.sectionPointers[pointer];
 
