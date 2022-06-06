@@ -1,10 +1,9 @@
 import { readBoolean } from "../../bufferReader/readBoolean";
 import type { ParseStep } from "../../types/ParseStep";
-import type { WorldBase } from "../../types/Worlds/WorldBase";
-import type { WorldV104 } from "../../types/Worlds/WorldV104";
+import type { WorldCurrent } from "../../types/Worlds/WorldCurrent";
 
-type InputWorld = Pick<WorldBase, "version">;
-type OutputWorld = Partial<Pick<WorldV104, "savedStylist">>;
+type InputWorld = Pick<WorldCurrent, "version">;
+type OutputWorld = Partial<Pick<WorldCurrent, "savedStylist">>;
 
 export const parseFlagsSavedStylist: ParseStep<InputWorld, OutputWorld> = async (byteBuffer, sourceWorld) => {
 	const world: OutputWorld = {};

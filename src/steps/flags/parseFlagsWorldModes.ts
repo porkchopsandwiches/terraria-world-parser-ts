@@ -2,11 +2,10 @@ import { readBoolean } from "../../bufferReader/readBoolean";
 import { readInt32 } from "../../bufferReader/readInt32";
 import { readInt32s } from "../../bufferReader/readInt32s";
 import type { ParseStep } from "../../types/ParseStep";
-import type { WorldBase } from "../../types/Worlds/WorldBase";
-import type { WorldV241 } from "../../types/Worlds/WorldV241";
+import type { WorldCurrent } from "../../types/Worlds/WorldCurrent";
 
-type InputWorld = Pick<WorldBase, "version">;
-type OutputWorld = Partial<Pick<WorldV241, "expertMode" | "creationTime" | "isGetGoodWorld" | "masterMode" | "gameMode" | "isDrunkWorld" | "tenthAnniversaryWorld" | "isDontStarveWorld" | "isNotTheBeesWorld">>;
+type InputWorld = Pick<WorldCurrent, "version">;
+type OutputWorld = Partial<Pick<WorldCurrent, "expertMode" | "creationTime" | "isGetGoodWorld" | "masterMode" | "gameMode" | "isDrunkWorld" | "tenthAnniversaryWorld" | "isDontStarveWorld" | "isNotTheBeesWorld">>;
 
 export const parseFlagsWorldModes: ParseStep<InputWorld, OutputWorld> = async (byteBuffer, sourceWorld) => {
 	const world: OutputWorld = {};

@@ -1,10 +1,9 @@
 import { readByte } from "../../bufferReader/readByte";
 import type { ParseStep } from "../../types/ParseStep";
-import type { WorldBase } from "../../types/Worlds/WorldBase";
-import type { WorldV215 } from "../../types/Worlds/WorldV215";
+import type { WorldCurrent } from "../../types/Worlds/WorldCurrent";
 
-type InputWorld = Pick<WorldBase, "version">;
-type OutputWorld = Partial<Pick<WorldV215, "style8" | "style9" | "style11" | "style12" | "style10">>;
+type InputWorld = Pick<WorldCurrent, "version">;
+type OutputWorld = Partial<Pick<WorldCurrent, "style8" | "style9" | "style11" | "style12" | "style10">>;
 
 export const parseFlagsStyles: ParseStep<InputWorld, OutputWorld> = async (byteBuffer, sourceWorld) => {
 	const world: OutputWorld = {};

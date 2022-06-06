@@ -4,11 +4,10 @@ import { readRectangle32 } from "../../bufferReader/readRectangle32";
 import { readString } from "../../bufferReader/readString";
 import { readUInt32 } from "../../bufferReader/readUInt32";
 import type { ParseStep } from "../../types/ParseStep";
-import type { WorldBase } from "../../types/Worlds/WorldBase";
-import type { WorldV181 } from "../../types/Worlds/WorldV181";
+import type { WorldCurrent } from "../../types/Worlds/WorldCurrent";
 
-type InputWorld = Pick<WorldBase, "version">;
-type OutputWorld = Pick<WorldBase, "title" | "id" | "frame" | "width" | "height"> & Partial<Pick<WorldV181, "seed" | "genVersion" | "guid">>
+type InputWorld = Pick<WorldCurrent, "version">;
+type OutputWorld = Pick<WorldCurrent, "title" | "id" | "frame" | "width" | "height"> & Partial<Pick<WorldCurrent, "seed" | "genVersion" | "guid">>
 
 export const parseFlagsMeta: ParseStep<InputWorld, OutputWorld> = async (byteBuffer, sourceWorld) => {
 	const world: OutputWorld = {} as never;

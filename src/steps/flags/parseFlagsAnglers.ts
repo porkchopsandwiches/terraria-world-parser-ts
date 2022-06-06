@@ -1,11 +1,10 @@
 import { readInt32 } from "../../bufferReader/readInt32";
 import { readString } from "../../bufferReader/readString";
 import type { ParseStep } from "../../types/ParseStep";
-import type { WorldBase } from "../../types/Worlds/WorldBase";
-import type { WorldV095 } from "../../types/Worlds/WorldV095";
+import type { WorldCurrent } from "../../types/Worlds/WorldCurrent";
 
-type InputWorld = Pick<WorldBase, "version">;
-type OutputWorld = Partial<Pick<WorldV095, "anglers">>;
+type InputWorld = Pick<WorldCurrent, "version">;
+type OutputWorld = Partial<Pick<WorldCurrent, "anglers">>;
 
 export const parseFlagsAnglers: ParseStep<InputWorld, OutputWorld> = async (byteBuffer, sourceWorld) => {
 	const world: OutputWorld = {};

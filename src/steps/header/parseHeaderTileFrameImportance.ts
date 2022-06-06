@@ -1,10 +1,10 @@
 import { readByte } from "../../bufferReader/readByte";
 import { readInt16 } from "../../bufferReader/readInt16";
 import type { ParseStep } from "../../types/ParseStep";
-import type { WorldBase } from "../../types/Worlds/WorldBase";
+import type { WorldCurrent } from "../../types/Worlds/WorldCurrent";
 
 type InputWorld = {};
-type OutputWorld = Pick<WorldBase, "tileFrameImportance">;
+type OutputWorld = Pick<WorldCurrent, "tileFrameImportance">;
 
 export const parseHeaderTileFrameImportance: ParseStep<InputWorld, OutputWorld> = async (byteBuffer) => {
 	// Read tile frame importance from bit-packed data

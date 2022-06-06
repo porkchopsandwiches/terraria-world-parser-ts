@@ -2,11 +2,10 @@ import { readByte } from "../../bufferReader/readByte";
 import { readFixedLengthString } from "../../bufferReader/readFixedLengthString";
 import { readInt32 } from "../../bufferReader/readInt32";
 import type { ParseStep } from "../../types/ParseStep";
-import type { WorldBase } from "../../types/Worlds/WorldBase";
-import type { WorldV140 } from "../../types/Worlds/WorldV140";
+import type { WorldCurrent } from "../../types/Worlds/WorldCurrent";
 
-type InputWorld = Pick<WorldBase, "version">;
-type OutputWorld = Partial<Pick<WorldV140, "fileRevision">>;
+type InputWorld = Pick<WorldCurrent, "version">;
+type OutputWorld = Partial<Pick<WorldCurrent, "fileRevision">>;
 
 export const parseHeaderExtras: ParseStep<InputWorld, OutputWorld> = async (byteBuffer, sourceWorld) => {
 	if (sourceWorld.version < 135) {

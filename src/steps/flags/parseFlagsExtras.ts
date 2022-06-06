@@ -1,11 +1,10 @@
 import { readBoolean } from "../../bufferReader/readBoolean";
 import { readInt32 } from "../../bufferReader/readInt32";
 import type { ParseStep } from "../../types/ParseStep";
-import type { WorldBase } from "../../types/Worlds/WorldBase";
-import type { WorldV240 } from "../../types/Worlds/WorldV240";
+import type { WorldCurrent } from "../../types/Worlds/WorldCurrent";
 
-type InputWorld = Pick<WorldBase, "version">;
-type OutputWorld = Partial<Pick<WorldV240, "killedQueenSlime" | "killedEmpressOfLight" | "boughtCat" | "boughtDog" | "boughtBunny" | "goldTypeId" | "silverTypeId" | "ironTypeId" | "copperTypeId" | "forcedChristmas" | "forcedHalloween" | "treeTops" | "treeTopCount" | "nextLanternNightWillBeGenuine" | "lanternNightCooldown" | "manualLanternNight" | "realLanternNight" | "combatBookUsed" | "beatDeerClops">>;
+type InputWorld = Pick<WorldCurrent, "version">;
+type OutputWorld = Partial<Pick<WorldCurrent, "killedQueenSlime" | "killedEmpressOfLight" | "boughtCat" | "boughtDog" | "boughtBunny" | "goldTypeId" | "silverTypeId" | "ironTypeId" | "copperTypeId" | "forcedChristmas" | "forcedHalloween" | "treeTops" | "treeTopCount" | "nextLanternNightWillBeGenuine" | "lanternNightCooldown" | "manualLanternNight" | "realLanternNight" | "combatBookUsed" | "beatDeerClops">>;
 
 export const parseFlagsExtras: ParseStep<InputWorld, OutputWorld> = async (byteBuffer, sourceWorld) => {
 	const world: OutputWorld = {};

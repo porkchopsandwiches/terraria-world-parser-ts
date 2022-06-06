@@ -1,4 +1,5 @@
 import { ParserPointer } from "../enums/ParserPointer";
+import { parseChests } from "./chests/parseChests";
 import { validateOffset } from "./common/validateOffset";
 import { validateVersion } from "./common/validateVersion";
 import { parseFlagsAnglerQuest } from "./flags/parseFlagsAnglerQuest";
@@ -23,6 +24,7 @@ import { parseHeaderExtras } from "./header/parseHeaderExtras";
 import { parseHeaderSectionPointers } from "./header/parseHeaderSectionPointers";
 import { parseHeaderTileFrameImportance } from "./header/parseHeaderTileFrameImportance";
 import { parseHeaderVersion } from "./header/parseHeaderVersion";
+import { parseSigns } from "./signs/parseSigns";
 import { stepsAggregator } from "./stepsAggregator";
 import { parseTiles } from "./tiles/parseTiles";
 
@@ -59,4 +61,12 @@ export const parse =
 	// Tiles
 	.add(parseTiles)
 	.add(validateOffset(ParserPointer.Tiles))
+
+	// Chests
+	.add(parseChests)
+	.add(validateOffset(ParserPointer.Chests))
+
+	// Signs
+	.add(parseSigns)
+	.add(validateOffset(ParserPointer.Signs))
 	.final;

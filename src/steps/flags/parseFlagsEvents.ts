@@ -3,10 +3,10 @@ import { readByte } from "../../bufferReader/readByte";
 import { readFloat64 } from "../../bufferReader/readFloat64";
 import { readInt32 } from "../../bufferReader/readInt32";
 import type { ParseStep } from "../../types/ParseStep";
-import type { WorldBase } from "../../types/Worlds/WorldBase";
+import type { WorldCurrent } from "../../types/Worlds/WorldCurrent";
 
 type InputWorld = {};
-type OutputWorld = Pick<WorldBase, "eventsClown" | "eventsGoblins" | "eventsFrost" | "eventsPirates" | "shadowOrbSmashed" | "spawnMeteor" | "shadowOrbCount" | "altarCount" | "hardMode" | "invasionDelay" | "invasionSize" | "invasionType" | "invasionX">;
+type OutputWorld = Pick<WorldCurrent, "eventsClown" | "eventsGoblins" | "eventsFrost" | "eventsPirates" | "shadowOrbSmashed" | "spawnMeteor" | "shadowOrbCount" | "altarCount" | "hardMode" | "invasionDelay" | "invasionSize" | "invasionType" | "invasionX">;
 
 export const parseFlagsEvents: ParseStep<InputWorld, OutputWorld> = async (byteBuffer) => {
 	const world: OutputWorld = {} as never;

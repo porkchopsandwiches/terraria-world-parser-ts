@@ -5,10 +5,10 @@ import { readFloat64 } from "../../bufferReader/readFloat64";
 import { readInt32 } from "../../bufferReader/readInt32";
 import { readInt32s } from "../../bufferReader/readInt32s";
 import type { ParseStep } from "../../types/ParseStep";
-import type { WorldBase } from "../../types/Worlds/WorldBase";
+import type { WorldCurrent } from "../../types/Worlds/WorldCurrent";
 
 type InputWorld = {};
-type OutputWorld = Pick<WorldBase, "moonType" | "treeX" | "treeStyle" | "caveBackX" | "caveBackStyle" | "iceBackStyle" | "jungleBackStyle" | "hellBackStyle" | "spawn" | "groundLevel" | "rockLevel" | "time" | "isDayTime" | "moonPhase" | "isBloodMoon" | "isEclipse" | "dungeon" | "isCrimson">;
+type OutputWorld = Pick<WorldCurrent, "moonType" | "treeX" | "treeStyle" | "caveBackX" | "caveBackStyle" | "iceBackStyle" | "jungleBackStyle" | "hellBackStyle" | "spawn" | "groundLevel" | "rockLevel" | "time" | "isDayTime" | "moonPhase" | "isBloodMoon" | "isEclipse" | "dungeon" | "isCrimson">;
 
 export const parseFlagsAttributes: ParseStep<InputWorld, OutputWorld> = async (byteBuffer) => {
 	const world: OutputWorld = {} as never;

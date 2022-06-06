@@ -1,9 +1,9 @@
 import { readBoolean } from "../../bufferReader/readBoolean";
 import type { ParseStep } from "../../types/ParseStep";
-import type { WorldBase } from "../../types/Worlds/WorldBase";
+import type { WorldCurrent } from "../../types/Worlds/WorldCurrent";
 
 type InputWorld = {};
-type OutputWorld = Pick<WorldBase, "savedGoblin" | "savedWizard" | "savedMech">;
+type OutputWorld = Pick<WorldCurrent, "savedGoblin" | "savedWizard" | "savedMech">;
 
 export const parseFlagsSavedNPCs: ParseStep<InputWorld, OutputWorld> = async (byteBuffer) => {
 	const world: OutputWorld = {} as never;

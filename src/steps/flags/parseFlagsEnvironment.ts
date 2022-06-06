@@ -4,10 +4,10 @@ import { readFloat32 } from "../../bufferReader/readFloat32";
 import { readInt16 } from "../../bufferReader/readInt16";
 import { readInt32 } from "../../bufferReader/readInt32";
 import type { ParseStep } from "../../types/ParseStep";
-import type { WorldBase } from "../../types/Worlds/WorldBase";
+import type { WorldCurrent } from "../../types/Worlds/WorldCurrent";
 
 type InputWorld = {};
-type OutputWorld = Pick<WorldBase, "tempRaining" | "tempRainTime" | "tempMaxRain" | "oreTier1" | "oreTier2" | "oreTier3" | "treeBg" | "corruptionBg" | "jungleBg" | "snowBg" | "hallowBg" | "crimsonBg" | "desertBg" | "oceanBg" | "cloudBgActive" | "numClouds" | "windSpeedSet">;
+type OutputWorld = Pick<WorldCurrent, "tempRaining" | "tempRainTime" | "tempMaxRain" | "oreTier1" | "oreTier2" | "oreTier3" | "treeBg" | "corruptionBg" | "jungleBg" | "snowBg" | "hallowBg" | "crimsonBg" | "desertBg" | "oceanBg" | "cloudBgActive" | "numClouds" | "windSpeedSet">;
 
 export const parseFlagsEnvironment: ParseStep<InputWorld, OutputWorld> = async (byteBuffer) => {
 	const world: OutputWorld = {} as never;

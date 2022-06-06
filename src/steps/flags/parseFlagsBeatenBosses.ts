@@ -1,10 +1,9 @@
 import { readBoolean } from "../../bufferReader/readBoolean";
 import type { ParseStep } from "../../types/ParseStep";
-import type { WorldBase } from "../../types/Worlds/WorldBase";
-import type { WorldV147 } from "../../types/Worlds/WorldV147";
+import type { WorldCurrent } from "../../types/Worlds/WorldCurrent";
 
-type InputWorld = Pick<WorldBase, "version">;
-type OutputWorld = Pick<WorldBase, "beatBoss1" | "beatBoss2" | "beatBoss3" | "beatQueenBee" | "beatMechBoss1" | "beatMechBoss2" | "beatMechBoss3" | "beatMechBossAny" | "beatPlantBoss" | "beatGolemBoss"> & Partial<Pick<WorldV147, "beatSlimeKingBoss">>;
+type InputWorld = Pick<WorldCurrent, "version">;
+type OutputWorld = Pick<WorldCurrent, "beatBoss1" | "beatBoss2" | "beatBoss3" | "beatQueenBee" | "beatMechBoss1" | "beatMechBoss2" | "beatMechBoss3" | "beatMechBossAny" | "beatPlantBoss" | "beatGolemBoss"> & Partial<Pick<WorldCurrent, "beatSlimeKingBoss">>;
 
 export const parseFlagsBeatenBosses: ParseStep<InputWorld, OutputWorld> = async (byteBuffer, sourceWorld) => {
 	const world: OutputWorld = {} as never;

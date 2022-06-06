@@ -2,16 +2,14 @@ import { readBoolean } from "../../bufferReader/readBoolean";
 import { readInt16 } from "../../bufferReader/readInt16";
 import { readInt32 } from "../../bufferReader/readInt32";
 import type { ParseStep } from "../../types/ParseStep";
-import type { WorldBase } from "../../types/Worlds/WorldBase";
-import type { WorldV201 } from "../../types/Worlds/WorldV201";
+import type { WorldCurrent } from "../../types/Worlds/WorldCurrent";
 
-type InputWorld = Pick<WorldBase, "version">;
-type NewerOutputWorld = Pick<WorldV201, "apocalypse" | "celestialNebulaActive" | "celestialSolarActive" | "celestialNebulaDown" | "celestialSolarDown" | "celestialStardustActive" | "celestialStardustDown" | "celestialVortexActive" | "celestialVortexDown" | "beatHalloweenTree" | "beatChristmasQueen" | "beatChristmasTree" | "beatHalloweenKing" | "beatFishron" | "beatMartians" | "beatLunaticCultist" | "beatMoonlord" | "beatSanta" | "killedMobs" | "savedTaxCollector" | "savedGolfer" | "invasionSizeStart" | "cultistDelay" | "numberOfMobs" | "fastForwardTime">;
-type OutputWorld = Partial<NewerOutputWorld>;
+type InputWorld = Pick<WorldCurrent, "version">;
+type OutputWorld = Partial<Pick<WorldCurrent, "apocalypse" | "celestialNebulaActive" | "celestialSolarActive" | "celestialNebulaDown" | "celestialSolarDown" | "celestialStardustActive" | "celestialStardustDown" | "celestialVortexActive" | "celestialVortexDown" | "beatHalloweenTree" | "beatChristmasQueen" | "beatChristmasTree" | "beatHalloweenKing" | "beatFishron" | "beatMartians" | "beatLunaticCultist" | "beatMoonlord" | "beatSanta" | "killedMobs" | "savedTaxCollector" | "savedGolfer" | "invasionSizeStart" | "cultistDelay" | "numberOfMobs" | "fastForwardTime">>;
 
 export const parseFlagsV140Events: ParseStep<InputWorld, OutputWorld> = async (byteBuffer, sourceWorld) => {
+	const world: OutputWorld = {};
 	if (sourceWorld.version >= 140) {
-		const world: OutputWorld = {};
 		world.killedMobs = [];
 		world.savedTaxCollector = readBoolean(byteBuffer);
 
@@ -45,8 +43,6 @@ export const parseFlagsV140Events: ParseStep<InputWorld, OutputWorld> = async (b
 		world.celestialNebulaActive = readBoolean(byteBuffer);
 		world.celestialStardustActive = readBoolean(byteBuffer);
 		world.apocalypse = readBoolean(byteBuffer);
-		return world;
 	}
-
-	return {};
+	return world;
 };

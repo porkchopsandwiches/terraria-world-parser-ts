@@ -1,3 +1,3 @@
-import type { WorldV227 } from "./WorldV227";
+import type { WorldV241 } from "./WorldV241";
 
-export type WorldCurrent = WorldV227;
+export type WorldCurrent = WorldV241;
