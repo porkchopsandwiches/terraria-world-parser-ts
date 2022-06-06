@@ -32,7 +32,7 @@ export const parseSigns: ParseStep<InputWorld, OutputWorld> = async (byteBuffer,
 		const sign = signFactory(readString(byteBuffer), readCoord32(byteBuffer));
 
 		const tile = sourceWorld.tiles[sign.coord.x]?.[sign.coord.y] as Tile;
-		if (tile.isActive && tile.defId && isSign(tile.defId)) {
+		if (tile.typeId !== undefined && isSign(tile.typeId)) {
 			world.signs.push(sign);
 		}
 	}

@@ -15,7 +15,7 @@ export const parseTiles: ParseStep<InputWorld, OutputWorld> = async (byteBuffer,
 		for (let y = 0; y < sourceWorld.height; y++) {
 			const { tile, rle: initialRle } = deserializeTile(byteBuffer, sourceWorld.tileFrameImportance, world.oreCounts);
 			columnTiles[y] = tile;
-			let rle = initialRle;
+			let rle = initialRle || 0;
 
 			while (rle > 0) {
 				y++;

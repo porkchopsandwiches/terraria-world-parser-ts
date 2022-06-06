@@ -7,118 +7,170 @@ import { mapTileToOre } from "../../ores/mapTileToOre";
 import type { ByteBuffer } from "../../types/ByteBuffer";
 import type { Tile } from "../../types/Tile";
 import type { OreCounts } from "../../types/Worlds/Ores/OreCounts";
-import type { WorldTileProperty } from "../../types/WorldTileProperty";
 
 type DeserializedTile = {
 	tile: Tile;
-	rle: number;
+	rle?: number;
 };
 
 type TileDeserializer = (
 	byteBuffer: ByteBuffer,
 	tileFrameImportance: boolean[],
 	oreCounts: OreCounts,
-	// world: Pick<WorldBase, "ores">
 ) => DeserializedTile;
 
-// @todo What exactly is this supposed to do?
-const tileProperties: WorldTileProperty[] = [];
 
-export const deserializeTile: TileDeserializer = (byteBuffer, tileFrameImportance, oreCounts) => {
-	const tile: Tile = { rle: 0 };
-	let tileType = -1;
-	const activeFlags = readByte(byteBuffer);
-	let tileFlags = 0;
-	let tileFlagsHighByte = 0;
+/**
+ * Read the Tile Flags for a Tile, which come in (up to) 2 bytes.
+ *
+ * @param {ByteBuffer} byteBuffer
+ * @param {number} activeFlags
+ *
+ * @returns {[number, number]} A tuple of the low byte and high byte. Zeros are returned for either byte if it is not present for this tile.
+ */
+const readTileFlags = (byteBuffer: ByteBuffer, activeFlags: number): [number, number] => {
 
-	// check Active Flags bit 0 to see if Tile Flags is present
+	// If the Active Flags Bit 0 is active, we have tile flags
 	if ((activeFlags & 1) === 1) {
-		tileFlags = readByte(byteBuffer);
 
-		// Check Tile Flags bit 0 to see if Tile Flags High Byte is present
+		// Read the first type of the file flags
+		const tileFlags = readByte(byteBuffer);
+
+		// Check Tile Flags bit 0 to see if High Byte is present
 		if ((tileFlags & 1) === 1) {
-			tileFlagsHighByte = readByte(byteBuffer);
+			return [tileFlags, readByte(byteBuffer)];
+		}
+
+		// No high byte
+		return [tileFlags, 0];
+	}
+
+	// Neither high nor low
+	return [0, 0]
+};
+
+/**
+ * Read the tile type for a Tile.
+ *
+ * @param {ByteBuffer} byteBuffer
+ * @param {number} activeFlags
+ *
+ * @returns {number | undefined}
+ */
+const readTileType = (byteBuffer: ByteBuffer, activeFlags: number): number | undefined => {
+
+	// If the appropriate flag is set to enable us to read a type
+	if ((activeFlags & 2) === 2) {
+
+		// If Active Flags bit 5 is active, we have a little endian int16
+		// Otherwise we just have a byte
+		if ((activeFlags & 32) === 32) {
+			const lowerByte = readByte(byteBuffer);
+			const highByte = readByte(byteBuffer);
+			return (highByte << 8) | lowerByte;
+		} else {
+			return readByte(byteBuffer); // tile is byte
 		}
 	}
+	return;
+};
+
+const deriveSpecialisedTileType = (tile: Required<Pick<Tile, "u" | "v" | "typeId">>): number | undefined => {
+	if (tile.typeId === WorldTileType.SmallRubble) {
+		if (tile.u % 36 === 0 && tile.v === 18) {
+			const subType = tile.u / 36;
+			if (subType === 16) {
+				return WorldTileType.CoinPileCopper;
+			} else if (subType === 17) {
+				return WorldTileType.CoinPileSilver;
+			} else if (subType === 18) {
+				return WorldTileType.CoinPileGold;
+			} else if (subType === 19) {
+				return WorldTileType.Amethyst;
+			} else if (subType === 20) {
+				return WorldTileType.Topaz;
+			} else if (subType === 21) {
+				return WorldTileType.Sapphire;
+			} else if (subType === 22) {
+				return WorldTileType.Emerald;
+			} else if (subType === 23) {
+				return WorldTileType.Ruby;
+			} else if (subType === 24) {
+				return WorldTileType.Diamond;
+			}
+		}
+	} else if (tile.typeId === WorldTileType.LargeRubble) {
+		if (tile.u % 54 === 0 && tile.v === 0) {
+			const subType = tile.u / 54;
+
+			if (subType === 16 || subType === 17) {
+				return WorldTileType.CoinPileCopper;
+			} else if (subType === 18 || subType === 19) {
+				return WorldTileType.CoinPileSilver;
+			} else if (subType === 20 || subType === 21) {
+				return WorldTileType.CoinPileGold;
+			}
+		}
+	} else if (tile.typeId === WorldTileType.LargeRubble2) {
+		if (tile.u % 54 === 0 && tile.v === 0) {
+			const subType = tile.u / 54;
+			if (subType === 17) {
+				// tile.type = mapper.data.tiles.getByName("Enchanted Sword").id;
+				// @todo how do we want to handle this -- tiles.xml has no <tile> for enchanted sword, but does have a sub <var> entry
+			}
+		}
+	}
+	return;
+};
+
+/**
+ * Active Flags bit[6,7] shift to 0,1 for RLE encoding type
+ * 0 = no RLE compression
+ * 1 = byte RLE counter
+ * 2 = int16 RLE counter
+ * 3 = ERROR
+ *
+ * @param {ByteBuffer} byteBuffer
+ * @param {number} activeFlags
+ *
+ * @return {number | undefined}
+ */
+const readRLE = (byteBuffer: ByteBuffer, activeFlags: number): number | undefined => {
+	const rleStorageType = (activeFlags & 192) >> 6;
+
+	// read RLE distance
+	if (rleStorageType === 1) {
+		return readByte(byteBuffer);
+	} else if (rleStorageType === 2) {
+		return readUInt16(byteBuffer);
+	}
+
+	return;
+};
+
+export const deserializeTile: TileDeserializer = (byteBuffer, tileFrameImportance, oreCounts) => {
+
+	// let tileType = -1;
+	const activeFlags = readByte(byteBuffer);
+	const [tileFlagsLowByte, tileFlagsHighByte] = readTileFlags(byteBuffer, activeFlags);
+	const tile: Tile = {
+		tileFlagsLowByte,
+		tileFlagsHighByte,
+	};
 
 	// Check Active Flags bit 1 for active tile
 	if ((activeFlags & 2) === 2) {
-		tile.isActive = true;
-
 		// Read tile type
+		tile.typeId = readTileType(byteBuffer, activeFlags);
 
-		// check bit[5] to see if tile is byte or little endian int16
-		if ((activeFlags & 32) !== 32) {
-			tileType = readByte(byteBuffer); // tile is byte
-		} else {
-			// tile is little endian int 16
-			const lowerByte = readByte(byteBuffer);
-			tileType = readByte(byteBuffer);
-			tileType = (tileType << 8) | lowerByte;
-		}
-
-		// read frame UV coordinates
-		if (!tileFrameImportance[tileType]) {
-			tile.u = -1;
-			tile.v = -1;
-		} else {
-			const u = (tile.u = readInt16(byteBuffer));
+		// If we have a type, and it is marked as important
+		if (tile.typeId !== undefined && tileFrameImportance[tile.typeId]) {
+			tile.u = readInt16(byteBuffer);
 			tile.v = readInt16(byteBuffer);
 
-			if (tileType === WorldTileType.SmallRubble) {
-				if (u % 36 === 0 && tile.v === 18) {
-					const subType = u / 36;
-					if (subType === 16) {
-						tileType  = WorldTileType.CoinPileCopper;
-					} else if (subType === 17) {
-						tileType = WorldTileType.CoinPileSilver;
-					} else if (subType === 18) {
-						tileType = WorldTileType.CoinPileGold;
-					} else if (subType === 19) {
-						tileType = WorldTileType.Amethyst;
-					} else if (subType === 20) {
-						tileType = WorldTileType.Topaz;
-					} else if (subType === 21) {
-						tileType = WorldTileType.Sapphire;
-					} else if (subType === 22) {
-						tileType = WorldTileType.Emerald;
-					} else if (subType === 23) {
-						tileType = WorldTileType.Ruby;
-					} else if (subType === 24) {
-						tileType = WorldTileType.Diamond;
-					}
-				}
-			} else if (tileType === WorldTileType.LargeRubble) {
-				if (u % 54 === 0 && tile.v === 0) {
-					const subType = u / 54;
-
-					if (subType === 16 || subType === 17) {
-						tileType = WorldTileType.CoinPileCopper;
-					} else if (subType === 18 || subType === 19) {
-						tileType = WorldTileType.CoinPileSilver;
-					} else if (subType === 20 || subType === 21) {
-						tileType = WorldTileType.CoinPileGold;
-					}
-				}
-			} else if (tileType === WorldTileType.LargeRubble2) {
-				if (u % 54 === 0 && tile.v === 0) {
-					const subType = u / 54;
-					if (subType === 17) {
-						// tile.type = mapper.data.tiles.getByName("Enchanted Sword").id;
-						// @todo how do we want to handle this -- tiles.xml has no <tile> for enchanted sword, but does have a sub <var> entry
-					}
-				}
-			}
-
-			// Reset timers
-			if (tileType === WorldTileType.Timer) {
-				tile.v = 0;
-			}
+			// Sometimes we want to flag notable tiles
+			tile.specialisedTypeId = deriveSpecialisedTileType(tile as Required<Tile>);
 		}
-
-		// Link the definition // @todo
-		// tile.def = definitions.tile_map[tile_type];
-		tile.defId = tileType;
 
 		// Check tileFlagsHighByte bit[3] for tile colour
 		if ((tileFlagsHighByte & 8) === 8) {
@@ -126,17 +178,13 @@ export const deserializeTile: TileDeserializer = (byteBuffer, tileFrameImportanc
 		}
 	}
 
-	// Read walls
-
-	// Check bit[3] bit for active wall
+	// Check Active Flags bit 3 for a wall
 	if ((activeFlags & 4) === 4) {
-		const wallType = readByte(byteBuffer);
-		// tile.wall = definitions.wall_map[wall_type];
-		tile.wallId = wallType;
+		tile.wallTypeId = readByte(byteBuffer);
 
-		// Check bit[4] of tileFlagsHighByte to see if there is a wall colour
+		// Check Tile Flags High Byte bit 4 to see if there is a wall colour
 		if ((tileFlagsHighByte & 16) === 16) {
-			tile.wallColour = readByte(byteBuffer);
+			tile.wallColor = readByte(byteBuffer);
 		}
 	}
 
@@ -147,69 +195,13 @@ export const deserializeTile: TileDeserializer = (byteBuffer, tileFrameImportanc
 		tile.liquidType = liquidType;
 	}
 
-	// check if we have data in header2 other than just telling us we have header3
-	if (tileFlags > 1) {
-		// check bit[1] for red wire
-		if ((tileFlags & 2) === 2) {
-			tile.wireRed = true;
-		}
-		// check bit[2] for green wire
-		if ((tileFlags & 4) === 4) {
-			tile.wireGreen = true;
-		}
-		// check bit[3] for blue wire
-		if ((tileFlags & 8) === 8) {
-			tile.wireBlue = true;
-		}
-
-		// grab bits[4, 5, 6] and shift 4 places to 0,1,2. This byte is our brick style
-		const brickStyle = (tileFlags & 112) >> 4;
-		// if (brick_style !== 0 && TileProperties.length > tile_type) {
-		//     if (!_.has(TileProperties, tile_type)) {
-		//         // "tile type not found", tile_type, TileProperties, tile
-		//     }
-		// }
-		if (tile.defId && brickStyle !== 0 && tileProperties.length > tileType && tileProperties[tile.defId]?.is_solid) {
-			tile.brickStyle = brickStyle;
-		}
-	}
-
-	// check if we have data in header3 to process
-	if (tileFlagsHighByte > 0) {
-		// check bit[1] for actuator
-		if ((tileFlagsHighByte & 2) === 2) {
-			tile.isActuator = true;
-		}
-
-		// check bit[2] for inactive due to actuator
-		if ((tileFlagsHighByte & 4) === 4) {
-			tile.isInactive = true;
-		}
-	}
-
-	// get bit[6,7] shift to 0,1 for RLE encoding type
-	// 0 = no RLE compression
-	// 1 = byte RLE counter
-	// 2 = int16 RLE counter
-	// 3 = ERROR
-	const rleStorageType = (activeFlags & 192) >> 6;
-
-	// read RLE distance
-	let rle = 0;
-	if (rleStorageType === 0) {
-		// Default
-	} else if (rleStorageType !== 1) {
-		rle = readUInt16(byteBuffer);
-	} else {
-		rle = readByte(byteBuffer);
-	}
-
-	tile.rle = rle;
+	// Read the RLE
+	tile.rle = readRLE(byteBuffer, activeFlags);
 
 	// Handle counts
-	if (tile.isActive && tile.defId) {
+	if (tile.typeId !== undefined) {
 		// @todo once we have definition lookup
-		if (tile.defId === WorldTileType.Gem || has(tile.defId.toString(), WorldTileType)) {
+		if (tile.typeId === WorldTileType.Gem || has(tile.typeId.toString(), WorldTileType)) {
 			// const name_and_color = mapTileToNamedColour(tile);
 			// world.gems[WorldTileType[<any>name_and_color.name]] += tile.rle + 1;
 		}
@@ -222,12 +214,12 @@ export const deserializeTile: TileDeserializer = (byteBuffer, tileFrameImportanc
 			if (!oreCounts.hasOwnProperty(oreType)) {
 				oreCounts[oreType] = 0;
 			}
-			(oreCounts[oreType] as number) += tile.rle + 1;
+			(oreCounts[oreType] as number) += (tile.rle || 0) + 1;
 		}
 	}
 
 	return {
 		tile,
-		rle,
+		rle: tile.rle,
 	};
 };
