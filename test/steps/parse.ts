@@ -17,13 +17,13 @@ test("Parse works", async (t) => {
 
 	const world: WorldBase & Partial<WorldCurrent> = await parse(byteBuffer, {});
 
-	if (worldIsVersion(world, 201)) {
+	if (worldIsVersion(world, 192)) {
 		for (const interestingTileType of world.interestingTileCounts.keys()) {
 			console.log(InterestingTileTypes[interestingTileType], world.interestingTileCounts.get(interestingTileType));
 		}
 	}
 
-	t.is(world.version, 248);
+	// t.is(world.version, 248);
 	t.is(world.fileRevision, 2);
-	t.is(world.sectionPointers.length, 11);
+	t.is(world.sectionPointers.length, 10);
 });

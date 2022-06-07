@@ -11,5 +11,6 @@ test("Parse version works", async (t) => {
 	const byteBuffer = ByteBuffer.wrap(fileBuffer, "ut8", ByteBuffer.LITTLE_ENDIAN);
 	const world = await parseHeaderVersion(byteBuffer, {});
 
-	t.is(world.version, 248);
+	t.is(true, world.version >= 95);
+	t.is(true, world.version <= 241);
 });
