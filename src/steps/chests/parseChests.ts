@@ -5,7 +5,7 @@ import { readInt32 } from "../../bufferReader/readInt32";
 import { readString } from "../../bufferReader/readString";
 import type { ChestItem } from "../../types/ChestItem";
 import type { ParseStep } from "../../types/ParseStep";
-import type { Tile } from "../../types/Tile";
+import type { TileData } from "../../types/TileData";
 import type { WorldCurrent } from "../../types/Worlds/WorldCurrent";
 import { chestFactory } from "./chestFactory";
 
@@ -35,7 +35,7 @@ export const parseChests: ParseStep<InputWorld, OutputWorld> = async (byteBuffer
 	// Read chests
 	for (let i = 0; i < totalChests; ++i) {
 		const coord = readCoord32(byteBuffer);
-		const tile = sourceWorld.tiles[coord.x]?.[coord.y] as Tile;
+		const tile = sourceWorld.tiles[coord.x]?.[coord.y] as TileData;
 		const chest = chestFactory(coord, readString(byteBuffer), tile);
 
 		// read items in chest

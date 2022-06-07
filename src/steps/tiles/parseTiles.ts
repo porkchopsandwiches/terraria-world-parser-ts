@@ -1,20 +1,20 @@
 import type { ParseStep } from "../../types/ParseStep";
-import type { Tile } from "../../types/Tile";
+import type { TileData } from "../../types/TileData";
 import type { WorldCurrent } from "../../types/Worlds/WorldCurrent";
 import { deserializeTile } from "./deserializeTile";
 
 type InputWorld = Pick<WorldCurrent, "width" | "height" | "tileFrameImportance">;
-type OutputWorld = Pick<WorldCurrent, "tiles" | "oreCounts">;
+type OutputWorld = Pick<WorldCurrent, "tiles" | "interestingTileCounts">;
 
 export const parseTiles: ParseStep<InputWorld, OutputWorld> = async (byteBuffer, sourceWorld) => {
-	const world: OutputWorld = { tiles: [], oreCounts: {} };
+	const world: OutputWorld = { tiles: [], interestingTileCounts: new Map() };
 
 	for (let x = 0; x < sourceWorld.width; x++) {
 
-		const columnTiles: Tile[] = [];
+		const columnTiles: TileData[] = [];
 		for (let y = 0; y < sourceWorld.height; y++) {
-			const { tile, rle: initialRle } = deserializeTile(byteBuffer, sourceWorld.tileFrameImportance, world.oreCounts);
-			columnTiles[y] = tile;
+			const { tileData, rle: initialRle } = deserializeTile(byteBuffer, sourceWorld.tileFrameImportance, world.interestingTileCounts);
+			columnTiles[y] = tileData;
 			let rle = initialRle || 0;
 
 			while (rle > 0) {
@@ -32,7 +32,7 @@ export const parseTiles: ParseStep<InputWorld, OutputWorld> = async (byteBuffer,
 					);
 				}
 
-				columnTiles[y] = tile;
+				columnTiles[y] = tileData;
 				rle--;
 			}
 		}

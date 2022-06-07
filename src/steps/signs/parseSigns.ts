@@ -5,7 +5,7 @@ import { WorldTileType } from "../../enums/WorldTileType";
 import type { Coordinate } from "../../types/Coordinate";
 import type { ParseStep } from "../../types/ParseStep";
 import type { Sign } from "../../types/Sign";
-import type { Tile } from "../../types/Tile";
+import type { TileData } from "../../types/TileData";
 import type { WorldCurrent } from "../../types/Worlds/WorldCurrent";
 
 type InputWorld = Pick<WorldCurrent, "tiles">;
@@ -31,8 +31,8 @@ export const parseSigns: ParseStep<InputWorld, OutputWorld> = async (byteBuffer,
 	for (let i = 0; i < totalSigns; ++i) {
 		const sign = signFactory(readString(byteBuffer), readCoord32(byteBuffer));
 
-		const tile = sourceWorld.tiles[sign.coord.x]?.[sign.coord.y] as Tile;
-		if (tile.typeId !== undefined && isSign(tile.typeId)) {
+		const tile = sourceWorld.tiles[sign.coord.x]?.[sign.coord.y] as TileData;
+		if (tile.tileTypeId !== undefined && isSign(tile.tileTypeId)) {
 			world.signs.push(sign);
 		}
 	}

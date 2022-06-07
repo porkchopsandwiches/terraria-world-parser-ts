@@ -1,11 +1,11 @@
 import type { ChestItem } from "./ChestItem";
 import type { Coordinate } from "./Coordinate";
-import type { Tile } from "./Tile";
+import type { TileData } from "./TileData";
 
 export type Chest = {
 	coord: Coordinate;
 	name: string;
 	items: (ChestItem | undefined)[];
-	tile: Tile;
+	tile: TileData;
 	enabled: boolean;
 }

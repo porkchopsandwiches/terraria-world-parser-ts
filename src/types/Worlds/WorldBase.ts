@@ -4,8 +4,8 @@ import type { Dimensions } from "../Dimensions";
 import type { NPC } from "../NPC";
 import type { Rectangle } from "../Rectangle";
 import type { Sign } from "../Sign";
-import type { Tile } from "../Tile";
-import type { OreCounts } from "./Ores/OreCounts";
+import type { TileData } from "../TileData";
+import type { InterestingTileCounts } from "./InterestingTiles/InterestingTileCounts";
 
 export type WorldBase = Dimensions & {
 	version: number;
@@ -59,15 +59,14 @@ export type WorldBase = Dimensions & {
 	numClouds: number;
 	windSpeedSet: number;
 
-	tiles: Tile[][];
-	// chests: IWorldChest[];
+	tiles: TileData[][];
 	signs: Sign[];
 	npcs: NPC[];
 
 	tileFrameImportance: boolean[];
 	sectionPointers: number[];
 
-	oreCounts: OreCounts;
+	interestingTileCounts: InterestingTileCounts;
 	chests: Chest[];
 
 	// Saved NPCs
