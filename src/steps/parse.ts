@@ -38,17 +38,16 @@ import { parseNPCs } from "./npcs/parseNPCs";
 import { parsePressurePlates } from "./pressurePlates/parsePressurePlates";
 import { parseSigns } from "./signs/parseSigns";
 import { stepsAggregator } from "./stepsAggregator";
-import { deriveInterestingTileType } from "./tiles/deriveInterestingTileType";
 import { parseTilesFactory } from "./tiles/parseTilesFactory";
 import { parseTownManagerRecords } from "./townManager/parseTownManagerRecords";
 
 const defaultConfig: ParseConfig = {
-	interestingTileTypeEvaluator: deriveInterestingTileType,
+	interestingTileTypeEvaluator: () => undefined,
 	onSectionParsed: () => {},
 };
 
-export const parse = async (byteBuffer: ByteBuffer, config?: Partial<ParseConfig>): Promise<WorldBase & Partial<WorldCurrent>> => {
-	const { interestingTileTypeEvaluator, onSectionParsed }: ParseConfig = {...defaultConfig, ...config};
+export const parse = async <TInterestingTypes extends number = number>(byteBuffer: ByteBuffer, config?: Partial<ParseConfig<TInterestingTypes>>): Promise<WorldBase<TInterestingTypes> & Partial<WorldCurrent<TInterestingTypes>>> => {
+	const { interestingTileTypeEvaluator, onSectionParsed }  = {...defaultConfig, ...config} as ParseConfig<TInterestingTypes>;
 
 	// Header
 	const parser = stepsAggregator(parseHeaderVersion)
@@ -79,7 +78,7 @@ export const parse = async (byteBuffer: ByteBuffer, config?: Partial<ParseConfig
 	.add(validateOffset(ParserPointer.Flags, onSectionParsed))
 
 	// Tiles
-	.add(parseTilesFactory(interestingTileTypeEvaluator))
+	.add(parseTilesFactory<TInterestingTypes>(interestingTileTypeEvaluator))
 	.add(validateOffset(ParserPointer.Tiles, onSectionParsed))
 
 	// Chests

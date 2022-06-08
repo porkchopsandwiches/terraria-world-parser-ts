@@ -63,7 +63,7 @@ const fixedInterestingTileTypeIds = new Map([
 ]);
 
 
-export const deriveInterestingTileType = (tileData: TileData): InterestingTileTypes | undefined => {
+export const deriveInterestingTileType = (tileData: TileData<InterestingTileTypes>): InterestingTileTypes | undefined => {
 	const { tileTypeId, u, v } = tileData;
 	if (tileTypeId === TileType.SmallRubble && u !== undefined && v !== undefined) {
 		if (u % 36 === 0 && v === 18) {

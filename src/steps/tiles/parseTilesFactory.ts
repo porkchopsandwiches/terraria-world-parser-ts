@@ -5,15 +5,15 @@ import type { WorldCurrent } from "../../types/Worlds/WorldCurrent";
 import { deserializeTile } from "./deserializeTile";
 
 type InputWorld = Pick<WorldCurrent, "width" | "height" | "tileFrameImportance">;
-type OutputWorld = Pick<WorldCurrent, "tiles" | "interestingTileCounts">;
+type OutputWorld<TInterestingTypes extends number> = Pick<WorldCurrent<TInterestingTypes>, "tiles" | "interestingTileCounts">;
 
-export const parseTilesFactory = (interestingTileTypeEvaluator: ParseConfig["interestingTileTypeEvaluator"]): ParseStep<InputWorld, OutputWorld> => {
+export const parseTilesFactory = <TInterestingTypes extends number>(interestingTileTypeEvaluator: ParseConfig<TInterestingTypes>["interestingTileTypeEvaluator"]): ParseStep<InputWorld, OutputWorld<TInterestingTypes>> => {
 	return async (byteBuffer, sourceWorld) => {
-		const world: OutputWorld = { tiles: [], interestingTileCounts: new Map() };
+		const world: OutputWorld<TInterestingTypes> = { tiles: [], interestingTileCounts: new Map() };
 
 		for (let x = 0; x < sourceWorld.width; x++) {
 
-			const columnTiles: TileData[] = [];
+			const columnTiles: TileData<TInterestingTypes>[] = [];
 			for (let y = 0; y < sourceWorld.height; y++) {
 				const { tileData, rle: initialRle } = deserializeTile(byteBuffer, sourceWorld.tileFrameImportance, world.interestingTileCounts, interestingTileTypeEvaluator);
 				columnTiles[y] = tileData;

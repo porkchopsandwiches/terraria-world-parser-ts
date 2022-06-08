@@ -1,7 +1,7 @@
 import type { NPC } from "../NPC";
 import type { WorldV122 } from "./WorldV122";
 
-export type WorldV140 = WorldV122 & {
+export type WorldV140<TInterestingTypes extends number = number> = WorldV122<TInterestingTypes> & {
 	homelessNPCs: NPC[];
 	fileRevision: number;
 	invasionSizeStart: number;

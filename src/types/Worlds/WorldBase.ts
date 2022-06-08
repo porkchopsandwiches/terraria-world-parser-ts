@@ -59,7 +59,7 @@ export type WorldBase<TInterestingTypes extends number = number> = Dimensions & 
 	numClouds: number;
 	windSpeedSet: number;
 
-	tiles: TileData[][];
+	tiles: TileData<TInterestingTypes>[][];
 	signs: Sign[];
 	npcs: NPC[];
 

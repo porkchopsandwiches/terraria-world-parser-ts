@@ -9,17 +9,10 @@ import type { ParseConfig } from "../../types/ParseConfig";
 import type { TileData } from "../../types/TileData";
 import type { InterestingTileCounts } from "../../types/Worlds/InterestingTiles/InterestingTileCounts";
 
-type DeserializedTile = {
-	tileData: TileData;
+type DeserializedTile<TInterestingTypes extends number> = {
+	tileData: TileData<TInterestingTypes>;
 	rle?: number;
 };
-
-type TileDeserializer = (
-	byteBuffer: ByteBuffer,
-	tileFrameImportance: boolean[],
-	interestingTileCounts: InterestingTileCounts,
-	interestingTileTypeEvaluator: ParseConfig["interestingTileTypeEvaluator"]
-) => Readonly<DeserializedTile>;
 
 
 const hasFlag = (flags: number, mask: number): boolean => {
@@ -105,10 +98,10 @@ const readRLE = (byteBuffer: ByteBuffer, activeFlags: number): number | undefine
 	return;
 };
 
-export const deserializeTile: TileDeserializer = (byteBuffer, tileFrameImportance, interestingTileCounts, interestingTileTypeEvaluator) => {
+export const deserializeTile = <TInterestingTypes extends number>(byteBuffer: ByteBuffer, tileFrameImportance: boolean[], interestingTileCounts: InterestingTileCounts<TInterestingTypes>, interestingTileTypeEvaluator: ParseConfig<TInterestingTypes>["interestingTileTypeEvaluator"]): Readonly<DeserializedTile<TInterestingTypes>> => {
 	const activeFlags = readByte(byteBuffer) as TileActiveFlags;
 	const tileFlags = readTileFlags(byteBuffer, activeFlags);
-	const tileData: TileData = {
+	const tileData: TileData<TInterestingTypes> = {
 		activeFlags,
 		tileFlags,
 	};

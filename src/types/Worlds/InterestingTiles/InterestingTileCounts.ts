@@ -1,1 +1,1 @@
-export type InterestingTileCounts<TInterestingTypes extends number = number> = Map<TInterestingTypes, number>;
+export type InterestingTileCounts<TInterestingTypes extends number> = Map<TInterestingTypes, number>;

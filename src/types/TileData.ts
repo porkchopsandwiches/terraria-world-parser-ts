@@ -2,7 +2,7 @@ import type { LiquidType } from "../enums/LiquidType";
 import type { TileActiveFlags } from "../enums/TileActiveFlags";
 import type { TileFlags } from "../enums/TileFlags";
 
-export type TileData<TInterestingTypes extends number = number> = {
+export type TileData<TInterestingTypes extends number> = {
 	// Active Flags in raw form for later use by consumer
 	activeFlags: TileActiveFlags;
 
