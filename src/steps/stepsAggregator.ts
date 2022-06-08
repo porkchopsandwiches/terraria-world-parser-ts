@@ -16,15 +16,12 @@ export const stepsAggregator: StepsAggregatorFactory = <TInputWorld extends Gene
 	const steps: Array<ParseAggregateStep<GenericWorldData, GenericWorldData>> = [];
 	steps.push(aggregateStep(firstStep) as ParseAggregateStep<GenericWorldData, GenericWorldData>);
 
-	const stepsAggregatorInner = (): StepsAggregator<TInputWorld, TOutputWorld> => {
-		const aggregator: StepsAggregator<TInputWorld, TOutputWorld> = {} as never;
-
-		aggregator.add = <TNextOutputWorld extends GenericWorldData>(nextStep: ParseStep<TOutputWorld, TNextOutputWorld>): StepsAggregator<TInputWorld, TOutputWorld & TNextOutputWorld> => {
+	const aggregator: StepsAggregator<TInputWorld, TOutputWorld> = {
+		add<TNextOutputWorld extends GenericWorldData>(nextStep: ParseStep<TOutputWorld, TNextOutputWorld>): StepsAggregator<TInputWorld, TOutputWorld & TNextOutputWorld> {
 			steps.push(aggregateStep(nextStep) as ParseAggregateStep<GenericWorldData, GenericWorldData>);
 			return aggregator as never;
-		};
-
-		aggregator.final = async (byteBuffer: Readonly<ByteBuffer>, sourceWorld: Readonly<TInputWorld>): Promise<TInputWorld & TOutputWorld> => {
+		},
+		async final(byteBuffer: Readonly<ByteBuffer>, sourceWorld: Readonly<TInputWorld>): Promise<TInputWorld & TOutputWorld> {
 			// Iterate through all steps as a pipeline
 			const stepsToExecute = [...steps];
 			let nextWorld: unknown = sourceWorld;
@@ -35,10 +32,8 @@ export const stepsAggregator: StepsAggregatorFactory = <TInputWorld extends Gene
 			}
 
 			return nextWorld as TInputWorld & TOutputWorld;
-		};
-
-		return aggregator;
+		},
 	};
 
-	return stepsAggregatorInner();
+	return aggregator;
 };

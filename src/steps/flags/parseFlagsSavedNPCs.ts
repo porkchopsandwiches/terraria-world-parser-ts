@@ -6,9 +6,9 @@ type InputWorld = Record<string, unknown>;
 type OutputWorld = Pick<WorldCurrent, "savedGoblin" | "savedWizard" | "savedMech">;
 
 export const parseFlagsSavedNPCs: ParseStep<InputWorld, OutputWorld> = async (byteBuffer) => {
-	const world: OutputWorld = {} as never;
-	world.savedGoblin = readBoolean(byteBuffer);
-	world.savedWizard = readBoolean(byteBuffer);
-	world.savedMech = readBoolean(byteBuffer);
-	return world;
+	return {
+		savedGoblin: readBoolean(byteBuffer),
+		savedWizard: readBoolean(byteBuffer),
+		savedMech: readBoolean(byteBuffer),
+	};
 };

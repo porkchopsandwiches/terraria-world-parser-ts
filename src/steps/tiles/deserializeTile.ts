@@ -142,7 +142,7 @@ export const deserializeTile = <TInterestingTypes extends number>(byteBuffer: By
 
 	// If wall type has a high byte
 	if (tileData.tileFlags !== undefined && hasFlag(tileData.tileFlags, TileFlags.WallIdHasHighByte)) {
-		tileData.wallTypeId = tileData.wallTypeId === undefined ? undefined :  tileData.wallTypeId | (readByte(byteBuffer) << 8);
+		tileData.wallTypeId = tileData.wallTypeId === undefined ? undefined : tileData.wallTypeId | (readByte(byteBuffer) << 8);
 	}
 
 	// Read the RLE

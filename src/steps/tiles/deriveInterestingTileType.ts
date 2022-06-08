@@ -8,7 +8,7 @@ enum TileType {
 	LargeRubble2 = 187,
 }
 
-// Basic Type Type IDs that correspond directly to an interesting type
+// Basic Tile Type IDs that correspond directly to an interesting type
 const fixedInterestingTileTypeIds = new Map([
 	// Misc
 	[4, InterestingTileTypes.Torch],
@@ -61,69 +61,109 @@ const fixedInterestingTileTypeIds = new Map([
 	[333, InterestingTileTypes.CoinPilePlatinum],
 ]);
 
-export const deriveInterestingTileType = (tileData: TileData<InterestingTileTypes>): InterestingTileTypes | undefined => {
-	const { tileTypeId, u, v } = tileData;
-	if (tileTypeId === TileType.SmallRubble && u !== undefined && v !== undefined) {
-		if (u % 36 === 0 && v === 18) {
-			const subType = u / 36;
-			if (subType === 16) {
-				return InterestingTileTypes.CoinPileCopper;
-			} if (subType === 17) {
-				return InterestingTileTypes.CoinPileSilver;
-			} if (subType === 18) {
-				return InterestingTileTypes.CoinPileGold;
-			} if (subType === 19) {
-				return InterestingTileTypes.Amethyst;
-			} if (subType === 20) {
-				return InterestingTileTypes.Topaz;
-			} if (subType === 21) {
-				return InterestingTileTypes.Sapphire;
-			} if (subType === 22) {
-				return InterestingTileTypes.Emerald;
-			} if (subType === 23) {
-				return InterestingTileTypes.Ruby;
-			} if (subType === 24) {
-				return InterestingTileTypes.Diamond;
-			}
-		}
-	} else if (tileTypeId === TileType.LargeRubble && u !== undefined && v !== undefined) {
-		if (u % 54 === 0 && v === 0) {
-			const subType = u / 54;
-
-			if (subType === 16 || subType === 17) {
-				return InterestingTileTypes.CoinPileCopper;
-			} if (subType === 18 || subType === 19) {
-				return InterestingTileTypes.CoinPileSilver;
-			} if (subType === 20 || subType === 21) {
-				return InterestingTileTypes.CoinPileGold;
-			}
-		}
-	} else if (tileTypeId === TileType.LargeRubble2 && u !== undefined && v !== undefined) {
-		if (u % 54 === 0 && v === 0) {
-			const subType = u / 54;
-			if (subType === 17) {
-				return InterestingTileTypes.EnchantedSword;
-			}
-		}
-	} else if (tileTypeId === TileType.Gem && u !== undefined) {
-		const subType = u / 18;
-		if (subType === 0) {
-			return InterestingTileTypes.Amethyst;
-		} else if (subType === 1) {
-			return InterestingTileTypes.Topaz;
-		} else if (subType === 2) {
-			return InterestingTileTypes.Sapphire;
-		} else if (subType === 3) {
-			return InterestingTileTypes.Emerald;
-		} else if (subType === 4) {
-			return InterestingTileTypes.Ruby;
-		} else if (subType === 5) {
-			return InterestingTileTypes.Diamond;
-		} else if (subType === 6) {
-			return InterestingTileTypes.Amber;
-		}
+const deriveSmallRubbleInterestingType = (u?: number, v?: number): InterestingTileTypes | undefined => {
+	if (u === undefined || v === undefined || u % 36 !== 0 || v !== 18) {
+		return undefined;
 	}
 
-	// Otherwise, see if the type itself is interesting
-	return tileTypeId && fixedInterestingTileTypeIds.get(tileTypeId);
+	const subType = u / 36;
+	switch (subType) {
+		case 16:
+			return InterestingTileTypes.CoinPileCopper;
+		case 17:
+			return InterestingTileTypes.CoinPileSilver;
+		case 18:
+			return InterestingTileTypes.CoinPileGold;
+		case 19:
+			return InterestingTileTypes.Amethyst;
+		case 20:
+			return InterestingTileTypes.Topaz;
+		case 21:
+			return InterestingTileTypes.Sapphire;
+		case 22:
+			return InterestingTileTypes.Emerald;
+		case 23:
+			return InterestingTileTypes.Ruby;
+		case 24:
+			return InterestingTileTypes.Diamond;
+		default:
+			return undefined;
+	}
+};
+
+const deriveLargeRubbleInterestingType = (u?: number, v?: number): InterestingTileTypes | undefined => {
+	if (u === undefined || v === undefined || u % 54 !== 0 || v !== 0) {
+		return undefined;
+	}
+
+	const subType = u / 54;
+	switch (subType) {
+		case 16:
+		case 17:
+			return InterestingTileTypes.CoinPileCopper;
+		case 18:
+		case 19:
+			return InterestingTileTypes.CoinPileSilver;
+		case 20:
+		case 21:
+			return InterestingTileTypes.CoinPileGold;
+		default:
+			return undefined;
+	}
+};
+
+const deriveLargeRubble2InterestingType = (u?: number, v?: number): InterestingTileTypes | undefined => {
+	if (u === undefined || v === undefined || u % 54 !== 0 || v !== 0) {
+		return undefined;
+	}
+
+	const subType = u / 54;
+	if (subType === 17) {
+		return InterestingTileTypes.EnchantedSword;
+	}
+
+	return undefined;
+};
+
+const deriveGemInterestingType = (u?: number): InterestingTileTypes | undefined => {
+	if (u === undefined) {
+		return undefined;
+	}
+
+	const subType = u / 18;
+	switch (subType) {
+		case 0:
+			return InterestingTileTypes.Amethyst;
+		case 1:
+			return InterestingTileTypes.Topaz;
+		case 2:
+			return InterestingTileTypes.Sapphire;
+		case 3:
+			return InterestingTileTypes.Emerald;
+		case 4:
+			return InterestingTileTypes.Ruby;
+		case 5:
+			return InterestingTileTypes.Diamond;
+		case 6:
+			return InterestingTileTypes.Amber;
+		default:
+			return undefined;
+	}
+};
+
+export const deriveInterestingTileType = (tileData: TileData<InterestingTileTypes>): InterestingTileTypes | undefined => {
+	const { tileTypeId, u, v } = tileData;
+
+	switch (tileTypeId) {
+		case TileType.SmallRubble:
+			return deriveSmallRubbleInterestingType(u, v);
+		case TileType.LargeRubble:
+			return deriveLargeRubbleInterestingType(u, v);
+		case TileType.LargeRubble2:
+			return deriveLargeRubble2InterestingType(u, v);
+		case TileType.Gem:
+			return deriveGemInterestingType(u);
+		default:
+			return tileTypeId && fixedInterestingTileTypeIds.get(tileTypeId);
+	}
 };
