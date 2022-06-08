@@ -30,6 +30,7 @@ export const stepsAggregator: StepsAggregatorFactory = <TInputWorld extends Gene
 			let nextWorld: unknown = sourceWorld;
 			while (stepsToExecute.length > 0) {
 				const nextStep = stepsToExecute.shift();
+				// eslint-disable-next-line no-await-in-loop
 				nextWorld = await nextStep?.(byteBuffer, nextWorld as never);
 			}
 

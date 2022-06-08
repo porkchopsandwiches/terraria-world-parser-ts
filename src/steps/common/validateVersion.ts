@@ -3,7 +3,7 @@ import type { WorldCurrent } from "../../types/Worlds/WorldCurrent";
 
 type InputWorld = Pick<WorldCurrent, "version" | "width" | "height" | "id" | "title">;
 
-export const validateVersion = (minVersion = 95, maxVersion = 194): ParseStep<InputWorld, {}> => {
+export const validateVersion = (minVersion = 95, maxVersion = 194): ParseStep<InputWorld, Record<string, unknown>> => {
 	return async (_, sourceWorld) => {
 		if (sourceWorld.version < minVersion) {
 			throw new Error(`Cannot currently parse worlds with a version less than ${minVersion}; this world has version ${sourceWorld.version}`);

@@ -41,13 +41,15 @@ import { stepsAggregator } from "./stepsAggregator";
 import { parseTilesFactory } from "./tiles/parseTilesFactory";
 import { parseTownManagerRecords } from "./townManager/parseTownManagerRecords";
 
-const defaultConfig: ParseConfig = {
-	interestingTileTypeEvaluator: () => undefined,
-	onSectionParsed() {},
+const defaultConfigFactory = <TInterestingTypes extends number>(): ParseConfig<TInterestingTypes> => {
+	return {
+		interestingTileTypeEvaluator: () => undefined,
+		onSectionParsed() {},
+	};
 };
 
-export const parse = async <TInterestingTypes extends number = number>(byteBuffer: ByteBuffer, config?: Partial<ParseConfig<TInterestingTypes>>): Promise<WorldBase<TInterestingTypes> & Partial<WorldCurrent<TInterestingTypes>>> => {
-	const { interestingTileTypeEvaluator, onSectionParsed } = { ...defaultConfig, ...config } as ParseConfig<TInterestingTypes>;
+export const parse = async <TInterestingTypes extends number>(byteBuffer: ByteBuffer, config?: Partial<ParseConfig<TInterestingTypes>>): Promise<WorldBase<TInterestingTypes> & Partial<WorldCurrent<TInterestingTypes>>> => {
+	const { interestingTileTypeEvaluator, onSectionParsed }: ParseConfig<TInterestingTypes> = { ...defaultConfigFactory(), ...config };
 
 	// Header
 	const parser = stepsAggregator(parseHeaderVersion)

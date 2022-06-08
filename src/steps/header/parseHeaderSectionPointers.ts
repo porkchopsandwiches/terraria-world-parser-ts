@@ -4,7 +4,7 @@ import { readInt32 } from "../../bufferReader/readInt32";
 import type { ParseStep } from "../../types/ParseStep";
 import type { WorldCurrent } from "../../types/Worlds/WorldCurrent";
 
-type InputWorld = {};
+type InputWorld = Record<string, unknown>;
 type OutputWorld = Pick<WorldCurrent, "sectionPointers">;
 
 export const parseHeaderSectionPointers: ParseStep<InputWorld, OutputWorld> = async (byteBuffer) => {

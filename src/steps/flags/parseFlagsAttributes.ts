@@ -7,31 +7,31 @@ import { readInt32s } from "../../bufferReader/readInt32s";
 import type { ParseStep } from "../../types/ParseStep";
 import type { WorldCurrent } from "../../types/Worlds/WorldCurrent";
 
-type InputWorld = {};
+type InputWorld = Record<string, unknown>;
 type OutputWorld = Pick<WorldCurrent, "moonType" | "treeX" | "treeStyle" | "caveBackX" | "caveBackStyle" | "iceBackStyle" | "jungleBackStyle" | "hellBackStyle" | "spawn" | "groundLevel" | "rockLevel" | "time" | "isDayTime" | "moonPhase" | "isBloodMoon" | "isEclipse" | "dungeon" | "isCrimson">;
 
 export const parseFlagsAttributes: ParseStep<InputWorld, OutputWorld> = async (byteBuffer) => {
-	const world: OutputWorld = {} as never;
-	world.moonType = readByte(byteBuffer);
-	world.treeX = readInt32s(3, byteBuffer);
-	world.treeStyle = readInt32s(4, byteBuffer);
-	world.caveBackX = readInt32s(3, byteBuffer);
-	world.caveBackStyle = readInt32s(4, byteBuffer);
-	world.iceBackStyle = readInt32(byteBuffer);
-	world.jungleBackStyle = readInt32(byteBuffer);
-	world.hellBackStyle = readInt32(byteBuffer);
+	return {
+		moonType: readByte(byteBuffer),
+		treeX: readInt32s(3, byteBuffer),
+		treeStyle: readInt32s(4, byteBuffer),
+		caveBackX: readInt32s(3, byteBuffer),
+		caveBackStyle: readInt32s(4, byteBuffer),
+		iceBackStyle: readInt32(byteBuffer),
+		jungleBackStyle: readInt32(byteBuffer),
+		hellBackStyle: readInt32(byteBuffer),
 
-	world.spawn = readCoord32(byteBuffer);
+		spawn: readCoord32(byteBuffer),
 
-	world.groundLevel = readFloat64(byteBuffer);
-	world.rockLevel = readFloat64(byteBuffer);
-	world.time = readFloat64(byteBuffer);
+		groundLevel: readFloat64(byteBuffer),
+		rockLevel: readFloat64(byteBuffer),
+		time: readFloat64(byteBuffer),
 
-	world.isDayTime = readBoolean(byteBuffer);
-	world.moonPhase = readInt32(byteBuffer);
-	world.isBloodMoon = readBoolean(byteBuffer);
-	world.isEclipse = readBoolean(byteBuffer);
-	world.dungeon = readCoord32(byteBuffer);
-	world.isCrimson = readBoolean(byteBuffer);
-	return world;
+		isDayTime: readBoolean(byteBuffer),
+		moonPhase: readInt32(byteBuffer),
+		isBloodMoon: readBoolean(byteBuffer),
+		isEclipse: readBoolean(byteBuffer),
+		dungeon: readCoord32(byteBuffer),
+		isCrimson: readBoolean(byteBuffer),
+	};
 };

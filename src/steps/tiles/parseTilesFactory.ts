@@ -16,12 +16,12 @@ export const parseTilesFactory = <TInterestingTypes extends number>(interestingT
 			for (let y = 0; y < sourceWorld.height; y++) {
 				const { tileData, rle: initialRle } = deserializeTile(byteBuffer, sourceWorld.tileFrameImportance, world.interestingTileCounts, interestingTileTypeEvaluator);
 				columnTiles[y] = tileData;
-				let rle = initialRle || 0;
+				let rle = initialRle ?? 0;
 
 				while (rle > 0) {
 					y++;
 					if (y > sourceWorld.height) {
-						throw new Error("Invalid tile data: RLE Compression outside bounds [" + x + "," + y + "], current RLE: " + rle + "; initial RLE: " + initialRle);
+						throw new Error(`Invalid tile data: RLE Compression outside bounds [${x}, ${y}], current RLE: ${rle}; initial RLE: ${initialRle}`);
 					}
 
 					columnTiles[y] = tileData;

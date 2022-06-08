@@ -8,7 +8,7 @@ import type { ParseStep } from "../../types/ParseStep";
 import type { WorldCurrent } from "../../types/Worlds/WorldCurrent";
 import { chestFactory } from "./chestFactory";
 
-type InputWorld = {};
+type InputWorld = Record<string, unknown>;
 type OutputWorld = Pick<WorldCurrent, "chests">;
 
 export const parseChests: ParseStep<InputWorld, OutputWorld> = async (byteBuffer) => {

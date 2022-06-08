@@ -51,11 +51,20 @@
 	},
 	"xo": {
 		"prettier": true,
+		"ignore": ["lint"],
 		"rules": {
+			"no-bitwise": "off",
 			"unicorn/filename-case": "off",
 			"import/extensions": "off",
 			"@typescript-eslint/naming-convention": "off",
 			"@typescript-eslint/restrict-template-expressions": "off",
+			"@typescript-eslint/no-empty-function": "off",
+			"@typescript-eslint/prefer-literal-enum-member": [
+				"error",
+				{
+					"allowBitwiseExpressions": true
+				}
+			],
 			"@typescript-eslint/ban-types": [
 				"error",
 				{

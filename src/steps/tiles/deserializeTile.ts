@@ -42,6 +42,7 @@ const readTileFlags = (byteBuffer: ByteBuffer, activeFlags: TileActiveFlags): Ti
 	}
 
 	// Neither high nor low
+	return undefined;
 };
 
 /**
@@ -64,6 +65,8 @@ const readTileType = (byteBuffer: ByteBuffer, activeFlags: number): number | und
 
 		return lowByte;
 	}
+
+	return undefined;
 };
 
 /**
@@ -89,6 +92,8 @@ const readRLE = (byteBuffer: ByteBuffer, activeFlags: number): number | undefine
 	if (rleStorageType === 2) {
 		return readUInt16(byteBuffer);
 	}
+
+	return undefined;
 };
 
 export const deserializeTile = <TInterestingTypes extends number>(byteBuffer: ByteBuffer, tileFrameImportance: boolean[], interestingTileCounts: InterestingTileCounts<TInterestingTypes>, interestingTileTypeEvaluator: ParseConfig<TInterestingTypes>["interestingTileTypeEvaluator"]): Readonly<DeserializedTile<TInterestingTypes>> => {
@@ -137,7 +142,7 @@ export const deserializeTile = <TInterestingTypes extends number>(byteBuffer: By
 
 	// If wall type has a high byte
 	if (tileData.tileFlags !== undefined && hasFlag(tileData.tileFlags, TileFlags.WallIdHasHighByte)) {
-		tileData.wallTypeId = tileData.wallTypeId !== undefined ? tileData.wallTypeId | (readByte(byteBuffer) << 8) : undefined;
+		tileData.wallTypeId = tileData.wallTypeId === undefined ? undefined :  tileData.wallTypeId | (readByte(byteBuffer) << 8);
 	}
 
 	// Read the RLE
@@ -145,8 +150,8 @@ export const deserializeTile = <TInterestingTypes extends number>(byteBuffer: By
 
 	// Handle counts
 	if (tileData.interestingTileType !== undefined) {
-		const existingCount = interestingTileCounts.get(tileData.interestingTileType) || 0;
-		interestingTileCounts.set(tileData.interestingTileType, existingCount + 1 + (tileData.rle || 0));
+		const existingCount = interestingTileCounts.get(tileData.interestingTileType) ?? 0;
+		interestingTileCounts.set(tileData.interestingTileType, existingCount + 1 + (tileData.rle ?? 0));
 	}
 
 	return {

@@ -8,7 +8,7 @@ class CLIEngine {
 	}
 
 	// Xo is smart enough to ignore a file after it gets the file, so always treat it as not ignored.
-	isPathIgnored(fileName) {
+	isPathIgnored(_fileName) {
 		return false;
 	}
 

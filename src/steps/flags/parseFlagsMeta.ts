@@ -14,7 +14,6 @@ export const parseFlagsMeta: ParseStep<InputWorld, OutputWorld> = async (byteBuf
 	world.title = readString(byteBuffer);
 
 	if (sourceWorld.version >= 179) {
-		// World.seed = readInt32(byteBuffer).toString();
 		world.seed = readString(byteBuffer);
 		world.genVersion = [readUInt32(byteBuffer), readUInt32(byteBuffer)];
 	}

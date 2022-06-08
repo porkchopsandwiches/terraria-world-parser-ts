@@ -5,25 +5,24 @@ import { readInt32 } from "../../bufferReader/readInt32";
 import type { ParseStep } from "../../types/ParseStep";
 import type { WorldCurrent } from "../../types/Worlds/WorldCurrent";
 
-type InputWorld = {};
+type InputWorld = Record<string, unknown>;
 type OutputWorld = Pick<WorldCurrent, "eventsClown" | "eventsGoblins" | "eventsFrost" | "eventsPirates" | "shadowOrbSmashed" | "spawnMeteor" | "shadowOrbCount" | "altarCount" | "hardMode" | "invasionDelay" | "invasionSize" | "invasionType" | "invasionX">;
 
 export const parseFlagsEvents: ParseStep<InputWorld, OutputWorld> = async (byteBuffer) => {
-	const world: OutputWorld = {} as never;
+	return {
+		eventsGoblins: readBoolean(byteBuffer),
+		eventsClown: readBoolean(byteBuffer),
+		eventsFrost: readBoolean(byteBuffer),
+		eventsPirates: readBoolean(byteBuffer),
 
-	world.eventsGoblins = readBoolean(byteBuffer);
-	world.eventsClown = readBoolean(byteBuffer);
-	world.eventsFrost = readBoolean(byteBuffer);
-	world.eventsPirates = readBoolean(byteBuffer);
-
-	world.shadowOrbSmashed = readBoolean(byteBuffer);
-	world.spawnMeteor = readBoolean(byteBuffer);
-	world.shadowOrbCount = readByte(byteBuffer);
-	world.altarCount = readInt32(byteBuffer);
-	world.hardMode = readBoolean(byteBuffer);
-	world.invasionDelay = readInt32(byteBuffer);
-	world.invasionSize = readInt32(byteBuffer);
-	world.invasionType = readInt32(byteBuffer);
-	world.invasionX = readFloat64(byteBuffer);
-	return world;
+		shadowOrbSmashed: readBoolean(byteBuffer),
+		spawnMeteor: readBoolean(byteBuffer),
+		shadowOrbCount: readByte(byteBuffer),
+		altarCount: readInt32(byteBuffer),
+		hardMode: readBoolean(byteBuffer),
+		invasionDelay: readInt32(byteBuffer),
+		invasionSize: readInt32(byteBuffer),
+		invasionType: readInt32(byteBuffer),
+		invasionX: readFloat64(byteBuffer),
+	};
 };

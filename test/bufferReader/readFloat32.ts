@@ -7,7 +7,8 @@ test("Read float works", (t) => {
 		readFloat32: () => floats.shift()!,
 	};
 
-	for (const float of floats) {
+	const originalFloats = [...floats];
+	for (const float of originalFloats) {
 		const result = readFloat32(byteBuffer);
 		t.is(result, float / 16);
 	}

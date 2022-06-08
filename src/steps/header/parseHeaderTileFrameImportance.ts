@@ -3,7 +3,7 @@ import { readInt16 } from "../../bufferReader/readInt16";
 import type { ParseStep } from "../../types/ParseStep";
 import type { WorldCurrent } from "../../types/Worlds/WorldCurrent";
 
-type InputWorld = {};
+type InputWorld = Record<string, unknown>;
 type OutputWorld = Pick<WorldCurrent, "tileFrameImportance">;
 
 export const parseHeaderTileFrameImportance: ParseStep<InputWorld, OutputWorld> = async (byteBuffer) => {
@@ -18,11 +18,11 @@ export const parseHeaderTileFrameImportance: ParseStep<InputWorld, OutputWorld> 
 	let data = 0;
 	let mask = 128;
 	for (let i = 0; i < bitsCount; ++i) {
-		if (mask !== 128) {
-			mask <<= 1;
-		} else {
+		if (mask === 128) {
 			data = readByte(byteBuffer);
 			mask = 1;
+		} else {
+			mask <<= 1;
 		}
 
 		if ((data & mask) === mask) {

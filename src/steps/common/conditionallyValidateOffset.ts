@@ -6,7 +6,7 @@ import type { WorldCurrent } from "../../types/Worlds/WorldCurrent";
 
 type InputWorld = Pick<WorldCurrent, "sectionPointers" | "version">;
 
-export const conditionallyValidateOffset = (minVersion: number, pointer: ParserPointer, callback: ParseConfig["onSectionParsed"]): ParseStep<InputWorld, {}> => {
+export const conditionallyValidateOffset = (minVersion: number, pointer: ParserPointer, callback: ParseConfig["onSectionParsed"]): ParseStep<InputWorld, Record<string, unknown>> => {
 	return async (byteBuffer, sourceWorld) => {
 		if (sourceWorld.version < minVersion) {
 			return {};
