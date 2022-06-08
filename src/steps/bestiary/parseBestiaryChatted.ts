@@ -16,6 +16,7 @@ export const parseBestiaryChatted: ParseStep<InputWorld, OutputWorld> = async (b
 			const npc = readString(byteBuffer);
 			world.bestiaryChatted?.push(npc);
 		}
+
 		return world;
 	}
 

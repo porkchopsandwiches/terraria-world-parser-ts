@@ -5,4 +5,4 @@ export type WorldV174<TInterestingTypes extends number = number> = WorldV170<TIn
 	sandstormTimeLeft: number;
 	sandstormSeverity: number;
 	sandstormIntendedSeverity: number;
-}
+};

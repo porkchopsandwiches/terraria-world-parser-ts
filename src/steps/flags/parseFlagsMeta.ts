@@ -7,14 +7,14 @@ import type { ParseStep } from "../../types/ParseStep";
 import type { WorldCurrent } from "../../types/Worlds/WorldCurrent";
 
 type InputWorld = Pick<WorldCurrent, "version">;
-type OutputWorld = Pick<WorldCurrent, "title" | "id" | "frame" | "width" | "height"> & Partial<Pick<WorldCurrent, "seed" | "genVersion" | "guid">>
+type OutputWorld = Pick<WorldCurrent, "title" | "id" | "frame" | "width" | "height"> & Partial<Pick<WorldCurrent, "seed" | "genVersion" | "guid">>;
 
 export const parseFlagsMeta: ParseStep<InputWorld, OutputWorld> = async (byteBuffer, sourceWorld) => {
 	const world: OutputWorld = {} as never;
 	world.title = readString(byteBuffer);
 
 	if (sourceWorld.version >= 179) {
-		// world.seed = readInt32(byteBuffer).toString();
+		// World.seed = readInt32(byteBuffer).toString();
 		world.seed = readString(byteBuffer);
 		world.genVersion = [readUInt32(byteBuffer), readUInt32(byteBuffer)];
 	}
@@ -28,5 +28,4 @@ export const parseFlagsMeta: ParseStep<InputWorld, OutputWorld> = async (byteBuf
 	world.height = readInt32(byteBuffer);
 	world.width = readInt32(byteBuffer);
 	return world;
-
 };

@@ -5,4 +5,4 @@ export type WorldV210<TInterestingTypes extends number = number> = WorldV209<TIn
 	bestiaryKills: BestiaryKill[];
 	bestiarySeen: string[];
 	bestiaryChatted: string[];
-}
+};

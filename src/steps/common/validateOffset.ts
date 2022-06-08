@@ -19,4 +19,4 @@ export const validateOffset = (pointer: ParserPointer, callback: ParseConfig["on
 
 		return {};
 	};
-}
+};

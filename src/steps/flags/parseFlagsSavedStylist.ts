@@ -11,5 +11,6 @@ export const parseFlagsSavedStylist: ParseStep<InputWorld, OutputWorld> = async 
 	if (sourceWorld.version >= 104) {
 		world.savedStylist = readBoolean(byteBuffer);
 	}
+
 	return world;
 };

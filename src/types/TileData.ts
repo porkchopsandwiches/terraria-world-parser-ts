@@ -32,4 +32,4 @@ export type TileData<TInterestingTypes extends number> = {
 
 	// Derived types that may be useful for counting, highlighting on a map, etc.
 	interestingTileType?: TInterestingTypes;
-}
+};

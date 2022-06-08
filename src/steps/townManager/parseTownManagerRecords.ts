@@ -21,6 +21,7 @@ export const parseTownManagerRecords: ParseStep<InputWorld, OutputWorld> = async
 				position,
 			});
 		}
+
 		return world;
 	}
 

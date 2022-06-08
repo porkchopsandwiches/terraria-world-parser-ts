@@ -23,4 +23,4 @@ export const conditionallyValidateOffset = (minVersion: number, pointer: ParserP
 
 		return {};
 	};
-}
+};

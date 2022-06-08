@@ -4,6 +4,6 @@ import type { Coordinate } from "./Coordinate";
 export type Chest = {
 	coord: Coordinate;
 	name: string;
-	items: (ChestItem | undefined)[];
+	items: Array<ChestItem | undefined>;
 	enabled: boolean;
-}
+};

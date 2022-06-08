@@ -1,7 +1,7 @@
+import { promises } from "node:fs";
 import test from "ava";
 import * as dotenv from "dotenv";
 import * as ByteBuffer from "bytebuffer";
-import { promises } from "node:fs";
 import { parseHeaderExtras } from "../../../src/steps/header/parseHeaderExtras";
 import { parseHeaderVersion } from "../../../src/steps/header/parseHeaderVersion";
 

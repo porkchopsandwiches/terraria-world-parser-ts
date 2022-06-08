@@ -35,40 +35,40 @@ import type { WorldV240 } from "../types/Worlds/WorldV240";
 import type { WorldV241 } from "../types/Worlds/WorldV241";
 
 type VersionMap = {
-	95: WorldV095,
-	99: WorldV099,
-	101: WorldV101,
-	104: WorldV104,
-	140: WorldV140,
-	141: WorldV141,
-	147: WorldV147,
-	170: WorldV170,
-	174: WorldV174,
-	178: WorldV178,
-	179: WorldV179,
-	181: WorldV181,
-	189: WorldV189,
-	192: WorldV192,
-	195: WorldV195,
-	196: WorldV196,
-	201: WorldV201,
-	204: WorldV204,
-	207: WorldV207,
-	208: WorldV208,
-	209: WorldV209,
-	210: WorldV210,
-	211: WorldV211,
-	212: WorldV212,
-	215: WorldV215,
-	216: WorldV216,
-	217: WorldV217,
-	222: WorldV222,
-	223: WorldV223
-	227: WorldV227,
-	238: WorldV238
-	239: WorldV239,
-	240: WorldV240,
-	241: WorldV241,
+	95: WorldV095;
+	99: WorldV099;
+	101: WorldV101;
+	104: WorldV104;
+	140: WorldV140;
+	141: WorldV141;
+	147: WorldV147;
+	170: WorldV170;
+	174: WorldV174;
+	178: WorldV178;
+	179: WorldV179;
+	181: WorldV181;
+	189: WorldV189;
+	192: WorldV192;
+	195: WorldV195;
+	196: WorldV196;
+	201: WorldV201;
+	204: WorldV204;
+	207: WorldV207;
+	208: WorldV208;
+	209: WorldV209;
+	210: WorldV210;
+	211: WorldV211;
+	212: WorldV212;
+	215: WorldV215;
+	216: WorldV216;
+	217: WorldV217;
+	222: WorldV222;
+	223: WorldV223;
+	227: WorldV227;
+	238: WorldV238;
+	239: WorldV239;
+	240: WorldV240;
+	241: WorldV241;
 };
 
 export const worldIsVersion = <TVersion extends keyof VersionMap>(world: WorldBase, version: TVersion): world is VersionMap[TVersion] => {

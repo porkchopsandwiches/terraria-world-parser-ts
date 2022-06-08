@@ -21,6 +21,7 @@ export const parseBestiaryKills: ParseStep<InputWorld, OutputWorld> = async (byt
 				killCount,
 			});
 		}
+
 		return world;
 	}
 

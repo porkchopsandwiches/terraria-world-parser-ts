@@ -5,4 +5,4 @@ export type WorldV178<TInterestingTypes extends number = number> = WorldV174<TIn
 	invasionTier2: boolean;
 	invasionTier3: boolean;
 	savedBartender: boolean;
-}
+};

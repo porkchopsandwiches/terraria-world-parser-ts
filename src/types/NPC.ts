@@ -8,4 +8,4 @@ export type NPC = {
 	home?: Coordinate;
 	isHomeless: boolean;
 	townVariation?: number;
-}
+};

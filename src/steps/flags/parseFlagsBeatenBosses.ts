@@ -21,5 +21,6 @@ export const parseFlagsBeatenBosses: ParseStep<InputWorld, OutputWorld> = async 
 	if (sourceWorld.version >= 118) {
 		world.beatSlimeKingBoss = readBoolean(byteBuffer);
 	}
+
 	return world;
 };

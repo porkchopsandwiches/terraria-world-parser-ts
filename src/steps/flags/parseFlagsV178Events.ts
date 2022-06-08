@@ -13,5 +13,6 @@ export const parseFlagsV178Events: ParseStep<InputWorld, OutputWorld> = async (b
 		world.invasionTier2 = readBoolean(byteBuffer);
 		world.invasionTier3 = readBoolean(byteBuffer);
 	}
+
 	return world;
 };

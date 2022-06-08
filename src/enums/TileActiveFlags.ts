@@ -1,5 +1,5 @@
 export enum TileActiveFlags {
-	TileFlagsExist = 1 << 0,
+	TileFlagsExist = Math.trunc(1),
 	TileExists = 1 << 1,
 	WallExists = 1 << 2,
 	LiquidTypeWater = 1 << 3,

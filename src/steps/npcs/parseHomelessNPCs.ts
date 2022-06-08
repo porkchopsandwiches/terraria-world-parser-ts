@@ -15,8 +15,8 @@ export const parseHomelessNPCs: ParseStep<InputWorld, OutputWorld> = async (byte
 
 	if (sourceWorld.version >= 140) {
 		for (let i = readBoolean(byteBuffer); i; i = readBoolean(byteBuffer)) {
-			const spriteId = (sourceWorld.version >= 190) ? readInt32(byteBuffer) : 0;
-			const spriteName = (sourceWorld.version < 190) ? readString(byteBuffer) : "";
+			const spriteId = sourceWorld.version >= 190 ? readInt32(byteBuffer) : 0;
+			const spriteName = sourceWorld.version < 190 ? readString(byteBuffer) : "";
 			const position = readCoordFloat(byteBuffer);
 
 			world.homelessNPCs.push({
@@ -28,5 +28,6 @@ export const parseHomelessNPCs: ParseStep<InputWorld, OutputWorld> = async (byte
 			});
 		}
 	}
+
 	return world;
 };

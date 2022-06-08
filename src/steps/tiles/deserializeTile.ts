@@ -14,7 +14,6 @@ type DeserializedTile<TInterestingTypes extends number> = {
 	rle?: number;
 };
 
-
 const hasFlag = (flags: number, mask: number): boolean => {
 	return (flags & mask) === mask;
 };
@@ -28,10 +27,8 @@ const hasFlag = (flags: number, mask: number): boolean => {
  * @returns {TileFlags} A number representing the bitwise flags set.
  */
 const readTileFlags = (byteBuffer: ByteBuffer, activeFlags: TileActiveFlags): TileFlags | undefined => {
-
 	// If we have Tile Flags at all
 	if (hasFlag(activeFlags, TileActiveFlags.TileFlagsExist)) {
-
 		// Read the first type of the file flags
 		const lowByte = readByte(byteBuffer);
 
@@ -45,7 +42,6 @@ const readTileFlags = (byteBuffer: ByteBuffer, activeFlags: TileActiveFlags): Ti
 	}
 
 	// Neither high nor low
-	return;
 };
 
 /**
@@ -57,7 +53,6 @@ const readTileFlags = (byteBuffer: ByteBuffer, activeFlags: TileActiveFlags): Ti
  * @returns {number | undefined}
  */
 const readTileType = (byteBuffer: ByteBuffer, activeFlags: number): number | undefined => {
-
 	// If the appropriate flag is set to enable us to read a type
 	if (hasFlag(activeFlags, TileActiveFlags.TileExists)) {
 		const lowByte = readByte(byteBuffer);
@@ -69,9 +64,7 @@ const readTileType = (byteBuffer: ByteBuffer, activeFlags: number): number | und
 
 		return lowByte;
 	}
-	return;
 };
-
 
 /**
  * Active Flags bit[6,7] shift to 0,1 for RLE encoding type
@@ -88,14 +81,14 @@ const readTileType = (byteBuffer: ByteBuffer, activeFlags: number): number | und
 const readRLE = (byteBuffer: ByteBuffer, activeFlags: number): number | undefined => {
 	const rleStorageType = (activeFlags & 192) >> 6;
 
-	// read RLE distance
+	// Read RLE distance
 	if (rleStorageType === 1) {
 		return readByte(byteBuffer);
-	} else if (rleStorageType === 2) {
-		return readUInt16(byteBuffer);
 	}
 
-	return;
+	if (rleStorageType === 2) {
+		return readUInt16(byteBuffer);
+	}
 };
 
 export const deserializeTile = <TInterestingTypes extends number>(byteBuffer: ByteBuffer, tileFrameImportance: boolean[], interestingTileCounts: InterestingTileCounts<TInterestingTypes>, interestingTileTypeEvaluator: ParseConfig<TInterestingTypes>["interestingTileTypeEvaluator"]): Readonly<DeserializedTile<TInterestingTypes>> => {
@@ -135,8 +128,8 @@ export const deserializeTile = <TInterestingTypes extends number>(byteBuffer: By
 		}
 	}
 
-	// check for liquids, grab the bit[3] and bit[4], shift them to the 0 and 1 bits
-	const liquidType = (activeFlags & TileActiveFlags.LiquidTypeHoney) >> 3 as LiquidType;
+	// Check for liquids, grab the bit[3] and bit[4], shift them to the 0 and 1 bits
+	const liquidType = ((activeFlags & TileActiveFlags.LiquidTypeHoney) >> 3) as LiquidType;
 	if (liquidType > 0) {
 		tileData.liquidAmount = readByte(byteBuffer);
 		tileData.liquidType = liquidType;

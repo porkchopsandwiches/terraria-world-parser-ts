@@ -5,7 +5,36 @@ import type { ParseStep } from "../../types/ParseStep";
 import type { WorldCurrent } from "../../types/Worlds/WorldCurrent";
 
 type InputWorld = Pick<WorldCurrent, "version">;
-type OutputWorld = Partial<Pick<WorldCurrent, "apocalypse" | "celestialNebulaActive" | "celestialSolarActive" | "celestialNebulaDown" | "celestialSolarDown" | "celestialStardustActive" | "celestialStardustDown" | "celestialVortexActive" | "celestialVortexDown" | "beatHalloweenTree" | "beatChristmasQueen" | "beatChristmasTree" | "beatHalloweenKing" | "beatFishron" | "beatMartians" | "beatLunaticCultist" | "beatMoonlord" | "beatSanta" | "killedMobs" | "savedTaxCollector" | "savedGolfer" | "invasionSizeStart" | "cultistDelay" | "numberOfMobs" | "fastForwardTime">>;
+type OutputWorld = Partial<
+	Pick<
+		WorldCurrent,
+		| "apocalypse"
+		| "celestialNebulaActive"
+		| "celestialSolarActive"
+		| "celestialNebulaDown"
+		| "celestialSolarDown"
+		| "celestialStardustActive"
+		| "celestialStardustDown"
+		| "celestialVortexActive"
+		| "celestialVortexDown"
+		| "beatHalloweenTree"
+		| "beatChristmasQueen"
+		| "beatChristmasTree"
+		| "beatHalloweenKing"
+		| "beatFishron"
+		| "beatMartians"
+		| "beatLunaticCultist"
+		| "beatMoonlord"
+		| "beatSanta"
+		| "killedMobs"
+		| "savedTaxCollector"
+		| "savedGolfer"
+		| "invasionSizeStart"
+		| "cultistDelay"
+		| "numberOfMobs"
+		| "fastForwardTime"
+	>
+>;
 
 export const parseFlagsV140Events: ParseStep<InputWorld, OutputWorld> = async (byteBuffer, sourceWorld) => {
 	const world: OutputWorld = {};
@@ -23,6 +52,7 @@ export const parseFlagsV140Events: ParseStep<InputWorld, OutputWorld> = async (b
 		for (let i = 0; i < world.numberOfMobs; ++i) {
 			world.killedMobs.push(readInt32(byteBuffer));
 		}
+
 		world.fastForwardTime = readBoolean(byteBuffer);
 
 		world.beatFishron = readBoolean(byteBuffer);
@@ -44,5 +74,6 @@ export const parseFlagsV140Events: ParseStep<InputWorld, OutputWorld> = async (b
 		world.celestialStardustActive = readBoolean(byteBuffer);
 		world.apocalypse = readBoolean(byteBuffer);
 	}
+
 	return world;
 };

@@ -4,4 +4,4 @@ export type WorldV196<TInterestingTypes extends number = number> = WorldV195<TIn
 	style10: number;
 	style11: number;
 	style12: number;
-}
+};

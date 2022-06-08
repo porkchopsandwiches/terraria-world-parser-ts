@@ -11,4 +11,4 @@ export type TileVariationDefinition = NamedColorDefinition & {
 	lightR: number;
 	lightG: number;
 	lightB: number;
-}
+};

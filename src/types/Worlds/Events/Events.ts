@@ -3,4 +3,4 @@ export type Events = {
 	clown: boolean;
 	frost: boolean;
 	pirates: boolean;
-}
+};

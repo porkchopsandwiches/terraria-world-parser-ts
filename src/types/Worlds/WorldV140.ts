@@ -30,4 +30,4 @@ export type WorldV140<TInterestingTypes extends number = number> = WorldV122<TIn
 	celestialNebulaActive: boolean;
 	celestialStardustActive: boolean;
 	apocalypse: boolean;
-}
+};

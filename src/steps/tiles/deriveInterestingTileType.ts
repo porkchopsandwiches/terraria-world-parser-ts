@@ -10,7 +10,6 @@ enum TileType {
 
 // Basic Type Type IDs that correspond directly to an interesting type
 const fixedInterestingTileTypeIds = new Map([
-
 	// Misc
 	[4, InterestingTileTypes.Torch],
 	[12, InterestingTileTypes.HeartStone],
@@ -62,7 +61,6 @@ const fixedInterestingTileTypeIds = new Map([
 	[333, InterestingTileTypes.CoinPilePlatinum],
 ]);
 
-
 export const deriveInterestingTileType = (tileData: TileData<InterestingTileTypes>): InterestingTileTypes | undefined => {
 	const { tileTypeId, u, v } = tileData;
 	if (tileTypeId === TileType.SmallRubble && u !== undefined && v !== undefined) {
@@ -70,21 +68,21 @@ export const deriveInterestingTileType = (tileData: TileData<InterestingTileType
 			const subType = u / 36;
 			if (subType === 16) {
 				return InterestingTileTypes.CoinPileCopper;
-			} else if (subType === 17) {
+			} if (subType === 17) {
 				return InterestingTileTypes.CoinPileSilver;
-			} else if (subType === 18) {
+			} if (subType === 18) {
 				return InterestingTileTypes.CoinPileGold;
-			} else if (subType === 19) {
+			} if (subType === 19) {
 				return InterestingTileTypes.Amethyst;
-			} else if (subType === 20) {
+			} if (subType === 20) {
 				return InterestingTileTypes.Topaz;
-			} else if (subType === 21) {
+			} if (subType === 21) {
 				return InterestingTileTypes.Sapphire;
-			} else if (subType === 22) {
+			} if (subType === 22) {
 				return InterestingTileTypes.Emerald;
-			} else if (subType === 23) {
+			} if (subType === 23) {
 				return InterestingTileTypes.Ruby;
-			} else if (subType === 24) {
+			} if (subType === 24) {
 				return InterestingTileTypes.Diamond;
 			}
 		}
@@ -94,9 +92,9 @@ export const deriveInterestingTileType = (tileData: TileData<InterestingTileType
 
 			if (subType === 16 || subType === 17) {
 				return InterestingTileTypes.CoinPileCopper;
-			} else if (subType === 18 || subType === 19) {
+			} if (subType === 18 || subType === 19) {
 				return InterestingTileTypes.CoinPileSilver;
-			} else if (subType === 20 || subType === 21) {
+			} if (subType === 20 || subType === 21) {
 				return InterestingTileTypes.CoinPileGold;
 			}
 		}

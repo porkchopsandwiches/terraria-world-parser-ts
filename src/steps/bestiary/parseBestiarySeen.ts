@@ -16,6 +16,7 @@ export const parseBestiarySeen: ParseStep<InputWorld, OutputWorld> = async (byte
 			const npc = readString(byteBuffer);
 			world.bestiarySeen?.push(npc);
 		}
+
 		return world;
 	}
 

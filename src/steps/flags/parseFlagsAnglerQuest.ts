@@ -11,5 +11,6 @@ export const parseFlagsAnglerQuest: ParseStep<InputWorld, OutputWorld> = async (
 	if (sourceWorld.version >= 101) {
 		world.anglerQuest = readInt32(byteBuffer);
 	}
+
 	return world;
 };

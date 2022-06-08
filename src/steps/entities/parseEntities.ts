@@ -29,24 +29,38 @@ export const parseEntities: ParseStep<InputWorld, OutputWorld> = async (byteBuff
 			const entity: Entity = {
 				type,
 				id,
-				position
+				position,
 			};
 
-			if (type === EntityType.TrainingDummy) {
-				(entity as TrainingDummyEntity).npc = readInt16(byteBuffer);
-			} else if (type === EntityType.ItemFrame) {
-				const itemFrameEntity = entity as ItemFrameEntity;
-				itemFrameEntity.itemId = readInt16(byteBuffer);
-				itemFrameEntity.itemPrefix = readByte(byteBuffer);
-				itemFrameEntity.itemStack = readInt16(byteBuffer);
-			} else if (type === EntityType.LogicSensor) {
-				const logicSensorEntity = entity as LogicSensorEntity;
-				logicSensorEntity.sensorType = readByte(byteBuffer);
-				logicSensorEntity.sensorOn = readBoolean(byteBuffer);
+			switch (type) {
+				case EntityType.TrainingDummy: {
+					(entity as TrainingDummyEntity).npc = readInt16(byteBuffer);
+
+					break;
+				}
+
+				case EntityType.ItemFrame: {
+					const itemFrameEntity = entity as ItemFrameEntity;
+					itemFrameEntity.itemId = readInt16(byteBuffer);
+					itemFrameEntity.itemPrefix = readByte(byteBuffer);
+					itemFrameEntity.itemStack = readInt16(byteBuffer);
+
+					break;
+				}
+
+				case EntityType.LogicSensor: {
+					const logicSensorEntity = entity as LogicSensorEntity;
+					logicSensorEntity.sensorType = readByte(byteBuffer);
+					logicSensorEntity.sensorOn = readBoolean(byteBuffer);
+
+					break;
+				}
+				// No default
 			}
 
 			world.entities.push(entity);
 		}
 	}
+
 	return world;
 };

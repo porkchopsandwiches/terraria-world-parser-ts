@@ -19,7 +19,7 @@ export const parseHeaderTileFrameImportance: ParseStep<InputWorld, OutputWorld> 
 	let mask = 128;
 	for (let i = 0; i < bitsCount; ++i) {
 		if (mask !== 128) {
-			mask = mask << 1;
+			mask <<= 1;
 		} else {
 			data = readByte(byteBuffer);
 			mask = 1;

@@ -12,8 +12,7 @@ export const parseTilesFactory = <TInterestingTypes extends number>(interestingT
 		const world: OutputWorld<TInterestingTypes> = { tiles: [], interestingTileCounts: new Map() };
 
 		for (let x = 0; x < sourceWorld.width; x++) {
-
-			const columnTiles: TileData<TInterestingTypes>[] = [];
+			const columnTiles: Array<TileData<TInterestingTypes>> = [];
 			for (let y = 0; y < sourceWorld.height; y++) {
 				const { tileData, rle: initialRle } = deserializeTile(byteBuffer, sourceWorld.tileFrameImportance, world.interestingTileCounts, interestingTileTypeEvaluator);
 				columnTiles[y] = tileData;
@@ -22,28 +21,17 @@ export const parseTilesFactory = <TInterestingTypes extends number>(interestingT
 				while (rle > 0) {
 					y++;
 					if (y > sourceWorld.height) {
-						throw new Error(
-							"Invalid tile data: RLE Compression outside bounds [" +
-							x +
-							"," +
-							y +
-							"], current RLE: " +
-							rle +
-							"; initial RLE: " +
-							initialRle,
-						);
+						throw new Error("Invalid tile data: RLE Compression outside bounds [" + x + "," + y + "], current RLE: " + rle + "; initial RLE: " + initialRle);
 					}
 
 					columnTiles[y] = tileData;
 					rle--;
 				}
 			}
+
 			world.tiles[x] = columnTiles;
 		}
-
 
 		return world;
 	};
 };
-
-

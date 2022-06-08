@@ -15,17 +15,16 @@ export const parseNPCs: ParseStep<InputWorld, OutputWorld> = async (byteBuffer, 
 	};
 
 	for (let i = readBoolean(byteBuffer); i; i = readBoolean(byteBuffer)) {
-		const spriteId = (sourceWorld.version >= 190) ? readInt32(byteBuffer) : 0;
-		const spriteName = (sourceWorld.version < 190) ? readString(byteBuffer) : "";
-
+		const spriteId = sourceWorld.version >= 190 ? readInt32(byteBuffer) : 0;
+		const spriteName = sourceWorld.version < 190 ? readString(byteBuffer) : "";
 
 		const displayName = readString(byteBuffer);
 		const position = readCoordFloat(byteBuffer);
 		const isHomeless = readBoolean(byteBuffer);
 		const home = readCoord32(byteBuffer);
 
-		const townVariationExists = (sourceWorld.version >= 213) ? readBoolean(byteBuffer) : false;
-		const townVariation = (sourceWorld.version >= 213 && townVariationExists) ? readInt32(byteBuffer) : undefined;
+		const townVariationExists = sourceWorld.version >= 213 ? readBoolean(byteBuffer) : false;
+		const townVariation = sourceWorld.version >= 213 && townVariationExists ? readInt32(byteBuffer) : undefined;
 
 		world.npcs.push({
 			spriteId,
@@ -37,5 +36,6 @@ export const parseNPCs: ParseStep<InputWorld, OutputWorld> = async (byteBuffer, 
 			townVariation,
 		});
 	}
+
 	return world;
 };

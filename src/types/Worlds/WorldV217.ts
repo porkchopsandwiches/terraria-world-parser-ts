@@ -4,4 +4,4 @@ export type WorldV217<TInterestingTypes extends number = number> = WorldV216<TIn
 	boughtCat: boolean;
 	boughtDog: boolean;
 	boughtBunny: boolean;
-}
+};

@@ -11,5 +11,6 @@ export const parseFlagsSavedAngler: ParseStep<InputWorld, OutputWorld> = async (
 	if (sourceWorld.version >= 99) {
 		world.savedAngler = readBoolean(byteBuffer);
 	}
+
 	return world;
 };

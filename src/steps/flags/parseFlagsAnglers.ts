@@ -16,5 +16,6 @@ export const parseFlagsAnglers: ParseStep<InputWorld, OutputWorld> = async (byte
 			world.anglers.push(readString(byteBuffer));
 		}
 	}
+
 	return world;
 };

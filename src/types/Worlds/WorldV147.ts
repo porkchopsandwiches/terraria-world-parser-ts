@@ -5,4 +5,4 @@ export type WorldV147<TInterestingTypes extends number = number> = WorldV141<TIn
 	slimeRainTime: number;
 	sundialCooldown: number;
 	beatSlimeKingBoss: boolean;
-}
+};

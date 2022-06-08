@@ -1,5 +1,6 @@
-const cp = require('child_process');
-const runXoPath = require.resolve('./run-xo');
+const cp = require("child_process");
+
+const runXoPath = require.resolve("./run-xo");
 
 class CLIEngine {
 	constructor(options) {
@@ -19,18 +20,18 @@ class CLIEngine {
 	// the file (allowing xo to ignore it if it so wishes)
 	getConfigForFile(fileName) {
 		return {
-			plugins: ['typescript', 'html', 'vue']
-		}
+			plugins: ["typescript", "html", "vue"],
+		};
 	}
 
 	executeOnText(content, fileName) {
 		const result = cp.execFileSync(process.execPath, [runXoPath, fileName, this.options.fix === true], {
 			input: content,
-			encoding: 'utf8'
+			encoding: "utf8",
 		});
 
 		return JSON.parse(result);
 	}
 }
 
-module.exports = {CLIEngine};
+module.exports = { CLIEngine };

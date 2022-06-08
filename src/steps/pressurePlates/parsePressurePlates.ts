@@ -16,6 +16,7 @@ export const parsePressurePlates: ParseStep<InputWorld, OutputWorld> = async (by
 			const position = readCoord32(byteBuffer);
 			world.pressurePlates?.push(position);
 		}
+
 		return world;
 	}
 

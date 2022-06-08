@@ -1,7 +1,6 @@
 export enum TileFlags {
-
 	// Low byte
-	HasHighByte = 1 << 0,
+	HasHighByte = Math.trunc(1),
 	HasRedWire = 1 << 1,
 	HasBlueWire = 1 << 2,
 	HasGreenWire = 1 << 3,
@@ -16,6 +15,6 @@ export enum TileFlags {
 	IsActuated = 1 << 10,
 	TileIsPainted = 1 << 11,
 	WallIsPainted = 1 << 12,
-	HasYellowWire= 1 << 13,
+	HasYellowWire = 1 << 13,
 	WallIdHasHighByte = 1 << 14,
 }

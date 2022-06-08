@@ -3,7 +3,7 @@ import { readBoolean } from "../../src/bufferReader/readBoolean";
 
 test("Read boolean works", (t) => {
 	const byteBuffer = {
-		readUint8: () => 1020505,
+		readUint8: () => 1_020_505,
 	};
 	const bool = readBoolean(byteBuffer);
 	t.is(bool, true);

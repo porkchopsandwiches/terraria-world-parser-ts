@@ -10,13 +10,16 @@ export const parseFlagsStyles: ParseStep<InputWorld, OutputWorld> = async (byteB
 	if (sourceWorld.version >= 195) {
 		world.style8 = readByte(byteBuffer);
 	}
+
 	if (sourceWorld.version >= 215) {
 		world.style9 = readByte(byteBuffer);
 	}
+
 	if (sourceWorld.version >= 196) {
 		world.style10 = readByte(byteBuffer);
 		world.style11 = readByte(byteBuffer);
 		world.style12 = readByte(byteBuffer);
 	}
+
 	return world;
 };

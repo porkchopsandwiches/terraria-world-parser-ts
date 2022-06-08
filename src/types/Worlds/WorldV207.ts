@@ -5,4 +5,4 @@ export type WorldV207<TInterestingTypes extends number = number> = WorldV204<TIn
 	realLanternNight: boolean;
 	manualLanternNight: boolean;
 	nextLanternNightWillBeGenuine: boolean;
-}
+};

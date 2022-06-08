@@ -15,9 +15,11 @@ export const parseFlagsWorldModes: ParseStep<InputWorld, OutputWorld> = async (b
 		if (sourceWorld.version >= 222) {
 			world.isDrunkWorld = readBoolean(byteBuffer);
 		}
+
 		if (sourceWorld.version >= 227) {
 			world.isGetGoodWorld = readBoolean(byteBuffer);
 		}
+
 		if (sourceWorld.version >= 238) {
 			world.tenthAnniversaryWorld = readBoolean(byteBuffer);
 		}
@@ -25,6 +27,7 @@ export const parseFlagsWorldModes: ParseStep<InputWorld, OutputWorld> = async (b
 		if (sourceWorld.version >= 112) {
 			world.expertMode = readBoolean(byteBuffer);
 		}
+
 		if (sourceWorld.version >= 208) {
 			world.masterMode = readBoolean(byteBuffer);
 		}
@@ -33,6 +36,7 @@ export const parseFlagsWorldModes: ParseStep<InputWorld, OutputWorld> = async (b
 	if (sourceWorld.version >= 239) {
 		world.isDontStarveWorld = readBoolean(byteBuffer);
 	}
+
 	if (sourceWorld.version >= 241) {
 		world.isNotTheBeesWorld = readBoolean(byteBuffer);
 	}

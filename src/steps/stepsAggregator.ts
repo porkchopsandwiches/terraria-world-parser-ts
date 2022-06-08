@@ -13,12 +13,10 @@ type StepsAggregator<TInputWorld extends GenericWorldData, TOutputWorld extends 
 type StepsAggregatorFactory = <TInputWorld extends GenericWorldData, TOutputWorld extends GenericWorldData>(firstStep: ParseStep<TInputWorld, TOutputWorld>) => StepsAggregator<TInputWorld, TOutputWorld>;
 
 export const stepsAggregator: StepsAggregatorFactory = <TInputWorld extends GenericWorldData, TOutputWorld extends GenericWorldData>(firstStep: ParseStep<TInputWorld, TOutputWorld>) => {
-
-	const steps: ParseAggregateStep<GenericWorldData, GenericWorldData>[] = [];
+	const steps: Array<ParseAggregateStep<GenericWorldData, GenericWorldData>> = [];
 	steps.push(aggregateStep(firstStep) as ParseAggregateStep<GenericWorldData, GenericWorldData>);
 
 	const stepsAggregatorInner = (): StepsAggregator<TInputWorld, TOutputWorld> => {
-
 		const aggregator: StepsAggregator<TInputWorld, TOutputWorld> = {} as never;
 
 		aggregator.add = <TNextOutputWorld extends GenericWorldData>(nextStep: ParseStep<TOutputWorld, TNextOutputWorld>): StepsAggregator<TInputWorld, TOutputWorld & TNextOutputWorld> => {
@@ -34,6 +32,7 @@ export const stepsAggregator: StepsAggregatorFactory = <TInputWorld extends Gene
 				const nextStep = stepsToExecute.shift();
 				nextWorld = await nextStep?.(byteBuffer, nextWorld as never);
 			}
+
 			return nextWorld as TInputWorld & TOutputWorld;
 		};
 

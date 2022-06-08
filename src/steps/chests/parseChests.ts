@@ -36,7 +36,7 @@ export const parseChests: ParseStep<InputWorld, OutputWorld> = async (byteBuffer
 		const coord = readCoord32(byteBuffer);
 		const chest = chestFactory(coord, readString(byteBuffer));
 
-		// read items in chest
+		// Read items in chest
 		for (let slot = 0; slot < itemsPerChest; ++slot) {
 			const stackSize = readInt16(byteBuffer);
 
@@ -64,7 +64,7 @@ export const parseChests: ParseStep<InputWorld, OutputWorld> = async (byteBuffer
 
 		world.chests.push(chest);
 
-		// if (!R.has("" + chest.variant.num, world.chests)) {
+		// If (!R.has("" + chest.variant.num, world.chests)) {
 		//     world.chests[chest.variant.num] = [];
 		// }
 		// world.chests[chest.variant.num].push(chest);

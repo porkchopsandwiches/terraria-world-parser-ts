@@ -7,4 +7,4 @@ export type WorldV170<TInterestingTypes extends number = number> = WorldV147<TIn
 	partyCooldown: number;
 	partyingNPCs: number[];
 	pressurePlates: Coordinate[];
-}
+};

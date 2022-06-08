@@ -18,5 +18,6 @@ export const parseFlagsParty: ParseStep<InputWorld, OutputWorld> = async (byteBu
 			world.partyingNPCs.push(readInt32(byteBuffer));
 		}
 	}
+
 	return world;
 };

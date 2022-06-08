@@ -19,4 +19,4 @@ export type EventsV140 = Events & {
 	celestialNebulaActive: boolean;
 	celestialStardustActive: boolean;
 	apocalypse: boolean;
-}
+};

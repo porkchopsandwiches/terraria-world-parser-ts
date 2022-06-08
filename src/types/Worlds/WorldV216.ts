@@ -5,4 +5,4 @@ export type WorldV216<TInterestingTypes extends number = number> = WorldV215<TIn
 	ironTypeId: number;
 	silverTypeId: number;
 	goldTypeId: number;
-}
+};

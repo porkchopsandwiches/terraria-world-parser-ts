@@ -43,75 +43,74 @@ import { parseTownManagerRecords } from "./townManager/parseTownManagerRecords";
 
 const defaultConfig: ParseConfig = {
 	interestingTileTypeEvaluator: () => undefined,
-	onSectionParsed: () => {},
+	onSectionParsed() {},
 };
 
 export const parse = async <TInterestingTypes extends number = number>(byteBuffer: ByteBuffer, config?: Partial<ParseConfig<TInterestingTypes>>): Promise<WorldBase<TInterestingTypes> & Partial<WorldCurrent<TInterestingTypes>>> => {
-	const { interestingTileTypeEvaluator, onSectionParsed }  = {...defaultConfig, ...config} as ParseConfig<TInterestingTypes>;
+	const { interestingTileTypeEvaluator, onSectionParsed } = { ...defaultConfig, ...config } as ParseConfig<TInterestingTypes>;
 
 	// Header
 	const parser = stepsAggregator(parseHeaderVersion)
-	.add(parseHeaderExtras)
-	.add(parseHeaderSectionPointers)
-	.add(parseHeaderTileFrameImportance)
+		.add(parseHeaderExtras)
+		.add(parseHeaderSectionPointers)
+		.add(parseHeaderTileFrameImportance)
 
-	// Flags
-	.add(parseFlagsMeta)
-	.add(validateVersion(95, 248))
-	.add(parseFlagsWorldModes)
-	.add(parseFlagsAttributes)
-	.add(parseFlagsBeatenBosses)
-	.add(parseFlagsSavedNPCs)
-	.add(parseFlagsEvents)
-	.add(parseFlagsSlimeRainAndSundial)
-	.add(parseFlagsEnvironment)
-	.add(parseFlagsAnglers)
-	.add(parseFlagsSavedAngler)
-	.add(parseFlagsAnglerQuest)
-	.add(parseFlagsSavedStylist)
-	.add(parseFlagsV140Events)
-	.add(parseFlagsParty)
-	.add(parseFlagsSandstorm)
-	.add(parseFlagsV178Events)
-	.add(parseFlagsStyles)
-	.add(parseFlagsExtras)
-	.add(validateOffset(ParserPointer.Flags, onSectionParsed))
+		// Flags
+		.add(parseFlagsMeta)
+		.add(validateVersion(95, 248))
+		.add(parseFlagsWorldModes)
+		.add(parseFlagsAttributes)
+		.add(parseFlagsBeatenBosses)
+		.add(parseFlagsSavedNPCs)
+		.add(parseFlagsEvents)
+		.add(parseFlagsSlimeRainAndSundial)
+		.add(parseFlagsEnvironment)
+		.add(parseFlagsAnglers)
+		.add(parseFlagsSavedAngler)
+		.add(parseFlagsAnglerQuest)
+		.add(parseFlagsSavedStylist)
+		.add(parseFlagsV140Events)
+		.add(parseFlagsParty)
+		.add(parseFlagsSandstorm)
+		.add(parseFlagsV178Events)
+		.add(parseFlagsStyles)
+		.add(parseFlagsExtras)
+		.add(validateOffset(ParserPointer.Flags, onSectionParsed))
 
-	// Tiles
-	.add(parseTilesFactory<TInterestingTypes>(interestingTileTypeEvaluator))
-	.add(validateOffset(ParserPointer.Tiles, onSectionParsed))
+		// Tiles
+		.add(parseTilesFactory<TInterestingTypes>(interestingTileTypeEvaluator))
+		.add(validateOffset(ParserPointer.Tiles, onSectionParsed))
 
-	// Chests
-	.add(parseChests)
-	.add(validateOffset(ParserPointer.Chests, onSectionParsed))
+		// Chests
+		.add(parseChests)
+		.add(validateOffset(ParserPointer.Chests, onSectionParsed))
 
-	// Signs
-	.add(parseSigns)
-	.add(validateOffset(ParserPointer.Signs, onSectionParsed))
+		// Signs
+		.add(parseSigns)
+		.add(validateOffset(ParserPointer.Signs, onSectionParsed))
 
-	// NPCs
-	.add(parseNPCs)
-	.add(parseHomelessNPCs)
-	.add(validateOffset(ParserPointer.NPCs, onSectionParsed))
+		// NPCs
+		.add(parseNPCs)
+		.add(parseHomelessNPCs)
+		.add(validateOffset(ParserPointer.NPCs, onSectionParsed))
 
-	// Entities
-	.add(parseEntities)
-	.add(validateOffset(ParserPointer.Entities, onSectionParsed))
+		// Entities
+		.add(parseEntities)
+		.add(validateOffset(ParserPointer.Entities, onSectionParsed))
 
-	// Pressure Plates
-	.add(parsePressurePlates)
-	.add(conditionallyValidateOffset(170, ParserPointer.PressurePlates, onSectionParsed))
+		// Pressure Plates
+		.add(parsePressurePlates)
+		.add(conditionallyValidateOffset(170, ParserPointer.PressurePlates, onSectionParsed))
 
-	// Town Manager
-	.add(parseTownManagerRecords)
-	.add(conditionallyValidateOffset(198, ParserPointer.TownManager, onSectionParsed))
+		// Town Manager
+		.add(parseTownManagerRecords)
+		.add(conditionallyValidateOffset(198, ParserPointer.TownManager, onSectionParsed))
 
-	// Bestiary
-	.add(parseBestiaryKills)
-	.add(parseBestiarySeen)
-	.add(parseBestiaryChatted)
-	.add(conditionallyValidateOffset(210, ParserPointer.Bestiary, onSectionParsed))
-	.final;
+		// Bestiary
+		.add(parseBestiaryKills)
+		.add(parseBestiarySeen)
+		.add(parseBestiaryChatted)
+		.add(conditionallyValidateOffset(210, ParserPointer.Bestiary, onSectionParsed)).final;
 
-	return await parser(byteBuffer, {});
-}
+	return parser(byteBuffer, {});
+};
