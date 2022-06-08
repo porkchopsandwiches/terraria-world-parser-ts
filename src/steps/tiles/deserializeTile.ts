@@ -5,9 +5,9 @@ import type { LiquidType } from "../../enums/LiquidType";
 import { TileActiveFlags } from "../../enums/TileActiveFlags";
 import { TileFlags } from "../../enums/TileFlags";
 import type { ByteBuffer } from "../../types/ByteBuffer";
+import type { ParseConfig } from "../../types/ParseConfig";
 import type { TileData } from "../../types/TileData";
 import type { InterestingTileCounts } from "../../types/Worlds/InterestingTiles/InterestingTileCounts";
-import { deriveInterestingTileType } from "./deriveInterestingTileType";
 
 type DeserializedTile = {
 	tileData: TileData;
@@ -17,7 +17,8 @@ type DeserializedTile = {
 type TileDeserializer = (
 	byteBuffer: ByteBuffer,
 	tileFrameImportance: boolean[],
-	interestingTileCounts: InterestingTileCounts
+	interestingTileCounts: InterestingTileCounts,
+	interestingTileTypeEvaluator: ParseConfig["interestingTileTypeEvaluator"]
 ) => Readonly<DeserializedTile>;
 
 
@@ -104,7 +105,7 @@ const readRLE = (byteBuffer: ByteBuffer, activeFlags: number): number | undefine
 	return;
 };
 
-export const deserializeTile: TileDeserializer = (byteBuffer, tileFrameImportance, interestingTileCounts) => {
+export const deserializeTile: TileDeserializer = (byteBuffer, tileFrameImportance, interestingTileCounts, interestingTileTypeEvaluator) => {
 	const activeFlags = readByte(byteBuffer) as TileActiveFlags;
 	const tileFlags = readTileFlags(byteBuffer, activeFlags);
 	const tileData: TileData = {
@@ -123,7 +124,7 @@ export const deserializeTile: TileDeserializer = (byteBuffer, tileFrameImportanc
 
 	// Sometimes we want to flag notable tiles for rendering/searching later on
 	if (tileData.tileTypeId !== undefined) {
-		tileData.interestingTileType = deriveInterestingTileType(tileData);
+		tileData.interestingTileType = interestingTileTypeEvaluator(tileData);
 	}
 
 	// Read tile colour (only if tile flags are set and have the appropriate flag)

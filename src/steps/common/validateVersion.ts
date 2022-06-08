@@ -1,7 +1,7 @@
 import type { ParseStep } from "../../types/ParseStep";
-import type { WorldBase } from "../../types/Worlds/WorldBase";
+import type { WorldCurrent } from "../../types/Worlds/WorldCurrent";
 
-type InputWorld = Pick<WorldBase, "version" | "width" | "height" | "id" | "title">;
+type InputWorld = Pick<WorldCurrent, "version" | "width" | "height" | "id" | "title">;
 
 export const validateVersion = (minVersion = 95, maxVersion = 194): ParseStep<InputWorld, {}> => {
 	return async (_, sourceWorld) => {

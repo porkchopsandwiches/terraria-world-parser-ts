@@ -7,7 +7,7 @@ import type { Sign } from "../Sign";
 import type { TileData } from "../TileData";
 import type { InterestingTileCounts } from "./InterestingTiles/InterestingTileCounts";
 
-export type WorldBase = Dimensions & {
+export type WorldBase<TInterestingTypes extends number = number> = Dimensions & {
 	version: number;
 	title: string;
 	id: number;
@@ -66,7 +66,7 @@ export type WorldBase = Dimensions & {
 	tileFrameImportance: boolean[];
 	sectionPointers: number[];
 
-	interestingTileCounts: InterestingTileCounts;
+	interestingTileCounts: InterestingTileCounts<TInterestingTypes>;
 	chests: Chest[];
 
 	// Saved NPCs

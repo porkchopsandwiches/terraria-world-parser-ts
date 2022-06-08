@@ -1,4 +1,8 @@
 import { ParserPointer } from "../enums/ParserPointer";
+import type { ByteBuffer } from "../types/ByteBuffer";
+import type { ParseConfig } from "../types/ParseConfig";
+import type { WorldBase } from "../types/Worlds/WorldBase";
+import type { WorldCurrent } from "../types/Worlds/WorldCurrent";
 import { parseBestiaryChatted } from "./bestiary/parseBestiaryChatted";
 import { parseBestiaryKills } from "./bestiary/parseBestiaryKills";
 import { parseBestiarySeen } from "./bestiary/parseBestiarySeen";
@@ -34,13 +38,20 @@ import { parseNPCs } from "./npcs/parseNPCs";
 import { parsePressurePlates } from "./pressurePlates/parsePressurePlates";
 import { parseSigns } from "./signs/parseSigns";
 import { stepsAggregator } from "./stepsAggregator";
-import { parseTiles } from "./tiles/parseTiles";
+import { deriveInterestingTileType } from "./tiles/deriveInterestingTileType";
+import { parseTilesFactory } from "./tiles/parseTilesFactory";
 import { parseTownManagerRecords } from "./townManager/parseTownManagerRecords";
 
-export const parse =
+const defaultConfig: ParseConfig = {
+	interestingTileTypeEvaluator: deriveInterestingTileType,
+	onSectionParsed: () => {},
+};
+
+export const parse = async (byteBuffer: ByteBuffer, config?: Partial<ParseConfig>): Promise<WorldBase & Partial<WorldCurrent>> => {
+	const { interestingTileTypeEvaluator, onSectionParsed }: ParseConfig = {...defaultConfig, ...config};
 
 	// Header
-	stepsAggregator(parseHeaderVersion)
+	const parser = stepsAggregator(parseHeaderVersion)
 	.add(parseHeaderExtras)
 	.add(parseHeaderSectionPointers)
 	.add(parseHeaderTileFrameImportance)
@@ -65,40 +76,43 @@ export const parse =
 	.add(parseFlagsV178Events)
 	.add(parseFlagsStyles)
 	.add(parseFlagsExtras)
-	.add(validateOffset(ParserPointer.Flags))
+	.add(validateOffset(ParserPointer.Flags, onSectionParsed))
 
 	// Tiles
-	.add(parseTiles)
-	.add(validateOffset(ParserPointer.Tiles))
+	.add(parseTilesFactory(interestingTileTypeEvaluator))
+	.add(validateOffset(ParserPointer.Tiles, onSectionParsed))
 
 	// Chests
 	.add(parseChests)
-	.add(validateOffset(ParserPointer.Chests))
+	.add(validateOffset(ParserPointer.Chests, onSectionParsed))
 
 	// Signs
 	.add(parseSigns)
-	.add(validateOffset(ParserPointer.Signs))
+	.add(validateOffset(ParserPointer.Signs, onSectionParsed))
 
 	// NPCs
 	.add(parseNPCs)
 	.add(parseHomelessNPCs)
-	.add(validateOffset(ParserPointer.NPCs))
+	.add(validateOffset(ParserPointer.NPCs, onSectionParsed))
 
 	// Entities
 	.add(parseEntities)
-	.add(validateOffset(ParserPointer.Entities))
+	.add(validateOffset(ParserPointer.Entities, onSectionParsed))
 
 	// Pressure Plates
 	.add(parsePressurePlates)
-	.add(conditionallyValidateOffset(170, ParserPointer.PressurePlates))
+	.add(conditionallyValidateOffset(170, ParserPointer.PressurePlates, onSectionParsed))
 
 	// Town Manager
 	.add(parseTownManagerRecords)
-	.add(conditionallyValidateOffset(198, ParserPointer.TownManager))
+	.add(conditionallyValidateOffset(198, ParserPointer.TownManager, onSectionParsed))
 
 	// Bestiary
 	.add(parseBestiaryKills)
 	.add(parseBestiarySeen)
 	.add(parseBestiaryChatted)
-	.add(conditionallyValidateOffset(210, ParserPointer.Bestiary))
+	.add(conditionallyValidateOffset(210, ParserPointer.Bestiary, onSectionParsed))
 	.final;
+
+	return await parser(byteBuffer, {});
+}

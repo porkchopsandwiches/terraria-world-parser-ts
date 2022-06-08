@@ -1,9 +1,8 @@
-import type { InterestingTileTypes } from "../enums/InterestingTileTypes";
 import type { LiquidType } from "../enums/LiquidType";
 import type { TileActiveFlags } from "../enums/TileActiveFlags";
 import type { TileFlags } from "../enums/TileFlags";
 
-export type TileData = {
+export type TileData<TInterestingTypes extends number = number> = {
 	// Active Flags in raw form for later use by consumer
 	activeFlags: TileActiveFlags;
 
@@ -32,5 +31,5 @@ export type TileData = {
 	wallTypeId?: number;
 
 	// Derived types that may be useful for counting, highlighting on a map, etc.
-	interestingTileType?: InterestingTileTypes;
+	interestingTileType?: TInterestingTypes;
 }
