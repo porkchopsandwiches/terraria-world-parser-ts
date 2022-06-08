@@ -16,14 +16,14 @@ const signFactory = (label: string, coord: Coordinate): Sign => {
 	};
 };
 
-export const parseSigns: ParseStep<InputWorld, OutputWorld> = async (byteBuffer) => {
+export const parseSigns: ParseStep<InputWorld, OutputWorld> = async (worldDataSource) => {
 	const world: OutputWorld = {
 		signs: [],
 	};
 
-	const totalSigns = readInt16(byteBuffer);
+	const totalSigns = readInt16(worldDataSource);
 	for (let i = 0; i < totalSigns; ++i) {
-		const sign = signFactory(readString(byteBuffer), readCoord32(byteBuffer));
+		const sign = signFactory(readString(worldDataSource), readCoord32(worldDataSource));
 		world.signs.push(sign);
 	}
 

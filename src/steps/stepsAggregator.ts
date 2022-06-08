@@ -1,4 +1,4 @@
-import type { ByteBuffer } from "../types/ByteBuffer";
+import type { WorldDataSource } from "../types/WorldDataSource";
 import type { ParseAggregateStep } from "../types/ParseAggregateStep";
 import type { ParseStep } from "../types/ParseStep";
 import { aggregateStep } from "./aggregateStep";
@@ -21,14 +21,14 @@ export const stepsAggregator: StepsAggregatorFactory = <TInputWorld extends Gene
 			steps.push(aggregateStep(nextStep) as ParseAggregateStep<GenericWorldData, GenericWorldData>);
 			return aggregator as never;
 		},
-		async final(byteBuffer: Readonly<ByteBuffer>, sourceWorld: Readonly<TInputWorld>): Promise<TInputWorld & TOutputWorld> {
+		async final(worldDataSource: Readonly<WorldDataSource>, sourceWorld: Readonly<TInputWorld>): Promise<TInputWorld & TOutputWorld> {
 			// Iterate through all steps as a pipeline
 			const stepsToExecute = [...steps];
 			let nextWorld: unknown = sourceWorld;
 			while (stepsToExecute.length > 0) {
 				const nextStep = stepsToExecute.shift();
 				// eslint-disable-next-line no-await-in-loop
-				nextWorld = await nextStep?.(byteBuffer, nextWorld as never);
+				nextWorld = await nextStep?.(worldDataSource, nextWorld as never);
 			}
 
 			return nextWorld as TInputWorld & TOutputWorld;

@@ -1,4 +1,4 @@
-export type ByteBuffer = {
+export type WorldDataSource = {
 	offset: number;
 	readUint8: () => number;
 	readUint16: () => number;

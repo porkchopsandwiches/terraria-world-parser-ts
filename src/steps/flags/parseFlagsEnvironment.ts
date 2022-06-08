@@ -9,24 +9,24 @@ import type { WorldCurrent } from "../../types/Worlds/WorldCurrent";
 type InputWorld = Record<string, unknown>;
 type OutputWorld = Pick<WorldCurrent, "tempRaining" | "tempRainTime" | "tempMaxRain" | "oreTier1" | "oreTier2" | "oreTier3" | "treeBg" | "corruptionBg" | "jungleBg" | "snowBg" | "hallowBg" | "crimsonBg" | "desertBg" | "oceanBg" | "cloudBgActive" | "numClouds" | "windSpeedSet">;
 
-export const parseFlagsEnvironment: ParseStep<InputWorld, OutputWorld> = async (byteBuffer) => {
+export const parseFlagsEnvironment: ParseStep<InputWorld, OutputWorld> = async (worldDataSource) => {
 	return {
-		tempRaining: readBoolean(byteBuffer),
-		tempRainTime: readInt32(byteBuffer),
-		tempMaxRain: readFloat32(byteBuffer),
-		oreTier1: readInt32(byteBuffer),
-		oreTier2: readInt32(byteBuffer),
-		oreTier3: readInt32(byteBuffer),
-		treeBg: readByte(byteBuffer),
-		corruptionBg: readByte(byteBuffer),
-		jungleBg: readByte(byteBuffer),
-		snowBg: readByte(byteBuffer),
-		hallowBg: readByte(byteBuffer),
-		crimsonBg: readByte(byteBuffer),
-		desertBg: readByte(byteBuffer),
-		oceanBg: readByte(byteBuffer),
-		cloudBgActive: readInt32(byteBuffer),
-		numClouds: readInt16(byteBuffer),
-		windSpeedSet: readFloat32(byteBuffer),
+		tempRaining: readBoolean(worldDataSource),
+		tempRainTime: readInt32(worldDataSource),
+		tempMaxRain: readFloat32(worldDataSource),
+		oreTier1: readInt32(worldDataSource),
+		oreTier2: readInt32(worldDataSource),
+		oreTier3: readInt32(worldDataSource),
+		treeBg: readByte(worldDataSource),
+		corruptionBg: readByte(worldDataSource),
+		jungleBg: readByte(worldDataSource),
+		snowBg: readByte(worldDataSource),
+		hallowBg: readByte(worldDataSource),
+		crimsonBg: readByte(worldDataSource),
+		desertBg: readByte(worldDataSource),
+		oceanBg: readByte(worldDataSource),
+		cloudBgActive: readInt32(worldDataSource),
+		numClouds: readInt16(worldDataSource),
+		windSpeedSet: readFloat32(worldDataSource),
 	};
 };

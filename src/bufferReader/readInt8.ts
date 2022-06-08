@@ -1,4 +1,4 @@
 import { invoker } from "ramda";
-import type { ByteBuffer } from "../types/ByteBuffer";
+import type { WorldDataSource } from "../types/WorldDataSource";
 
-export const readInt8: (byteBuffer: Pick<ByteBuffer, "readInt8">) => number = invoker(0, "readInt8");
+export const readInt8: (worldDataSource: Pick<WorldDataSource, "readInt8">) => number = invoker(0, "readInt8");

@@ -8,21 +8,21 @@ import type { WorldCurrent } from "../../types/Worlds/WorldCurrent";
 type InputWorld = Record<string, unknown>;
 type OutputWorld = Pick<WorldCurrent, "eventsClown" | "eventsGoblins" | "eventsFrost" | "eventsPirates" | "shadowOrbSmashed" | "spawnMeteor" | "shadowOrbCount" | "altarCount" | "hardMode" | "invasionDelay" | "invasionSize" | "invasionType" | "invasionX">;
 
-export const parseFlagsEvents: ParseStep<InputWorld, OutputWorld> = async (byteBuffer) => {
+export const parseFlagsEvents: ParseStep<InputWorld, OutputWorld> = async (worldDataSource) => {
 	return {
-		eventsGoblins: readBoolean(byteBuffer),
-		eventsClown: readBoolean(byteBuffer),
-		eventsFrost: readBoolean(byteBuffer),
-		eventsPirates: readBoolean(byteBuffer),
+		eventsGoblins: readBoolean(worldDataSource),
+		eventsClown: readBoolean(worldDataSource),
+		eventsFrost: readBoolean(worldDataSource),
+		eventsPirates: readBoolean(worldDataSource),
 
-		shadowOrbSmashed: readBoolean(byteBuffer),
-		spawnMeteor: readBoolean(byteBuffer),
-		shadowOrbCount: readByte(byteBuffer),
-		altarCount: readInt32(byteBuffer),
-		hardMode: readBoolean(byteBuffer),
-		invasionDelay: readInt32(byteBuffer),
-		invasionSize: readInt32(byteBuffer),
-		invasionType: readInt32(byteBuffer),
-		invasionX: readFloat64(byteBuffer),
+		shadowOrbSmashed: readBoolean(worldDataSource),
+		spawnMeteor: readBoolean(worldDataSource),
+		shadowOrbCount: readByte(worldDataSource),
+		altarCount: readInt32(worldDataSource),
+		hardMode: readBoolean(worldDataSource),
+		invasionDelay: readInt32(worldDataSource),
+		invasionSize: readInt32(worldDataSource),
+		invasionType: readInt32(worldDataSource),
+		invasionX: readFloat64(worldDataSource),
 	};
 };

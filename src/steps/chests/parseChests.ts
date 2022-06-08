@@ -11,14 +11,14 @@ import { chestFactory } from "./chestFactory";
 type InputWorld = Record<string, unknown>;
 type OutputWorld = Pick<WorldCurrent, "chests">;
 
-export const parseChests: ParseStep<InputWorld, OutputWorld> = async (byteBuffer) => {
+export const parseChests: ParseStep<InputWorld, OutputWorld> = async (worldDataSource) => {
 	const world: OutputWorld = {
 		chests: [],
 	};
 
 	const defaultMaxItems = 40;
-	const totalChests = readInt16(byteBuffer);
-	const maxItems = readInt16(byteBuffer);
+	const totalChests = readInt16(worldDataSource);
+	const maxItems = readInt16(worldDataSource);
 	let itemsPerChest: number;
 	let overflowItems: number;
 
@@ -33,12 +33,12 @@ export const parseChests: ParseStep<InputWorld, OutputWorld> = async (byteBuffer
 
 	// Read chests
 	for (let i = 0; i < totalChests; ++i) {
-		const coord = readCoord32(byteBuffer);
-		const chest = chestFactory(coord, readString(byteBuffer));
+		const coord = readCoord32(worldDataSource);
+		const chest = chestFactory(coord, readString(worldDataSource));
 
 		// Read items in chest
 		for (let slot = 0; slot < itemsPerChest; ++slot) {
-			const stackSize = readInt16(byteBuffer);
+			const stackSize = readInt16(worldDataSource);
 
 			if (stackSize) {
 				const item: ChestItem = {
@@ -46,8 +46,8 @@ export const parseChests: ParseStep<InputWorld, OutputWorld> = async (byteBuffer
 					netId: 0,
 					prefix: 0,
 				};
-				item.netId = readInt32(byteBuffer);
-				item.prefix = readByte(byteBuffer);
+				item.netId = readInt32(worldDataSource);
+				item.prefix = readByte(worldDataSource);
 				item.stackSize = stackSize;
 				chest.items[slot] = item;
 			}
@@ -55,10 +55,10 @@ export const parseChests: ParseStep<InputWorld, OutputWorld> = async (byteBuffer
 
 		// Dump overflow items
 		for (let overflow = 0; overflow < overflowItems; ++overflow) {
-			const stackSize = readInt16(byteBuffer);
+			const stackSize = readInt16(worldDataSource);
 			if (stackSize > 0) {
-				readInt32(byteBuffer);
-				readByte(byteBuffer);
+				readInt32(worldDataSource);
+				readByte(worldDataSource);
 			}
 		}
 

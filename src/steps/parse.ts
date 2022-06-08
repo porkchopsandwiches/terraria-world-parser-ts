@@ -1,5 +1,5 @@
 import { ParserPointer } from "../enums/ParserPointer";
-import type { ByteBuffer } from "../types/ByteBuffer";
+import type { WorldDataSource } from "../types/WorldDataSource";
 import type { ParseConfig } from "../types/ParseConfig";
 import type { WorldBase } from "../types/Worlds/WorldBase";
 import type { WorldCurrent } from "../types/Worlds/WorldCurrent";
@@ -48,7 +48,7 @@ const defaultConfigFactory = <TInterestingTypes extends number>(): ParseConfig<T
 	};
 };
 
-export const parse = async <TInterestingTypes extends number>(byteBuffer: ByteBuffer, config?: Partial<ParseConfig<TInterestingTypes>>): Promise<WorldBase<TInterestingTypes> & Partial<WorldCurrent<TInterestingTypes>>> => {
+export const parse = async <TInterestingTypes extends number>(worldDataSource: WorldDataSource, config?: Partial<ParseConfig<TInterestingTypes>>): Promise<WorldBase<TInterestingTypes> & Partial<WorldCurrent<TInterestingTypes>>> => {
 	const { interestingTileTypeEvaluator, onSectionParsed }: ParseConfig<TInterestingTypes> = { ...defaultConfigFactory(), ...config };
 
 	// Header
@@ -114,5 +114,5 @@ export const parse = async <TInterestingTypes extends number>(byteBuffer: ByteBu
 		.add(parseBestiaryChatted)
 		.add(conditionallyValidateOffset(210, ParserPointer.Bestiary, onSectionParsed)).final;
 
-	return parser(byteBuffer, {});
+	return parser(worldDataSource, {});
 };

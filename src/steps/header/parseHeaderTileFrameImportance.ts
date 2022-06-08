@@ -6,12 +6,12 @@ import type { WorldCurrent } from "../../types/Worlds/WorldCurrent";
 type InputWorld = Record<string, unknown>;
 type OutputWorld = Pick<WorldCurrent, "tileFrameImportance">;
 
-export const parseHeaderTileFrameImportance: ParseStep<InputWorld, OutputWorld> = async (byteBuffer) => {
+export const parseHeaderTileFrameImportance: ParseStep<InputWorld, OutputWorld> = async (worldDataSource) => {
 	// Read tile frame importance from bit-packed data
 	const world: OutputWorld = { tileFrameImportance: [] };
 
 	// Number of bits
-	const bitsCount = readInt16(byteBuffer);
+	const bitsCount = readInt16(worldDataSource);
 
 	// @todo inject default false values for all bits by default?
 
@@ -19,7 +19,7 @@ export const parseHeaderTileFrameImportance: ParseStep<InputWorld, OutputWorld> 
 	let mask = 128;
 	for (let i = 0; i < bitsCount; ++i) {
 		if (mask === 128) {
-			data = readByte(byteBuffer);
+			data = readByte(worldDataSource);
 			mask = 1;
 		} else {
 			mask <<= 1;

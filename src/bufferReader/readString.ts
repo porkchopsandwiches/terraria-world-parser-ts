@@ -1,7 +1,7 @@
-import type { ByteBuffer } from "../types/ByteBuffer";
+import type { WorldDataSource } from "../types/WorldDataSource";
 import { readInt8 } from "./readInt8";
 
-export const readString = (byteBuffer: Pick<ByteBuffer, "readUTF8String" | "readInt8">) => {
-	const length = readInt8(byteBuffer);
-	return byteBuffer.readUTF8String(length);
+export const readString = (worldDataSource: Pick<WorldDataSource, "readUTF8String" | "readInt8">) => {
+	const length = readInt8(worldDataSource);
+	return worldDataSource.readUTF8String(length);
 };

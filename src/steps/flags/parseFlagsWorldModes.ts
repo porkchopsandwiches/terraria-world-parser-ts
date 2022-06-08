@@ -7,42 +7,42 @@ import type { WorldCurrent } from "../../types/Worlds/WorldCurrent";
 type InputWorld = Pick<WorldCurrent, "version">;
 type OutputWorld = Partial<Pick<WorldCurrent, "expertMode" | "creationTime" | "isGetGoodWorld" | "masterMode" | "gameMode" | "isDrunkWorld" | "tenthAnniversaryWorld" | "isDontStarveWorld" | "isNotTheBeesWorld">>;
 
-export const parseFlagsWorldModes: ParseStep<InputWorld, OutputWorld> = async (byteBuffer, sourceWorld) => {
+export const parseFlagsWorldModes: ParseStep<InputWorld, OutputWorld> = async (worldDataSource, sourceWorld) => {
 	const world: OutputWorld = {};
 
 	if (sourceWorld.version >= 209) {
-		world.gameMode = readInt32(byteBuffer);
+		world.gameMode = readInt32(worldDataSource);
 		if (sourceWorld.version >= 222) {
-			world.isDrunkWorld = readBoolean(byteBuffer);
+			world.isDrunkWorld = readBoolean(worldDataSource);
 		}
 
 		if (sourceWorld.version >= 227) {
-			world.isGetGoodWorld = readBoolean(byteBuffer);
+			world.isGetGoodWorld = readBoolean(worldDataSource);
 		}
 
 		if (sourceWorld.version >= 238) {
-			world.tenthAnniversaryWorld = readBoolean(byteBuffer);
+			world.tenthAnniversaryWorld = readBoolean(worldDataSource);
 		}
 	} else {
 		if (sourceWorld.version >= 112) {
-			world.expertMode = readBoolean(byteBuffer);
+			world.expertMode = readBoolean(worldDataSource);
 		}
 
 		if (sourceWorld.version >= 208) {
-			world.masterMode = readBoolean(byteBuffer);
+			world.masterMode = readBoolean(worldDataSource);
 		}
 	}
 
 	if (sourceWorld.version >= 239) {
-		world.isDontStarveWorld = readBoolean(byteBuffer);
+		world.isDontStarveWorld = readBoolean(worldDataSource);
 	}
 
 	if (sourceWorld.version >= 241) {
-		world.isNotTheBeesWorld = readBoolean(byteBuffer);
+		world.isNotTheBeesWorld = readBoolean(worldDataSource);
 	}
 
 	if (sourceWorld.version >= 141) {
-		world.creationTime = readInt32s(2, byteBuffer);
+		world.creationTime = readInt32s(2, worldDataSource);
 	}
 
 	return world;

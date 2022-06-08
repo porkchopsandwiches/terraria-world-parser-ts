@@ -2,12 +2,12 @@ import test from "ava";
 import { readBoolean } from "../../src/bufferReader/readBoolean";
 
 test("Read boolean works", (t) => {
-	const byteBuffer = {
+	const worldDataSource = {
 		readUint8: () => 1_020_505,
 	};
-	const bool = readBoolean(byteBuffer);
+	const bool = readBoolean(worldDataSource);
 	t.is(bool, true);
-	byteBuffer.readUint8 = () => 0;
-	const bool2 = readBoolean(byteBuffer);
+	worldDataSource.readUint8 = () => 0;
+	const bool2 = readBoolean(worldDataSource);
 	t.is(bool2, false);
 });

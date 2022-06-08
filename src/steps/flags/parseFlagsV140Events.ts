@@ -36,43 +36,43 @@ type OutputWorld = Partial<
 	>
 >;
 
-export const parseFlagsV140Events: ParseStep<InputWorld, OutputWorld> = async (byteBuffer, sourceWorld) => {
+export const parseFlagsV140Events: ParseStep<InputWorld, OutputWorld> = async (worldDataSource, sourceWorld) => {
 	const world: OutputWorld = {};
 	if (sourceWorld.version >= 140) {
 		world.killedMobs = [];
-		world.savedTaxCollector = readBoolean(byteBuffer);
+		world.savedTaxCollector = readBoolean(worldDataSource);
 
 		if (sourceWorld.version > 201) {
-			world.savedGolfer = readBoolean(byteBuffer);
+			world.savedGolfer = readBoolean(worldDataSource);
 		}
 
-		world.invasionSizeStart = readInt32(byteBuffer);
-		world.cultistDelay = readInt32(byteBuffer);
-		world.numberOfMobs = readInt16(byteBuffer);
+		world.invasionSizeStart = readInt32(worldDataSource);
+		world.cultistDelay = readInt32(worldDataSource);
+		world.numberOfMobs = readInt16(worldDataSource);
 		for (let i = 0; i < world.numberOfMobs; ++i) {
-			world.killedMobs.push(readInt32(byteBuffer));
+			world.killedMobs.push(readInt32(worldDataSource));
 		}
 
-		world.fastForwardTime = readBoolean(byteBuffer);
+		world.fastForwardTime = readBoolean(worldDataSource);
 
-		world.beatFishron = readBoolean(byteBuffer);
-		world.beatMartians = readBoolean(byteBuffer);
-		world.beatLunaticCultist = readBoolean(byteBuffer);
-		world.beatMoonlord = readBoolean(byteBuffer);
-		world.beatHalloweenKing = readBoolean(byteBuffer);
-		world.beatHalloweenTree = readBoolean(byteBuffer);
-		world.beatChristmasQueen = readBoolean(byteBuffer);
-		world.beatSanta = readBoolean(byteBuffer);
-		world.beatChristmasTree = readBoolean(byteBuffer);
-		world.celestialSolarDown = readBoolean(byteBuffer);
-		world.celestialVortexDown = readBoolean(byteBuffer);
-		world.celestialNebulaDown = readBoolean(byteBuffer);
-		world.celestialStardustDown = readBoolean(byteBuffer);
-		world.celestialSolarActive = readBoolean(byteBuffer);
-		world.celestialVortexActive = readBoolean(byteBuffer);
-		world.celestialNebulaActive = readBoolean(byteBuffer);
-		world.celestialStardustActive = readBoolean(byteBuffer);
-		world.apocalypse = readBoolean(byteBuffer);
+		world.beatFishron = readBoolean(worldDataSource);
+		world.beatMartians = readBoolean(worldDataSource);
+		world.beatLunaticCultist = readBoolean(worldDataSource);
+		world.beatMoonlord = readBoolean(worldDataSource);
+		world.beatHalloweenKing = readBoolean(worldDataSource);
+		world.beatHalloweenTree = readBoolean(worldDataSource);
+		world.beatChristmasQueen = readBoolean(worldDataSource);
+		world.beatSanta = readBoolean(worldDataSource);
+		world.beatChristmasTree = readBoolean(worldDataSource);
+		world.celestialSolarDown = readBoolean(worldDataSource);
+		world.celestialVortexDown = readBoolean(worldDataSource);
+		world.celestialNebulaDown = readBoolean(worldDataSource);
+		world.celestialStardustDown = readBoolean(worldDataSource);
+		world.celestialSolarActive = readBoolean(worldDataSource);
+		world.celestialVortexActive = readBoolean(worldDataSource);
+		world.celestialNebulaActive = readBoolean(worldDataSource);
+		world.celestialStardustActive = readBoolean(worldDataSource);
+		world.apocalypse = readBoolean(worldDataSource);
 	}
 
 	return world;

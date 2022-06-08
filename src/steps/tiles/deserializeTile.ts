@@ -4,7 +4,7 @@ import { readUInt16 } from "../../bufferReader/readUInt16";
 import type { LiquidType } from "../../enums/LiquidType";
 import { TileActiveFlags } from "../../enums/TileActiveFlags";
 import { TileFlags } from "../../enums/TileFlags";
-import type { ByteBuffer } from "../../types/ByteBuffer";
+import type { WorldDataSource } from "../../types/WorldDataSource";
 import type { ParseConfig } from "../../types/ParseConfig";
 import type { TileData } from "../../types/TileData";
 import type { InterestingTileCounts } from "../../types/Worlds/InterestingTiles/InterestingTileCounts";
@@ -21,20 +21,20 @@ const hasFlag = (flags: number, mask: number): boolean => {
 /**
  * Read the Tile Flags for a Tile, which come in (up to) 2 bytes.
  *
- * @param {ByteBuffer} byteBuffer
+ * @param {WorldDataSource} worldDataSource
  * @param {number} activeFlags
  *
  * @returns {TileFlags} A number representing the bitwise flags set.
  */
-const readTileFlags = (byteBuffer: ByteBuffer, activeFlags: TileActiveFlags): TileFlags | undefined => {
+const readTileFlags = (worldDataSource: WorldDataSource, activeFlags: TileActiveFlags): TileFlags | undefined => {
 	// If we have Tile Flags at all
 	if (hasFlag(activeFlags, TileActiveFlags.TileFlagsExist)) {
 		// Read the first type of the file flags
-		const lowByte = readByte(byteBuffer);
+		const lowByte = readByte(worldDataSource);
 
 		// Check to see if High Byte is present
 		if (hasFlag(lowByte, TileFlags.HasHighByte)) {
-			return lowByte | (readByte(byteBuffer) << 8);
+			return lowByte | (readByte(worldDataSource) << 8);
 		}
 
 		// No high byte
@@ -48,19 +48,19 @@ const readTileFlags = (byteBuffer: ByteBuffer, activeFlags: TileActiveFlags): Ti
 /**
  * Read the tile type for a Tile.
  *
- * @param {ByteBuffer} byteBuffer
+ * @param {WorldDataSource} worldDataSource
  * @param {number} activeFlags
  *
  * @returns {number | undefined}
  */
-const readTileType = (byteBuffer: ByteBuffer, activeFlags: number): number | undefined => {
+const readTileType = (worldDataSource: WorldDataSource, activeFlags: number): number | undefined => {
 	// If the appropriate flag is set to enable us to read a type
 	if (hasFlag(activeFlags, TileActiveFlags.TileExists)) {
-		const lowByte = readByte(byteBuffer);
+		const lowByte = readByte(worldDataSource);
 
 		// Check if Tile Flags is 2 bytes or just one
 		if (hasFlag(activeFlags, TileActiveFlags.TileFlagsHasHighByte)) {
-			return lowByte | (readByte(byteBuffer) << 8);
+			return lowByte | (readByte(worldDataSource) << 8);
 		}
 
 		return lowByte;
@@ -76,41 +76,41 @@ const readTileType = (byteBuffer: ByteBuffer, activeFlags: number): number | und
  * 2 = int16 RLE counter
  * 3 = ERROR
  *
- * @param {ByteBuffer} byteBuffer
+ * @param {WorldDataSource} worldDataSource
  * @param {number} activeFlags
  *
  * @return {number | undefined}
  */
-const readRLE = (byteBuffer: ByteBuffer, activeFlags: number): number | undefined => {
+const readRLE = (worldDataSource: WorldDataSource, activeFlags: number): number | undefined => {
 	const rleStorageType = (activeFlags & 192) >> 6;
 
 	// Read RLE distance
 	if (rleStorageType === 1) {
-		return readByte(byteBuffer);
+		return readByte(worldDataSource);
 	}
 
 	if (rleStorageType === 2) {
-		return readUInt16(byteBuffer);
+		return readUInt16(worldDataSource);
 	}
 
 	return undefined;
 };
 
-export const deserializeTile = <TInterestingTypes extends number>(byteBuffer: ByteBuffer, tileFrameImportance: boolean[], interestingTileCounts: InterestingTileCounts<TInterestingTypes>, interestingTileTypeEvaluator: ParseConfig<TInterestingTypes>["interestingTileTypeEvaluator"]): Readonly<DeserializedTile<TInterestingTypes>> => {
-	const activeFlags = readByte(byteBuffer) as TileActiveFlags;
-	const tileFlags = readTileFlags(byteBuffer, activeFlags);
+export const deserializeTile = <TInterestingTypes extends number>(worldDataSource: WorldDataSource, tileFrameImportance: boolean[], interestingTileCounts: InterestingTileCounts<TInterestingTypes>, interestingTileTypeEvaluator: ParseConfig<TInterestingTypes>["interestingTileTypeEvaluator"]): Readonly<DeserializedTile<TInterestingTypes>> => {
+	const activeFlags = readByte(worldDataSource) as TileActiveFlags;
+	const tileFlags = readTileFlags(worldDataSource, activeFlags);
 	const tileData: TileData<TInterestingTypes> = {
 		activeFlags,
 		tileFlags,
 	};
 
 	// Read the tile type
-	tileData.tileTypeId = readTileType(byteBuffer, activeFlags);
+	tileData.tileTypeId = readTileType(worldDataSource, activeFlags);
 
 	// If we have a type, and it is marked as important, read the U/V
 	if (tileData.tileTypeId !== undefined && tileFrameImportance[tileData.tileTypeId]) {
-		tileData.u = readInt16(byteBuffer);
-		tileData.v = readInt16(byteBuffer);
+		tileData.u = readInt16(worldDataSource);
+		tileData.v = readInt16(worldDataSource);
 	}
 
 	// Sometimes we want to flag notable tiles for rendering/searching later on
@@ -120,33 +120,33 @@ export const deserializeTile = <TInterestingTypes extends number>(byteBuffer: By
 
 	// Read tile colour (only if tile flags are set and have the appropriate flag)
 	if (tileData.tileFlags !== undefined && hasFlag(tileData.tileFlags, TileFlags.TileIsPainted)) {
-		tileData.color = readByte(byteBuffer);
+		tileData.color = readByte(worldDataSource);
 	}
 
 	// Read wall if present
 	if (hasFlag(activeFlags, TileActiveFlags.WallExists)) {
-		tileData.wallTypeId = readByte(byteBuffer);
+		tileData.wallTypeId = readByte(worldDataSource);
 
 		// Read wall color (only if tile flags are set and have the appropriate flag)
 		if (tileData.tileFlags !== undefined && hasFlag(tileData.tileFlags, TileFlags.WallIsPainted)) {
-			tileData.wallColor = readByte(byteBuffer);
+			tileData.wallColor = readByte(worldDataSource);
 		}
 	}
 
 	// Check for liquids, grab the bit[3] and bit[4], shift them to the 0 and 1 bits
 	const liquidType = ((activeFlags & TileActiveFlags.LiquidTypeHoney) >> 3) as LiquidType;
 	if (liquidType > 0) {
-		tileData.liquidAmount = readByte(byteBuffer);
+		tileData.liquidAmount = readByte(worldDataSource);
 		tileData.liquidType = liquidType;
 	}
 
 	// If wall type has a high byte
 	if (tileData.tileFlags !== undefined && hasFlag(tileData.tileFlags, TileFlags.WallIdHasHighByte)) {
-		tileData.wallTypeId = tileData.wallTypeId === undefined ? undefined : tileData.wallTypeId | (readByte(byteBuffer) << 8);
+		tileData.wallTypeId = tileData.wallTypeId === undefined ? undefined : tileData.wallTypeId | (readByte(worldDataSource) << 8);
 	}
 
 	// Read the RLE
-	tileData.rle = readRLE(byteBuffer, activeFlags);
+	tileData.rle = readRLE(worldDataSource, activeFlags);
 
 	// Handle counts
 	if (tileData.interestingTileType !== undefined) {

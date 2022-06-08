@@ -10,28 +10,28 @@ import type { WorldCurrent } from "../../types/Worlds/WorldCurrent";
 type InputWorld = Record<string, unknown>;
 type OutputWorld = Pick<WorldCurrent, "moonType" | "treeX" | "treeStyle" | "caveBackX" | "caveBackStyle" | "iceBackStyle" | "jungleBackStyle" | "hellBackStyle" | "spawn" | "groundLevel" | "rockLevel" | "time" | "isDayTime" | "moonPhase" | "isBloodMoon" | "isEclipse" | "dungeon" | "isCrimson">;
 
-export const parseFlagsAttributes: ParseStep<InputWorld, OutputWorld> = async (byteBuffer) => {
+export const parseFlagsAttributes: ParseStep<InputWorld, OutputWorld> = async (worldDataSource) => {
 	return {
-		moonType: readByte(byteBuffer),
-		treeX: readInt32s(3, byteBuffer),
-		treeStyle: readInt32s(4, byteBuffer),
-		caveBackX: readInt32s(3, byteBuffer),
-		caveBackStyle: readInt32s(4, byteBuffer),
-		iceBackStyle: readInt32(byteBuffer),
-		jungleBackStyle: readInt32(byteBuffer),
-		hellBackStyle: readInt32(byteBuffer),
+		moonType: readByte(worldDataSource),
+		treeX: readInt32s(3, worldDataSource),
+		treeStyle: readInt32s(4, worldDataSource),
+		caveBackX: readInt32s(3, worldDataSource),
+		caveBackStyle: readInt32s(4, worldDataSource),
+		iceBackStyle: readInt32(worldDataSource),
+		jungleBackStyle: readInt32(worldDataSource),
+		hellBackStyle: readInt32(worldDataSource),
 
-		spawn: readCoord32(byteBuffer),
+		spawn: readCoord32(worldDataSource),
 
-		groundLevel: readFloat64(byteBuffer),
-		rockLevel: readFloat64(byteBuffer),
-		time: readFloat64(byteBuffer),
+		groundLevel: readFloat64(worldDataSource),
+		rockLevel: readFloat64(worldDataSource),
+		time: readFloat64(worldDataSource),
 
-		isDayTime: readBoolean(byteBuffer),
-		moonPhase: readInt32(byteBuffer),
-		isBloodMoon: readBoolean(byteBuffer),
-		isEclipse: readBoolean(byteBuffer),
-		dungeon: readCoord32(byteBuffer),
-		isCrimson: readBoolean(byteBuffer),
+		isDayTime: readBoolean(worldDataSource),
+		moonPhase: readInt32(worldDataSource),
+		isBloodMoon: readBoolean(worldDataSource),
+		isEclipse: readBoolean(worldDataSource),
+		dungeon: readCoord32(worldDataSource),
+		isCrimson: readBoolean(worldDataSource),
 	};
 };

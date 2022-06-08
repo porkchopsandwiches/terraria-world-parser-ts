@@ -7,11 +7,11 @@ import type { WorldCurrent } from "../../types/Worlds/WorldCurrent";
 type InputWorld = Record<string, unknown>;
 type OutputWorld = Pick<WorldCurrent, "sectionPointers">;
 
-export const parseHeaderSectionPointers: ParseStep<InputWorld, OutputWorld> = async (byteBuffer) => {
-	const sectionCount = readInt16(byteBuffer);
+export const parseHeaderSectionPointers: ParseStep<InputWorld, OutputWorld> = async (worldDataSource) => {
+	const sectionCount = readInt16(worldDataSource);
 	const world: OutputWorld = {
 		sectionPointers: range(0, sectionCount).map(() => {
-			return readInt32(byteBuffer);
+			return readInt32(worldDataSource);
 		}),
 	};
 

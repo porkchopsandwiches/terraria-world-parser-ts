@@ -1,6 +1,6 @@
-import type { ByteBuffer } from "../types/ByteBuffer";
+import type { WorldDataSource } from "../types/WorldDataSource";
 import { applyOffset } from "./applyOffset";
 
-export const reset = (byteBuffer: Pick<ByteBuffer, "offset">) => {
-	return applyOffset(0, byteBuffer);
+export const reset = (worldDataSource: Pick<WorldDataSource, "offset">) => {
+	return applyOffset(0, worldDataSource);
 };

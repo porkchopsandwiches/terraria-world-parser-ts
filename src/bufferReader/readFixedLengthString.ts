@@ -1,5 +1,5 @@
-import type { ByteBuffer } from "../types/ByteBuffer";
+import type { WorldDataSource } from "../types/WorldDataSource";
 
-export const readFixedLengthString = (byteBuffer: Pick<ByteBuffer, "readUTF8String" | "readInt8">, length: number) => {
-	return byteBuffer.readUTF8String(length);
+export const readFixedLengthString = (worldDataSource: Pick<WorldDataSource, "readUTF8String" | "readInt8">, length: number) => {
+	return worldDataSource.readUTF8String(length);
 };

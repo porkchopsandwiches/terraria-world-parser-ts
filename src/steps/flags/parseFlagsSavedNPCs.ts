@@ -5,10 +5,10 @@ import type { WorldCurrent } from "../../types/Worlds/WorldCurrent";
 type InputWorld = Record<string, unknown>;
 type OutputWorld = Pick<WorldCurrent, "savedGoblin" | "savedWizard" | "savedMech">;
 
-export const parseFlagsSavedNPCs: ParseStep<InputWorld, OutputWorld> = async (byteBuffer) => {
+export const parseFlagsSavedNPCs: ParseStep<InputWorld, OutputWorld> = async (worldDataSource) => {
 	return {
-		savedGoblin: readBoolean(byteBuffer),
-		savedWizard: readBoolean(byteBuffer),
-		savedMech: readBoolean(byteBuffer),
+		savedGoblin: readBoolean(worldDataSource),
+		savedWizard: readBoolean(worldDataSource),
+		savedMech: readBoolean(worldDataSource),
 	};
 };
