@@ -1,11 +1,11 @@
-import { readBoolean } from "../../bufferReader/readBoolean";
-import { readInt32 } from "../../bufferReader/readInt32";
-import { readInt32s } from "../../bufferReader/readInt32s";
+import { readBoolean } from "../../worldDataSource/readBoolean";
+import { readInt32 } from "../../worldDataSource/readInt32";
+import { readInt32s } from "../../worldDataSource/readInt32s";
 import type { ParseStep } from "../../types/ParseStep";
 import type { WorldCurrent } from "../../types/Worlds/WorldCurrent";
 
 type InputWorld = Pick<WorldCurrent, "version">;
-type OutputWorld = Partial<Pick<WorldCurrent, "expertMode" | "creationTime" | "isGetGoodWorld" | "masterMode" | "gameMode" | "isDrunkWorld" | "tenthAnniversaryWorld" | "isDontStarveWorld" | "isNotTheBeesWorld">>;
+type OutputWorld = Partial<Pick<WorldCurrent, "expertMode" | "creationTime" | "isGetGoodWorld" | "masterMode" | "gameMode" | "isDrunkWorld" | "isTenthAnniversaryWorld" | "isDontStarveWorld" | "isNotTheBeesWorld">>;
 
 export const parseFlagsWorldModes: ParseStep<InputWorld, OutputWorld> = async (worldDataSource, sourceWorld) => {
 	const world: OutputWorld = {};
@@ -21,7 +21,7 @@ export const parseFlagsWorldModes: ParseStep<InputWorld, OutputWorld> = async (w
 		}
 
 		if (sourceWorld.version >= 238) {
-			world.tenthAnniversaryWorld = readBoolean(worldDataSource);
+			world.isTenthAnniversaryWorld = readBoolean(worldDataSource);
 		}
 	} else {
 		if (sourceWorld.version >= 112) {

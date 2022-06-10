@@ -4,5 +4,5 @@ export type WorldV147<TInterestingTypes extends number = number> = WorldV141<TIn
 	expertMode: boolean;
 	slimeRainTime: number;
 	sundialCooldown: number;
-	beatSlimeKingBoss: boolean;
+	beatBossSlimeKing: boolean;
 };

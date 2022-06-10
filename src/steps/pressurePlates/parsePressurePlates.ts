@@ -1,5 +1,5 @@
-import { readCoord32 } from "../../bufferReader/readCoord32";
-import { readInt32 } from "../../bufferReader/readInt32";
+import { readCoord32 } from "../../worldDataSource/readCoord32";
+import { readInt32 } from "../../worldDataSource/readInt32";
 import type { ParseStep } from "../../types/ParseStep";
 import type { WorldCurrent } from "../../types/Worlds/WorldCurrent";
 

@@ -1,4 +1,4 @@
-import { readByte } from "../../bufferReader/readByte";
+import { readByte } from "../../worldDataSource/readByte";
 import type { ParseStep } from "../../types/ParseStep";
 import type { WorldCurrent } from "../../types/Worlds/WorldCurrent";
 

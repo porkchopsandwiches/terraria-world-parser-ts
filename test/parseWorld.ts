@@ -2,8 +2,8 @@ import { promises } from "node:fs";
 import test from "ava";
 import * as ByteBuffer from "bytebuffer";
 import * as dotenv from "dotenv";
-import { parse } from "../../src/steps/parse";
-import { deriveInterestingTileType } from "../../src/steps/tiles/deriveInterestingTileType";
+import { parseWorld } from "../src/parseWorld";
+import { deriveInterestingTileType } from "../src/steps/tiles/deriveInterestingTileType";
 
 dotenv.config();
 
@@ -12,9 +12,11 @@ test("Parse works", async (t) => {
 	const fileBuffer = await promises.readFile(`${process.env["TEST_WORLD"]}`);
 	const worldDataSource = ByteBuffer.wrap(fileBuffer, "ut8", ByteBuffer.LITTLE_ENDIAN);
 
-	const world = await parse(worldDataSource, {
+	const world = await parseWorld(worldDataSource, {
 		interestingTileTypeEvaluator: deriveInterestingTileType,
 	});
+
+	console.log(Object.keys(world).sort().join("\n"));
 
 	t.is(world.fileRevision, 2);
 	t.is(world.sectionPointers.length >= 10, true);

@@ -1,4 +1,4 @@
-import { readBoolean } from "../../bufferReader/readBoolean";
+import { readBoolean } from "../../worldDataSource/readBoolean";
 import type { ParseStep } from "../../types/ParseStep";
 import type { WorldCurrent } from "../../types/Worlds/WorldCurrent";
 

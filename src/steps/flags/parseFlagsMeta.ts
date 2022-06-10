@@ -1,8 +1,8 @@
-import { readBytes } from "../../bufferReader/readBytes";
-import { readInt32 } from "../../bufferReader/readInt32";
-import { readRectangle32 } from "../../bufferReader/readRectangle32";
-import { readString } from "../../bufferReader/readString";
-import { readUInt32 } from "../../bufferReader/readUInt32";
+import { readBytes } from "../../worldDataSource/readBytes";
+import { readInt32 } from "../../worldDataSource/readInt32";
+import { readRectangle32 } from "../../worldDataSource/readRectangle32";
+import { readString } from "../../worldDataSource/readString";
+import { readUInt32 } from "../../worldDataSource/readUInt32";
 import type { WorldDataSource } from "../../types/WorldDataSource";
 import type { ParseStep } from "../../types/ParseStep";
 import type { WorldCurrent } from "../../types/Worlds/WorldCurrent";

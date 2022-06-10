@@ -1,4 +1,4 @@
-import { getOffset } from "../../bufferReader/getOffset";
+import { getOffset } from "../../worldDataSource/getOffset";
 import { ParserPointer } from "../../enums/ParserPointer";
 import type { ParseConfig } from "../../types/ParseConfig";
 import type { ParseStep } from "../../types/ParseStep";

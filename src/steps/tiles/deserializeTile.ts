@@ -1,13 +1,13 @@
-import { readByte } from "../../bufferReader/readByte";
-import { readInt16 } from "../../bufferReader/readInt16";
-import { readUInt16 } from "../../bufferReader/readUInt16";
+import { readByte } from "../../worldDataSource/readByte";
+import { readInt16 } from "../../worldDataSource/readInt16";
+import { readUInt16 } from "../../worldDataSource/readUInt16";
 import type { LiquidType } from "../../enums/LiquidType";
 import { TileActiveFlags } from "../../enums/TileActiveFlags";
 import { TileFlags } from "../../enums/TileFlags";
 import type { WorldDataSource } from "../../types/WorldDataSource";
 import type { ParseConfig } from "../../types/ParseConfig";
 import type { TileData } from "../../types/TileData";
-import type { InterestingTileCounts } from "../../types/Worlds/InterestingTiles/InterestingTileCounts";
+import type { InterestingTileCounts } from "../../types/InterestingTileCounts";
 
 type DeserializedTile<TInterestingTypes extends number> = {
 	tileData: TileData<TInterestingTypes>;

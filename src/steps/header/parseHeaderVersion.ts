@@ -1,4 +1,4 @@
-import { readUInt32 } from "../../bufferReader/readUInt32";
+import { readUInt32 } from "../../worldDataSource/readUInt32";
 import type { ParseStep } from "../../types/ParseStep";
 import type { WorldCurrent } from "../../types/Worlds/WorldCurrent";
 

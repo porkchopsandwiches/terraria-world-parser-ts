@@ -1,6 +1,6 @@
-import { readByte } from "../../bufferReader/readByte";
-import { readFixedLengthString } from "../../bufferReader/readFixedLengthString";
-import { readInt32 } from "../../bufferReader/readInt32";
+import { readByte } from "../../worldDataSource/readByte";
+import { readFixedLengthString } from "../../worldDataSource/readFixedLengthString";
+import { readInt32 } from "../../worldDataSource/readInt32";
 import type { ParseStep } from "../../types/ParseStep";
 import type { WorldCurrent } from "../../types/Worlds/WorldCurrent";
 

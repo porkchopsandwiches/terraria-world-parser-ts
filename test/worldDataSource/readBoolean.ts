@@ -1,5 +1,5 @@
 import test from "ava";
-import { readBoolean } from "../../src/bufferReader/readBoolean";
+import { readBoolean } from "../../src/worldDataSource/readBoolean";
 
 test("Read boolean works", (t) => {
 	const worldDataSource = {

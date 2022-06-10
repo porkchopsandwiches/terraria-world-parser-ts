@@ -1,6 +1,6 @@
-import { readBoolean } from "../../bufferReader/readBoolean";
-import { readInt16 } from "../../bufferReader/readInt16";
-import { readInt32 } from "../../bufferReader/readInt32";
+import { readBoolean } from "../../worldDataSource/readBoolean";
+import { readInt16 } from "../../worldDataSource/readInt16";
+import { readInt32 } from "../../worldDataSource/readInt32";
 import type { ParseStep } from "../../types/ParseStep";
 import type { WorldCurrent } from "../../types/Worlds/WorldCurrent";
 
@@ -17,15 +17,15 @@ type OutputWorld = Partial<
 		| "celestialStardustDown"
 		| "celestialVortexActive"
 		| "celestialVortexDown"
-		| "beatHalloweenTree"
-		| "beatChristmasQueen"
-		| "beatChristmasTree"
-		| "beatHalloweenKing"
-		| "beatFishron"
-		| "beatMartians"
-		| "beatLunaticCultist"
-		| "beatMoonlord"
-		| "beatSanta"
+		| "beatBossSpookyWood"
+		| "beatBossIceQueen"
+		| "beatBossChristmasTree"
+		| "beatBossPumpking"
+		| "beatBossFishron"
+		| "beatInvasionMartians"
+		| "beatBossLunaticCultist"
+		| "beatBossMoonlord"
+		| "beatBossSanTank"
 		| "killedMobs"
 		| "savedTaxCollector"
 		| "savedGolfer"
@@ -55,15 +55,15 @@ export const parseFlagsV140Events: ParseStep<InputWorld, OutputWorld> = async (w
 
 		world.fastForwardTime = readBoolean(worldDataSource);
 
-		world.beatFishron = readBoolean(worldDataSource);
-		world.beatMartians = readBoolean(worldDataSource);
-		world.beatLunaticCultist = readBoolean(worldDataSource);
-		world.beatMoonlord = readBoolean(worldDataSource);
-		world.beatHalloweenKing = readBoolean(worldDataSource);
-		world.beatHalloweenTree = readBoolean(worldDataSource);
-		world.beatChristmasQueen = readBoolean(worldDataSource);
-		world.beatSanta = readBoolean(worldDataSource);
-		world.beatChristmasTree = readBoolean(worldDataSource);
+		world.beatBossFishron = readBoolean(worldDataSource);
+		world.beatInvasionMartians = readBoolean(worldDataSource);
+		world.beatBossLunaticCultist = readBoolean(worldDataSource);
+		world.beatBossMoonlord = readBoolean(worldDataSource);
+		world.beatBossPumpking = readBoolean(worldDataSource);
+		world.beatBossSpookyWood = readBoolean(worldDataSource);
+		world.beatBossIceQueen = readBoolean(worldDataSource);
+		world.beatBossSanTank = readBoolean(worldDataSource);
+		world.beatBossChristmasTree = readBoolean(worldDataSource);
 		world.celestialSolarDown = readBoolean(worldDataSource);
 		world.celestialVortexDown = readBoolean(worldDataSource);
 		world.celestialNebulaDown = readBoolean(worldDataSource);

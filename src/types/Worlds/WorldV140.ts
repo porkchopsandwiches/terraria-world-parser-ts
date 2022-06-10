@@ -12,15 +12,15 @@ export type WorldV140<TInterestingTypes extends number = number> = WorldV122<TIn
 	tileEntitiesNumber: number;
 	savedTaxCollector: boolean;
 
-	beatFishron: boolean;
-	beatMartians: boolean;
-	beatLunaticCultist: boolean;
-	beatMoonlord: boolean;
-	beatHalloweenKing: boolean;
-	beatHalloweenTree: boolean;
-	beatChristmasQueen: boolean;
-	beatSanta: boolean;
-	beatChristmasTree: boolean;
+	beatBossFishron: boolean;
+	beatInvasionMartians: boolean;
+	beatBossLunaticCultist: boolean;
+	beatBossMoonlord: boolean;
+	beatBossPumpking: boolean;
+	beatBossSpookyWood: boolean;
+	beatBossIceQueen: boolean;
+	beatBossSanTank: boolean;
+	beatBossChristmasTree: boolean;
 	celestialSolarDown: boolean;
 	celestialVortexDown: boolean;
 	celestialNebulaDown: boolean;

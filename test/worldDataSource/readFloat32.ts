@@ -1,5 +1,5 @@
 import test from "ava";
-import { readFloat32 } from "../../src/bufferReader/readFloat32";
+import { readFloat32 } from "../../src/worldDataSource/readFloat32";
 
 test("Read float works", (t) => {
 	const floats = [32, 64, 0, 16];

@@ -1,8 +1,8 @@
-import { readBoolean } from "../../bufferReader/readBoolean";
-import { readCoord32 } from "../../bufferReader/readCoord32";
-import { readCoordFloat } from "../../bufferReader/readCoordFloat";
-import { readInt32 } from "../../bufferReader/readInt32";
-import { readString } from "../../bufferReader/readString";
+import { readBoolean } from "../../worldDataSource/readBoolean";
+import { readCoord32 } from "../../worldDataSource/readCoord32";
+import { readCoordFloat } from "../../worldDataSource/readCoordFloat";
+import { readInt32 } from "../../worldDataSource/readInt32";
+import { readString } from "../../worldDataSource/readString";
 import type { ParseStep } from "../../types/ParseStep";
 import type { WorldCurrent } from "../../types/Worlds/WorldCurrent";
 

@@ -5,7 +5,7 @@ import type { NPC } from "../NPC";
 import type { Rectangle } from "../Rectangle";
 import type { Sign } from "../Sign";
 import type { TileData } from "../TileData";
-import type { InterestingTileCounts } from "./InterestingTiles/InterestingTileCounts";
+import type { InterestingTileCounts } from "../InterestingTileCounts";
 
 export type WorldBase<TInterestingTypes extends number = number> = Dimensions & {
 	version: number;
@@ -41,22 +41,22 @@ export type WorldBase<TInterestingTypes extends number = number> = Dimensions & 
 	invasionType: number;
 	invasionX: number;
 
-	tempRaining: boolean;
-	tempRainTime: number;
-	tempMaxRain: number;
+	rainIsHappening: boolean;
+	rainTime: number;
+	rainMaximum: number;
 	oreTier1: number;
 	oreTier2: number;
 	oreTier3: number;
-	treeBg: number;
-	corruptionBg: number;
-	jungleBg: number;
-	snowBg: number;
-	hallowBg: number;
-	crimsonBg: number;
-	desertBg: number;
-	oceanBg: number;
-	cloudBgActive: number;
-	numClouds: number;
+	styleOfTree: number;
+	styleOfCorruption: number;
+	styleOfJungle: number;
+	styleOfSnow: number;
+	styleOfHallow: number;
+	styleOfCrimson: number;
+	styleOfDesert: number;
+	styleOfOcean: number;
+	cloudBackground: number;
+	cloudCount: number;
 	windSpeedSet: number;
 
 	tiles: Array<Array<TileData<TInterestingTypes>>>;
@@ -75,20 +75,20 @@ export type WorldBase<TInterestingTypes extends number = number> = Dimensions & 
 	savedMech: boolean;
 
 	// Bosses
-	beatBoss1: boolean;
-	beatBoss2: boolean;
-	beatBoss3: boolean;
-	beatQueenBee: boolean;
-	beatMechBoss1: boolean;
-	beatMechBoss2: boolean;
-	beatMechBoss3: boolean;
-	beatMechBossAny: boolean;
-	beatPlantBoss: boolean;
-	beatGolemBoss: boolean;
+	beatBossEyeOfCthulu: boolean;
+	beatBossEaterOfWorldsOrBrainOfCthulu: boolean;
+	beatBossSkeletron: boolean;
+	beatBossQueenBee: boolean;
+	beatBossTheDestroyer: boolean;
+	beatBossTheTwins: boolean;
+	beatBossSkeletronPrime: boolean;
+	beatBossAnyMechanicalBoss: boolean;
+	beatBossPlantera: boolean;
+	beatBossGolem: boolean;
 
 	// Events
-	eventsGoblins: boolean;
-	eventsClown: boolean;
-	eventsFrost: boolean;
-	eventsPirates: boolean;
+	beatInvasionGoblins: boolean;
+	beatClown: boolean;
+	beatInvasionFrostLegion: boolean;
+	beatInvasionPirates: boolean;
 };

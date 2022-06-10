@@ -1,6 +1,6 @@
-import { readCoord32 } from "../../bufferReader/readCoord32";
-import { readInt16 } from "../../bufferReader/readInt16";
-import { readString } from "../../bufferReader/readString";
+import { readCoord32 } from "../../worldDataSource/readCoord32";
+import { readInt16 } from "../../worldDataSource/readInt16";
+import { readString } from "../../worldDataSource/readString";
 import type { Coordinate } from "../../types/Coordinate";
 import type { ParseStep } from "../../types/ParseStep";
 import type { Sign } from "../../types/Sign";

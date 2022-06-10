@@ -1,5 +1,5 @@
-import { readBoolean } from "../../bufferReader/readBoolean";
-import { readInt32 } from "../../bufferReader/readInt32";
+import { readBoolean } from "../../worldDataSource/readBoolean";
+import { readInt32 } from "../../worldDataSource/readInt32";
 import type { ParseStep } from "../../types/ParseStep";
 import type { WorldCurrent } from "../../types/Worlds/WorldCurrent";
 

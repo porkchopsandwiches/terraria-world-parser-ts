@@ -1,8 +1,8 @@
-import { readBoolean } from "../../bufferReader/readBoolean";
-import { readByte } from "../../bufferReader/readByte";
-import { readCoord16 } from "../../bufferReader/readCoord16";
-import { readInt16 } from "../../bufferReader/readInt16";
-import { readInt32 } from "../../bufferReader/readInt32";
+import { readBoolean } from "../../worldDataSource/readBoolean";
+import { readByte } from "../../worldDataSource/readByte";
+import { readCoord16 } from "../../worldDataSource/readCoord16";
+import { readInt16 } from "../../worldDataSource/readInt16";
+import { readInt32 } from "../../worldDataSource/readInt32";
 import { EntityType } from "../../enums/EntityType";
 import type { Entity } from "../../types/Entity";
 import type { ItemFrameEntity } from "../../types/ItemFrameEntity";

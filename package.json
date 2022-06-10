@@ -33,13 +33,16 @@
 	],
 	"sideEffects": false,
 	"devDependencies": {
+		"@types/bytebuffer": "^5.0.43",
+		"@types/ramda": "^0.28.13",
 		"ava": "^4.2.0",
 		"del-cli": "^4.0.1",
 		"dotenv": "^16.0.1",
 		"npm-check-updates": "^12.5.11",
 		"ts-node": "^10.7.0",
 		"typescript": "^4.6.4",
-		"xo": "^0.48.0"
+		"xo": "^0.48.0",
+		"bytebuffer": "^5.0.1"
 	},
 	"ava": {
 		"extensions": {
@@ -79,9 +82,6 @@
 		}
 	},
 	"dependencies": {
-		"@types/bytebuffer": "^5.0.43",
-		"@types/ramda": "^0.28.13",
-		"bytebuffer": "^5.0.1",
 		"ramda": "^0.28.0"
 	}
 }

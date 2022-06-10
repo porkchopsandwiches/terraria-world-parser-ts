@@ -1,19 +1,19 @@
-import { readBoolean } from "../../bufferReader/readBoolean";
-import { readByte } from "../../bufferReader/readByte";
-import { readFloat64 } from "../../bufferReader/readFloat64";
-import { readInt32 } from "../../bufferReader/readInt32";
+import { readBoolean } from "../../worldDataSource/readBoolean";
+import { readByte } from "../../worldDataSource/readByte";
+import { readFloat64 } from "../../worldDataSource/readFloat64";
+import { readInt32 } from "../../worldDataSource/readInt32";
 import type { ParseStep } from "../../types/ParseStep";
 import type { WorldCurrent } from "../../types/Worlds/WorldCurrent";
 
 type InputWorld = Record<string, unknown>;
-type OutputWorld = Pick<WorldCurrent, "eventsClown" | "eventsGoblins" | "eventsFrost" | "eventsPirates" | "shadowOrbSmashed" | "spawnMeteor" | "shadowOrbCount" | "altarCount" | "hardMode" | "invasionDelay" | "invasionSize" | "invasionType" | "invasionX">;
+type OutputWorld = Pick<WorldCurrent, "beatClown" | "beatInvasionGoblins" | "beatInvasionFrostLegion" | "beatInvasionPirates" | "shadowOrbSmashed" | "spawnMeteor" | "shadowOrbCount" | "altarCount" | "hardMode" | "invasionDelay" | "invasionSize" | "invasionType" | "invasionX">;
 
 export const parseFlagsEvents: ParseStep<InputWorld, OutputWorld> = async (worldDataSource) => {
 	return {
-		eventsGoblins: readBoolean(worldDataSource),
-		eventsClown: readBoolean(worldDataSource),
-		eventsFrost: readBoolean(worldDataSource),
-		eventsPirates: readBoolean(worldDataSource),
+		beatInvasionGoblins: readBoolean(worldDataSource),
+		beatClown: readBoolean(worldDataSource),
+		beatInvasionFrostLegion: readBoolean(worldDataSource),
+		beatInvasionPirates: readBoolean(worldDataSource),
 
 		shadowOrbSmashed: readBoolean(worldDataSource),
 		spawnMeteor: readBoolean(worldDataSource),
