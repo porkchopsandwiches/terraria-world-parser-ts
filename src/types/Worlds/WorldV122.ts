@@ -1,6 +1,6 @@
 import type { Entity } from "../Entity";
-import type { WorldV104 } from "./WorldV104";
+import type { WorldV118 } from "./WorldV118";
 
-export type WorldV122<TInterestingTypes extends number = number> = WorldV104<TInterestingTypes> & {
+export type WorldV122<TInterestingTypes extends number = number> = WorldV118<TInterestingTypes> & {
 	entities: Entity[];
 };
