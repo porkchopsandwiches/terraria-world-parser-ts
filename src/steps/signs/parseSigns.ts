@@ -22,7 +22,7 @@ export const parseSigns: ParseStep<InputWorld, OutputWorld> = async (worldDataSo
 	};
 
 	const totalSigns = readInt16(worldDataSource);
-	for (let i = 0; i < totalSigns; ++i) {
+	for (let index = 0; index < totalSigns; ++index) {
 		const sign = signFactory(readString(worldDataSource), readCoord32(worldDataSource));
 		world.signs.push(sign);
 	}

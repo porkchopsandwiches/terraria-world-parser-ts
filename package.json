@@ -19,8 +19,8 @@
 		"build": "del-cli dist && tsc",
 		"test:ava": "ava",
 		"test": "npm run lint && npm run test:ava && npm run build",
-		"lint": "xo",
-		"lint:fix": "xo --fix",
+		"lint": "npx eslint src test",
+		"lint:fix": "npx eslint src test --fix",
 		"prepack": "npm run build"
 	},
 	"files": [
@@ -35,14 +35,19 @@
 	"devDependencies": {
 		"@types/bytebuffer": "^5.0.43",
 		"@types/ramda": "^0.28.13",
+		"@typescript-eslint/eslint-plugin": "^5.27.1",
+		"@typescript-eslint/parser": "^5.27.1",
 		"ava": "^4.2.0",
+		"bytebuffer": "^5.0.1",
 		"del-cli": "^4.0.1",
 		"dotenv": "^16.0.1",
+		"eslint": "^8.17.0",
+		"eslint-config-prettier": "^8.5.0",
+		"eslint-plugin-prettier": "^4.0.0",
+		"eslint-plugin-unicorn": "^42.0.0",
 		"npm-check-updates": "^12.5.11",
 		"ts-node": "^10.7.0",
-		"typescript": "^4.6.4",
-		"xo": "^0.48.0",
-		"bytebuffer": "^5.0.1"
+		"typescript": "^4.6.4"
 	},
 	"ava": {
 		"extensions": {
@@ -51,35 +56,6 @@
 		"nodeArguments": [
 			"--loader=ts-node/esm"
 		]
-	},
-	"xo": {
-		"prettier": true,
-		"ignore": ["lint"],
-		"rules": {
-			"no-bitwise": "off",
-			"unicorn/filename-case": "off",
-			"import/extensions": "off",
-			"@typescript-eslint/naming-convention": "off",
-			"@typescript-eslint/restrict-template-expressions": "off",
-			"@typescript-eslint/no-empty-function": "off",
-			"@typescript-eslint/prefer-literal-enum-member": [
-				"error",
-				{
-					"allowBitwiseExpressions": true
-				}
-			],
-			"@typescript-eslint/ban-types": [
-				"error",
-				{
-					"types": {},
-					"extendDefaults": true
-				}
-			],
-			"node/prefer-global/process": [
-				"error",
-				"always"
-			]
-		}
 	},
 	"dependencies": {
 		"ramda": "^0.28.0"

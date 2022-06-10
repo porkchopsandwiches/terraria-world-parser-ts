@@ -14,7 +14,7 @@ export const parseNPCs: ParseStep<InputWorld, OutputWorld> = async (worldDataSou
 		npcs: [],
 	};
 
-	for (let i = readBoolean(worldDataSource); i; i = readBoolean(worldDataSource)) {
+	for (let index = readBoolean(worldDataSource); index; index = readBoolean(worldDataSource)) {
 		const spriteId = sourceWorld.version >= 190 ? readInt32(worldDataSource) : 0;
 		const spriteName = sourceWorld.version < 190 ? readString(worldDataSource) : "";
 

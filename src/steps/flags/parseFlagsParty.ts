@@ -14,7 +14,7 @@ export const parseFlagsParty: ParseStep<InputWorld, OutputWorld> = async (worldD
 		world.partyCooldown = readInt32(worldDataSource);
 		const partiersCount = readInt32(worldDataSource);
 		world.partyingNPCs = [];
-		for (let i = 0; i < partiersCount; ++i) {
+		for (let index = 0; index < partiersCount; ++index) {
 			world.partyingNPCs.push(readInt32(worldDataSource));
 		}
 	}

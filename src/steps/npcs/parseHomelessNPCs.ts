@@ -14,7 +14,7 @@ export const parseHomelessNPCs: ParseStep<InputWorld, OutputWorld> = async (worl
 	};
 
 	if (sourceWorld.version >= 140) {
-		for (let i = readBoolean(worldDataSource); i; i = readBoolean(worldDataSource)) {
+		for (let index = readBoolean(worldDataSource); index; index = readBoolean(worldDataSource)) {
 			const spriteId = sourceWorld.version >= 190 ? readInt32(worldDataSource) : 0;
 			const spriteName = sourceWorld.version < 190 ? readString(worldDataSource) : "";
 			const position = readCoordFloat(worldDataSource);

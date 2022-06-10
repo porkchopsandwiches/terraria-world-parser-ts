@@ -49,7 +49,7 @@ export const parseFlagsV140Events: ParseStep<InputWorld, OutputWorld> = async (w
 		world.invasionSizeStart = readInt32(worldDataSource);
 		world.cultistDelay = readInt32(worldDataSource);
 		world.numberOfMobs = readInt16(worldDataSource);
-		for (let i = 0; i < world.numberOfMobs; ++i) {
+		for (let index = 0; index < world.numberOfMobs; ++index) {
 			world.killedMobs.push(readInt32(worldDataSource));
 		}
 

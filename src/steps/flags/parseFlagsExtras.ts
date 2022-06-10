@@ -47,7 +47,7 @@ export const parseFlagsExtras: ParseStep<InputWorld, OutputWorld> = async (world
 	if (version >= 211) {
 		world.treeTopCount = readInt32(worldDataSource);
 		world.treeTops = [];
-		for (let i = 0; i < world.treeTopCount; ++i) {
+		for (let index = 0; index < world.treeTopCount; ++index) {
 			world.treeTops.push(readInt32(worldDataSource));
 		}
 	}

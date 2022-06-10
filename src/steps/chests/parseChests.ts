@@ -32,7 +32,7 @@ export const parseChests: ParseStep<InputWorld, OutputWorld> = async (worldDataS
 	}
 
 	// Read chests
-	for (let i = 0; i < totalChests; ++i) {
+	for (let index = 0; index < totalChests; ++index) {
 		const coord = readCoord32(worldDataSource);
 		const chest = chestFactory(coord, readString(worldDataSource));
 

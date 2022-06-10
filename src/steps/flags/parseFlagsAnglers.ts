@@ -12,7 +12,7 @@ export const parseFlagsAnglers: ParseStep<InputWorld, OutputWorld> = async (worl
 	if (sourceWorld.version >= 95) {
 		world.anglers = [];
 		const anglerCount = readInt32(worldDataSource);
-		for (let i = 0; i < anglerCount; ++i) {
+		for (let index = 0; index < anglerCount; ++index) {
 			world.anglers.push(readString(worldDataSource));
 		}
 	}

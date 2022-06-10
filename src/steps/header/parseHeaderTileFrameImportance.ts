@@ -17,7 +17,7 @@ export const parseHeaderTileFrameImportance: ParseStep<InputWorld, OutputWorld> 
 
 	let data = 0;
 	let mask = 128;
-	for (let i = 0; i < bitsCount; ++i) {
+	for (let index = 0; index < bitsCount; ++index) {
 		if (mask === 128) {
 			data = readByte(worldDataSource);
 			mask = 1;
@@ -26,7 +26,7 @@ export const parseHeaderTileFrameImportance: ParseStep<InputWorld, OutputWorld> 
 		}
 
 		if ((data & mask) === mask) {
-			world.tileFrameImportance[i] = true;
+			world.tileFrameImportance[index] = true;
 		}
 	}
 
