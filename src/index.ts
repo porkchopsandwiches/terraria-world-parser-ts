@@ -1,6 +1,5 @@
 export { parseWorld } from "./parseWorld";
 
-export { Color } from "./enums/Color";
 export { EntityType } from "./enums/EntityType";
 export { GameMode } from "./enums/GameMode";
 export { InterestingTileTypes } from "./enums/InterestingTileTypes";
