@@ -12,11 +12,9 @@ test("Parse works", async (t) => {
 	const fileBuffer = await promises.readFile(`${process.env["TEST_WORLD"]}`);
 	const worldDataSource = ByteBuffer.wrap(fileBuffer, "ut8", ByteBuffer.LITTLE_ENDIAN);
 
-	const world = await parseWorld(worldDataSource, {
+	const world = parseWorld(worldDataSource, {
 		interestingTileTypeEvaluator: deriveInterestingTileType,
 	});
-
-	console.log(Object.keys(world).sort().join("\n"));
 
 	t.is(world.fileRevision, 2);
 	t.is(world.sectionPointers.length >= 10, true);

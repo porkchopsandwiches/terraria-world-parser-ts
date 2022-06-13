@@ -58,9 +58,9 @@ const defaultConfigFactory = <TInterestingTypes extends number>(): ParseConfig<T
  * @param {WorldDataSource} worldDataSource					The Data Source object.
  * @param {Partial<ParseConfig<TInterestingTypes>>} config	Optional configuration of the parser.
  *
- * @returns {Promise<WorldBase<TInterestingTypes> & Partial<WorldCurrent<TInterestingTypes>>>}
+ * @returns {WorldBase<TInterestingTypes> & Partial<WorldCurrent<TInterestingTypes>>}
  */
-export const parseWorld = async <TInterestingTypes extends number>(worldDataSource: WorldDataSource, config?: Partial<ParseConfig<TInterestingTypes>>): Promise<WorldBase<TInterestingTypes> & Partial<WorldCurrent<TInterestingTypes>>> => {
+export const parseWorld = <TInterestingTypes extends number>(worldDataSource: WorldDataSource, config?: Partial<ParseConfig<TInterestingTypes>>): WorldBase<TInterestingTypes> & Partial<WorldCurrent<TInterestingTypes>> => {
 	const { interestingTileTypeEvaluator, onSectionParsed }: ParseConfig<TInterestingTypes> = { ...defaultConfigFactory(), ...config };
 
 	// Header

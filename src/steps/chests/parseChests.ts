@@ -11,7 +11,7 @@ import { chestFactory } from "./chestFactory";
 type InputWorld = Record<string, unknown>;
 type OutputWorld = Pick<WorldCurrent, "chests">;
 
-export const parseChests: ParseStep<InputWorld, OutputWorld> = async (worldDataSource) => {
+export const parseChests: ParseStep<InputWorld, OutputWorld> = (worldDataSource) => {
 	const world: OutputWorld = {
 		chests: [],
 	};

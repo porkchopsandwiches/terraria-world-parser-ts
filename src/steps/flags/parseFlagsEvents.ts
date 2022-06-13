@@ -8,7 +8,7 @@ import type { WorldCurrent } from "../../types/Worlds/WorldCurrent";
 type InputWorld = Record<string, unknown>;
 type OutputWorld = Pick<WorldCurrent, "beatClown" | "beatInvasionGoblins" | "beatInvasionFrostLegion" | "beatInvasionPirates" | "shadowOrbSmashed" | "spawnMeteor" | "shadowOrbCount" | "altarCount" | "hardMode" | "invasionDelay" | "invasionSize" | "invasionType" | "invasionX">;
 
-export const parseFlagsEvents: ParseStep<InputWorld, OutputWorld> = async (worldDataSource) => {
+export const parseFlagsEvents: ParseStep<InputWorld, OutputWorld> = (worldDataSource) => {
 	return {
 		beatInvasionGoblins: readBoolean(worldDataSource),
 		beatClown: readBoolean(worldDataSource),

@@ -7,7 +7,7 @@ import type { WorldCurrent } from "../../types/Worlds/WorldCurrent";
 type InputWorld = Pick<WorldCurrent, "version">;
 type OutputWorld = Partial<Pick<WorldCurrent, "fileRevision">>;
 
-export const parseHeaderExtras: ParseStep<InputWorld, OutputWorld> = async (worldDataSource, sourceWorld) => {
+export const parseHeaderExtras: ParseStep<InputWorld, OutputWorld> = (worldDataSource, sourceWorld) => {
 	if (sourceWorld.version < 135) {
 		return {};
 	}

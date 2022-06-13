@@ -7,7 +7,7 @@ import type { WorldCurrent } from "../../types/Worlds/WorldCurrent";
 type InputWorld = Pick<WorldCurrent, "version">;
 type OutputWorld = Partial<Pick<WorldCurrent, "expertMode" | "creationTime" | "isGetGoodWorld" | "masterMode" | "gameMode" | "isDrunkWorld" | "isTenthAnniversaryWorld" | "isDontStarveWorld" | "isNotTheBeesWorld">>;
 
-export const parseFlagsWorldModes: ParseStep<InputWorld, OutputWorld> = async (worldDataSource, sourceWorld) => {
+export const parseFlagsWorldModes: ParseStep<InputWorld, OutputWorld> = (worldDataSource, sourceWorld) => {
 	const world: OutputWorld = {};
 
 	if (sourceWorld.version >= 209) {

@@ -31,7 +31,7 @@ const readV181Meta = (worldDataSource: Readonly<WorldDataSource>, sourceWorld: R
 	return {};
 };
 
-export const parseFlagsMeta: ParseStep<InputWorld, OutputWorld> = async (worldDataSource, sourceWorld) => {
+export const parseFlagsMeta: ParseStep<InputWorld, OutputWorld> = (worldDataSource, sourceWorld) => {
 	const title = readString(worldDataSource);
 	const v179Meta = readV179Meta(worldDataSource, sourceWorld);
 	const v181Meta = readV181Meta(worldDataSource, sourceWorld);

@@ -6,7 +6,7 @@ import type { WorldCurrent } from "../../types/Worlds/WorldCurrent";
 type InputWorld = Pick<WorldCurrent, "version">;
 type OutputWorld = Partial<Pick<WorldCurrent, "anglers">>;
 
-export const parseFlagsAnglers: ParseStep<InputWorld, OutputWorld> = async (worldDataSource, sourceWorld) => {
+export const parseFlagsAnglers: ParseStep<InputWorld, OutputWorld> = (worldDataSource, sourceWorld) => {
 	const world: OutputWorld = {};
 
 	if (sourceWorld.version >= 95) {

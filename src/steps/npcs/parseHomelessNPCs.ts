@@ -8,7 +8,7 @@ import type { WorldCurrent } from "../../types/Worlds/WorldCurrent";
 type InputWorld = Pick<WorldCurrent, "version">;
 type OutputWorld = Pick<WorldCurrent, "homelessNPCs">;
 
-export const parseHomelessNPCs: ParseStep<InputWorld, OutputWorld> = async (worldDataSource, sourceWorld) => {
+export const parseHomelessNPCs: ParseStep<InputWorld, OutputWorld> = (worldDataSource, sourceWorld) => {
 	const world: OutputWorld = {
 		homelessNPCs: [],
 	};

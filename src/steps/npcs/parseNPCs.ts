@@ -9,7 +9,7 @@ import type { WorldCurrent } from "../../types/Worlds/WorldCurrent";
 type InputWorld = Pick<WorldCurrent, "version">;
 type OutputWorld = Pick<WorldCurrent, "npcs">;
 
-export const parseNPCs: ParseStep<InputWorld, OutputWorld> = async (worldDataSource, sourceWorld) => {
+export const parseNPCs: ParseStep<InputWorld, OutputWorld> = (worldDataSource, sourceWorld) => {
 	const world: OutputWorld = {
 		npcs: [],
 	};

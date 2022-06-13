@@ -5,7 +5,7 @@ import type { WorldCurrent } from "../../types/Worlds/WorldCurrent";
 type InputWorld = Pick<WorldCurrent, "version">;
 type OutputWorld = Pick<WorldCurrent, "beatBossEyeOfCthulu" | "beatBossEaterOfWorldsOrBrainOfCthulu" | "beatBossSkeletron" | "beatBossQueenBee" | "beatBossTheDestroyer" | "beatBossTheTwins" | "beatBossSkeletronPrime" | "beatBossAnyMechanicalBoss" | "beatBossPlantera" | "beatBossGolem"> & Partial<Pick<WorldCurrent, "beatBossSlimeKing">>;
 
-export const parseFlagsBeatenBosses: ParseStep<InputWorld, OutputWorld> = async (worldDataSource, sourceWorld) => {
+export const parseFlagsBeatenBosses: ParseStep<InputWorld, OutputWorld> = (worldDataSource, sourceWorld) => {
 	const world: OutputWorld = {
 		beatBossEyeOfCthulu: readBoolean(worldDataSource),
 		beatBossEaterOfWorldsOrBrainOfCthulu: readBoolean(worldDataSource),

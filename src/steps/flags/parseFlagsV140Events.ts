@@ -36,7 +36,7 @@ type OutputWorld = Partial<
 	>
 >;
 
-export const parseFlagsV140Events: ParseStep<InputWorld, OutputWorld> = async (worldDataSource, sourceWorld) => {
+export const parseFlagsV140Events: ParseStep<InputWorld, OutputWorld> = (worldDataSource, sourceWorld) => {
 	const world: OutputWorld = {};
 	if (sourceWorld.version >= 140) {
 		world.killedMobs = [];

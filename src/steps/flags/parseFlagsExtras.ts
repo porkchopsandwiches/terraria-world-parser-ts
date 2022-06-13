@@ -29,7 +29,7 @@ type OutputWorld = Partial<
 	>
 >;
 
-export const parseFlagsExtras: ParseStep<InputWorld, OutputWorld> = async (worldDataSource, sourceWorld) => {
+export const parseFlagsExtras: ParseStep<InputWorld, OutputWorld> = (worldDataSource, sourceWorld) => {
 	const world: OutputWorld = {};
 	const { version } = sourceWorld;
 

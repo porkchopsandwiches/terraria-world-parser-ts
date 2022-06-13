@@ -9,7 +9,7 @@ import type { WorldCurrent } from "../../types/Worlds/WorldCurrent";
 type InputWorld = Record<string, unknown>;
 type OutputWorld = Pick<WorldCurrent, "rainIsHappening" | "rainTime" | "rainMaximum" | "oreTier1" | "oreTier2" | "oreTier3" | "styleOfTree" | "styleOfCorruption" | "styleOfJungle" | "styleOfSnow" | "styleOfHallow" | "styleOfCrimson" | "styleOfDesert" | "styleOfOcean" | "cloudBackground" | "cloudCount" | "windSpeedSet">;
 
-export const parseFlagsEnvironment: ParseStep<InputWorld, OutputWorld> = async (worldDataSource) => {
+export const parseFlagsEnvironment: ParseStep<InputWorld, OutputWorld> = (worldDataSource) => {
 	return {
 		rainIsHappening: readBoolean(worldDataSource),
 		rainTime: readInt32(worldDataSource),

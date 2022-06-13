@@ -6,7 +6,7 @@ import type { WorldCurrent } from "../../types/Worlds/WorldCurrent";
 type InputWorld = Pick<WorldCurrent, "version">;
 type OutputWorld = Partial<Pick<WorldCurrent, "townManagerRecords">>;
 
-export const parseTownManagerRecords: ParseStep<InputWorld, OutputWorld> = async (worldDataSource, sourceWorld) => {
+export const parseTownManagerRecords: ParseStep<InputWorld, OutputWorld> = (worldDataSource, sourceWorld) => {
 	if (sourceWorld.version >= 140) {
 		const world: OutputWorld = {
 			townManagerRecords: [],

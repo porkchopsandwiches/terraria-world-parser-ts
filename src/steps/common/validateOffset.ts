@@ -7,7 +7,7 @@ import type { WorldCurrent } from "../../types/Worlds/WorldCurrent";
 type InputWorld = Pick<WorldCurrent, "sectionPointers">;
 
 export const validateOffset = (pointer: ParserPointer, callback: ParseConfig["onSectionParsed"]): ParseStep<InputWorld, Record<string, unknown>> => {
-	return async (worldDataSource, sourceWorld) => {
+	return (worldDataSource, sourceWorld) => {
 		const offset = getOffset(worldDataSource);
 		const match = offset === sourceWorld.sectionPointers[pointer];
 

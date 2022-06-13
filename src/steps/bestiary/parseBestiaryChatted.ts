@@ -6,7 +6,7 @@ import type { WorldCurrent } from "../../types/Worlds/WorldCurrent";
 type InputWorld = Pick<WorldCurrent, "version">;
 type OutputWorld = Partial<Pick<WorldCurrent, "bestiaryChatted">>;
 
-export const parseBestiaryChatted: ParseStep<InputWorld, OutputWorld> = async (worldDataSource, sourceWorld) => {
+export const parseBestiaryChatted: ParseStep<InputWorld, OutputWorld> = (worldDataSource, sourceWorld) => {
 	if (sourceWorld.version >= 210) {
 		const world: OutputWorld = {
 			bestiaryChatted: [],

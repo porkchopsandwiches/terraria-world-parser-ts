@@ -6,7 +6,7 @@ import type { WorldCurrent } from "../../types/Worlds/WorldCurrent";
 type InputWorld = Record<string, unknown>;
 type OutputWorld = Pick<WorldCurrent, "tileFrameImportance">;
 
-export const parseHeaderTileFrameImportance: ParseStep<InputWorld, OutputWorld> = async (worldDataSource) => {
+export const parseHeaderTileFrameImportance: ParseStep<InputWorld, OutputWorld> = (worldDataSource) => {
 	// Read tile frame importance from bit-packed data
 	const world: OutputWorld = { tileFrameImportance: [] };
 

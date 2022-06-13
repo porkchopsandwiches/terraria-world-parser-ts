@@ -10,8 +10,8 @@ dotenv.config();
 test("Parse header extras", async (t) => {
 	const fileBuffer = await promises.readFile(`${process.env["TEST_WORLD"]}`);
 	const worldDataSource = ByteBuffer.wrap(fileBuffer, "ut8", ByteBuffer.LITTLE_ENDIAN);
-	const sourceWorld = await parseHeaderVersion(worldDataSource, {});
-	const world = await parseHeaderExtras(worldDataSource, sourceWorld);
+	const sourceWorld = parseHeaderVersion(worldDataSource, {});
+	const world = parseHeaderExtras(worldDataSource, sourceWorld);
 
 	t.is(world.fileRevision, 2);
 });

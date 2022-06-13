@@ -16,7 +16,7 @@ const signFactory = (label: string, coord: Coordinate): Sign => {
 	};
 };
 
-export const parseSigns: ParseStep<InputWorld, OutputWorld> = async (worldDataSource) => {
+export const parseSigns: ParseStep<InputWorld, OutputWorld> = (worldDataSource) => {
 	const world: OutputWorld = {
 		signs: [],
 	};

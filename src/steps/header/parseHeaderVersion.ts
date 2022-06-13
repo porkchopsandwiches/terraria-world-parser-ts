@@ -5,7 +5,7 @@ import type { WorldCurrent } from "../../types/Worlds/WorldCurrent";
 type InputWorld = Record<string, unknown>;
 type OutputWorld = Pick<WorldCurrent, "version">;
 
-export const parseHeaderVersion: ParseStep<InputWorld, OutputWorld> = async (worldDataSource) => {
+export const parseHeaderVersion: ParseStep<InputWorld, OutputWorld> = (worldDataSource) => {
 	const world: OutputWorld = {
 		version: readUInt32(worldDataSource),
 	};

@@ -6,7 +6,7 @@ import type { WorldCurrent } from "../../types/Worlds/WorldCurrent";
 type InputWorld = Pick<WorldCurrent, "version">;
 type OutputWorld = Partial<Pick<WorldCurrent, "partyCooldown" | "partyManual" | "partyGenuine" | "partyingNPCs">>;
 
-export const parseFlagsParty: ParseStep<InputWorld, OutputWorld> = async (worldDataSource, sourceWorld) => {
+export const parseFlagsParty: ParseStep<InputWorld, OutputWorld> = (worldDataSource, sourceWorld) => {
 	const world: OutputWorld = {};
 	if (sourceWorld.version >= 170) {
 		world.partyManual = readBoolean(worldDataSource);

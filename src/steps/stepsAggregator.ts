@@ -21,13 +21,13 @@ export const stepsAggregator: StepsAggregatorFactory = <TInputWorld extends Gene
 			steps.push(aggregateStep(nextStep) as ParseAggregateStep<GenericWorldData, GenericWorldData>);
 			return aggregator as never;
 		},
-		async final(worldDataSource: Readonly<WorldDataSource>, sourceWorld: Readonly<TInputWorld>): Promise<TInputWorld & TOutputWorld> {
+		final(worldDataSource: Readonly<WorldDataSource>, sourceWorld: Readonly<TInputWorld>): TInputWorld & TOutputWorld {
 			// Iterate through all steps as a pipeline
 			const stepsToExecute = [...steps];
 			let nextWorld: unknown = sourceWorld;
 			while (stepsToExecute.length > 0) {
 				const nextStep = stepsToExecute.shift();
-				nextWorld = await nextStep?.(worldDataSource, nextWorld as never);
+				nextWorld = nextStep?.(worldDataSource, nextWorld as never);
 			}
 
 			return nextWorld as TInputWorld & TOutputWorld;

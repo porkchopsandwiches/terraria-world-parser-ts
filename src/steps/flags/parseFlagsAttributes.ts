@@ -10,7 +10,7 @@ import type { WorldCurrent } from "../../types/Worlds/WorldCurrent";
 type InputWorld = Record<string, unknown>;
 type OutputWorld = Pick<WorldCurrent, "moonType" | "treeX" | "treeStyle" | "caveBackX" | "caveBackStyle" | "iceBackStyle" | "jungleBackStyle" | "hellBackStyle" | "spawn" | "groundLevel" | "rockLevel" | "time" | "isDayTime" | "moonPhase" | "isBloodMoon" | "isEclipse" | "dungeon" | "isCrimson">;
 
-export const parseFlagsAttributes: ParseStep<InputWorld, OutputWorld> = async (worldDataSource) => {
+export const parseFlagsAttributes: ParseStep<InputWorld, OutputWorld> = (worldDataSource) => {
 	return {
 		moonType: readByte(worldDataSource),
 		treeX: readInt32s(3, worldDataSource),
