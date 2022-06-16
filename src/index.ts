@@ -12,7 +12,7 @@ export { worldIsVersion } from "./utils/worldIsVersion";
 
 export { BestiaryKill } from "./types/BestiaryKill";
 export { Chest } from "./types/Chest";
-export { ChestItem } from "./types/ChestItem";
+export { ChestSlot } from "./types/ChestSlot";
 export { Coordinate } from "./types/Coordinate";
 export { Dimensions } from "./types/Dimensions";
 export { Entity } from "./types/Entity";

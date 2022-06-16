@@ -5,7 +5,7 @@ export const chestFactory = (coord: Coordinate, name: string): Chest => {
 	return {
 		coord,
 		name,
-		items: [],
+		slots: [],
 		enabled: true,
 	};
 };
