@@ -4,7 +4,7 @@ import type { TileData } from "../../types/TileData";
 import type { WorldCurrent } from "../../types/Worlds/WorldCurrent";
 import { deserializeTile } from "./deserializeTile";
 
-type InputWorld = Pick<WorldCurrent, "width" | "height" | "tileFrameImportance">;
+type InputWorld = Pick<WorldCurrent, "width" | "height" | "tileFrameImportance" | "version">;
 type OutputWorld<TInterestingTypes extends number> = Pick<WorldCurrent<TInterestingTypes>, "tiles" | "interestingTileCounts">;
 
 export const parseTilesFactory = <TInterestingTypes extends number>(interestingTileTypeEvaluator: ParseConfig<TInterestingTypes>["interestingTileTypeEvaluator"]): ParseStep<InputWorld, OutputWorld<TInterestingTypes>> => {
@@ -14,7 +14,7 @@ export const parseTilesFactory = <TInterestingTypes extends number>(interestingT
 		for (let x = 0; x < sourceWorld.width; x++) {
 			const columnTiles: Array<TileData<TInterestingTypes>> = [];
 			for (let y = 0; y < sourceWorld.height; y++) {
-				const { tileData, rle: initialRle } = deserializeTile(worldDataSource, sourceWorld.tileFrameImportance, world.interestingTileCounts, interestingTileTypeEvaluator);
+				const { tileData, rle: initialRle } = deserializeTile(worldDataSource, sourceWorld.version, sourceWorld.tileFrameImportance, world.interestingTileCounts, interestingTileTypeEvaluator);
 				columnTiles[y] = tileData;
 				let rle = initialRle ?? 0;
 

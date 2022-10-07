@@ -3,4 +3,5 @@ export enum LiquidType {
 	Water = 1,
 	Lava = 2,
 	Honey = 3,
+	Shimmer = 4,
 }

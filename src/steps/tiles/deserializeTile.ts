@@ -1,7 +1,7 @@
 import { readByte } from "../../worldDataSource/readByte";
 import { readInt16 } from "../../worldDataSource/readInt16";
 import { readUInt16 } from "../../worldDataSource/readUInt16";
-import type { LiquidType } from "../../enums/LiquidType";
+import { LiquidType } from "../../enums/LiquidType";
 import { TileActiveFlags } from "../../enums/TileActiveFlags";
 import { TileFlags } from "../../enums/TileFlags";
 import type { WorldDataSource } from "../../types/WorldDataSource";
@@ -22,11 +22,12 @@ const hasFlag = (flags: number, mask: number): boolean => {
  * Read the Tile Flags for a Tile, which come in (up to) 2 bytes.
  *
  * @param {WorldDataSource} worldDataSource
+ * @param {number} worldVersion
  * @param {number} activeFlags
  *
  * @returns {TileFlags} A number representing the bitwise flags set.
  */
-const readTileFlags = (worldDataSource: WorldDataSource, activeFlags: TileActiveFlags): TileFlags | undefined => {
+const readTileFlags = (worldDataSource: WorldDataSource, worldVersion: number, activeFlags: TileActiveFlags): TileFlags | undefined => {
 	// If we have Tile Flags at all
 	if (hasFlag(activeFlags, TileActiveFlags.TileFlagsExist)) {
 		// Read the first type of the file flags
@@ -34,7 +35,13 @@ const readTileFlags = (worldDataSource: WorldDataSource, activeFlags: TileActive
 
 		// Check to see if High Byte is present
 		if (hasFlag(lowByte, TileFlags.HasHighByte)) {
-			return lowByte | (readByte(worldDataSource) << 8);
+			const twoBytes = lowByte | (readByte(worldDataSource) << 8);
+
+			if (hasFlag(twoBytes, TileFlags.HasThirdByte) && worldVersion >= 269) {
+				return twoBytes | (readByte(worldDataSource) << 16);
+			}
+
+			return twoBytes;
 		}
 
 		// No high byte
@@ -96,9 +103,15 @@ const readRLE = (worldDataSource: WorldDataSource, activeFlags: number): number 
 	return undefined;
 };
 
-export const deserializeTile = <TInterestingTypes extends number>(worldDataSource: WorldDataSource, tileFrameImportance: boolean[], interestingTileCounts: InterestingTileCounts<TInterestingTypes>, interestingTileTypeEvaluator: ParseConfig<TInterestingTypes>["interestingTileTypeEvaluator"]): Readonly<DeserializedTile<TInterestingTypes>> => {
+export const deserializeTile = <TInterestingTypes extends number>(
+	worldDataSource: WorldDataSource,
+	worldVersion: number,
+	tileFrameImportance: boolean[],
+	interestingTileCounts: InterestingTileCounts<TInterestingTypes>,
+	interestingTileTypeEvaluator: ParseConfig<TInterestingTypes>["interestingTileTypeEvaluator"],
+): Readonly<DeserializedTile<TInterestingTypes>> => {
 	const activeFlags = readByte(worldDataSource) as TileActiveFlags;
-	const tileFlags = readTileFlags(worldDataSource, activeFlags);
+	const tileFlags = readTileFlags(worldDataSource, worldVersion, activeFlags);
 	const tileData: TileData<TInterestingTypes> = {
 		activeFlags,
 		tileFlags,
@@ -138,6 +151,10 @@ export const deserializeTile = <TInterestingTypes extends number>(worldDataSourc
 	if (liquidType > 0) {
 		tileData.liquidAmount = readByte(worldDataSource);
 		tileData.liquidType = liquidType;
+
+		if (worldVersion >= 269 && tileData.tileFlags && hasFlag(tileData.tileFlags, TileFlags.IsShimmer)) {
+			tileData.liquidType = LiquidType.Shimmer;
+		}
 	}
 
 	// If wall type has a high byte
