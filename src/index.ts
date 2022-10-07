@@ -5,7 +5,6 @@ export { GameMode } from "./enums/GameMode";
 export { InterestingTileTypes } from "./enums/InterestingTileTypes";
 export { LiquidType } from "./enums/LiquidType";
 export { ParserPointer } from "./enums/ParserPointer";
-export { TileActiveFlags } from "./enums/TileActiveFlags";
 export { TileFlags } from "./enums/TileFlags";
 
 export { worldIsVersion } from "./utils/worldIsVersion";

@@ -1,13 +1,9 @@
 import type { LiquidType } from "../enums/LiquidType";
-import type { TileActiveFlags } from "../enums/TileActiveFlags";
 import type { TileFlags } from "../enums/TileFlags";
 
 export type TileData<TInterestingTypes extends number> = {
-	// Active Flags in raw form for later use by consumer
-	activeFlags: TileActiveFlags;
-
 	// Tile Flags in raw form for later use by consumer
-	tileFlags?: TileFlags;
+	tileFlags: TileFlags;
 
 	// For tiles, defines the subtype
 	u?: number;
