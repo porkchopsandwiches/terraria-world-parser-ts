@@ -1,4 +1,5 @@
 import { readBoolean } from "../../worldDataSource/readBoolean";
+import { readByte } from "../../worldDataSource/readByte";
 import { readInt32 } from "../../worldDataSource/readInt32";
 import type { ParseStep } from "../../types/ParseStep";
 import type { WorldCurrent } from "../../types/Worlds/WorldCurrent";
@@ -26,6 +27,26 @@ type OutputWorld = Partial<
 		| "realLanternNight"
 		| "combatBookUsed"
 		| "beatBossDeerClops"
+		| "unlockedSlimeBlueSpawn"
+		| "unlockedMerchantSpawn"
+		| "unlockedDemolitionistSpawn"
+		| "unlockedPartyGirlSpawn"
+		| "unlockedDyeTraderSpawn"
+		| "unlockedTruffleSpawn"
+		| "unlockedArmsDealerSpawn"
+		| "unlockedNurseSpawn"
+		| "unlockedPrincessSpawn"
+		| "combatBookVolumeTwoUsed"
+		| "peddlersSatchelUsed"
+		| "unlockedSlimeGreenSpawn"
+		| "unlockedSlimeOldSpawn"
+		| "unlockedSlimePurpleSpawn"
+		| "unlockedSlimeRainbowSpawn"
+		| "unlockedSlimeRedSpawn"
+		| "unlockedSlimeYellowSpawn"
+		| "unlockedSlimeCopperSpawn"
+		| "fastForwardTimeToDusk"
+		| "moondialCooldown"
 	>
 >;
 
@@ -77,6 +98,44 @@ export const parseFlagsExtras: ParseStep<InputWorld, OutputWorld> = (worldDataSo
 
 	if (version >= 240) {
 		world.beatBossDeerClops = readBoolean(worldDataSource);
+	}
+
+	if (version >= 250) {
+		world.unlockedSlimeBlueSpawn = readBoolean(worldDataSource);
+	}
+
+	if (version >= 251) {
+		world.unlockedMerchantSpawn = readBoolean(worldDataSource);
+		world.unlockedDemolitionistSpawn = readBoolean(worldDataSource);
+		world.unlockedPartyGirlSpawn = readBoolean(worldDataSource);
+		world.unlockedDyeTraderSpawn = readBoolean(worldDataSource);
+		world.unlockedTruffleSpawn = readBoolean(worldDataSource);
+		world.unlockedArmsDealerSpawn = readBoolean(worldDataSource);
+		world.unlockedNurseSpawn = readBoolean(worldDataSource);
+		world.unlockedPrincessSpawn = readBoolean(worldDataSource);
+	}
+
+	if (version >= 259) {
+		world.combatBookVolumeTwoUsed = readBoolean(worldDataSource);
+	}
+
+	if (version >= 260) {
+		world.peddlersSatchelUsed = readBoolean(worldDataSource);
+	}
+
+	if (version >= 261) {
+		world.unlockedSlimeGreenSpawn = readBoolean(worldDataSource);
+		world.unlockedSlimeOldSpawn = readBoolean(worldDataSource);
+		world.unlockedSlimePurpleSpawn = readBoolean(worldDataSource);
+		world.unlockedSlimeRainbowSpawn = readBoolean(worldDataSource);
+		world.unlockedSlimeRedSpawn = readBoolean(worldDataSource);
+		world.unlockedSlimeYellowSpawn = readBoolean(worldDataSource);
+		world.unlockedSlimeCopperSpawn = readBoolean(worldDataSource);
+	}
+
+	if (version >= 264) {
+		world.fastForwardTimeToDusk = readBoolean(worldDataSource);
+		world.moondialCooldown = readByte(worldDataSource);
 	}
 
 	return world;

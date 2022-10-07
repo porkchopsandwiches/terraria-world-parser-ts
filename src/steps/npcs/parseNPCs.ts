@@ -7,24 +7,33 @@ import type { ParseStep } from "../../types/ParseStep";
 import type { WorldCurrent } from "../../types/Worlds/WorldCurrent";
 
 type InputWorld = Pick<WorldCurrent, "version">;
-type OutputWorld = Pick<WorldCurrent, "npcs">;
+type OutputWorld = Pick<WorldCurrent, "npcs"> & Partial<Pick<WorldCurrent, "shimmeredTownNpcs">>;
 
 export const parseNPCs: ParseStep<InputWorld, OutputWorld> = (worldDataSource, sourceWorld) => {
+	const { version } = sourceWorld;
 	const world: OutputWorld = {
 		npcs: [],
 	};
 
+	if (version >= 268) {
+		const shimmeredNpcsCount = readInt32(worldDataSource);
+		world.shimmeredTownNpcs = [];
+		for (let index = 0; index < shimmeredNpcsCount; index++) {
+			world.shimmeredTownNpcs.push(readInt32(worldDataSource));
+		}
+	}
+
 	for (let index = readBoolean(worldDataSource); index; index = readBoolean(worldDataSource)) {
-		const spriteId = sourceWorld.version >= 190 ? readInt32(worldDataSource) : 0;
-		const spriteName = sourceWorld.version < 190 ? readString(worldDataSource) : "";
+		const spriteId = version >= 190 ? readInt32(worldDataSource) : 0;
+		const spriteName = version < 190 ? readString(worldDataSource) : "";
 
 		const displayName = readString(worldDataSource);
 		const position = readCoordFloat(worldDataSource);
 		const isHomeless = readBoolean(worldDataSource);
 		const home = readCoord32(worldDataSource);
 
-		const townVariationExists = sourceWorld.version >= 213 ? readBoolean(worldDataSource) : false;
-		const townVariation = sourceWorld.version >= 213 && townVariationExists ? readInt32(worldDataSource) : undefined;
+		const townVariationExists = version >= 213 ? readBoolean(worldDataSource) : false;
+		const townVariation = version >= 213 && townVariationExists ? readInt32(worldDataSource) : undefined;
 
 		world.npcs.push({
 			spriteId,

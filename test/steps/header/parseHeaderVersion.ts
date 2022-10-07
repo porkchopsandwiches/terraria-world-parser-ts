@@ -12,5 +12,5 @@ test("Parse version works", async (t) => {
 	const world = parseHeaderVersion(worldDataSource, {});
 
 	t.is(world.version >= 95, true);
-	t.is(world.version <= 248, true);
+	t.is(world.version <= 273, true);
 });

@@ -5,7 +5,7 @@ import type { ParseStep } from "../../types/ParseStep";
 import type { WorldCurrent } from "../../types/Worlds/WorldCurrent";
 
 type InputWorld = Pick<WorldCurrent, "version">;
-type OutputWorld = Partial<Pick<WorldCurrent, "expertMode" | "creationTime" | "isGetGoodWorld" | "masterMode" | "gameMode" | "isDrunkWorld" | "isTenthAnniversaryWorld" | "isDontStarveWorld" | "isNotTheBeesWorld">>;
+type OutputWorld = Partial<Pick<WorldCurrent, "expertMode" | "creationTime" | "isGetGoodWorld" | "masterMode" | "gameMode" | "isDrunkWorld" | "isTenthAnniversaryWorld" | "isDontStarveWorld" | "isNotTheBeesWorld" | "isRemixWorld" | "isNoTrapsWorld" | "isZenithWorld">>;
 
 export const parseFlagsWorldModes: ParseStep<InputWorld, OutputWorld> = (worldDataSource, sourceWorld) => {
 	const world: OutputWorld = {};
@@ -39,6 +39,18 @@ export const parseFlagsWorldModes: ParseStep<InputWorld, OutputWorld> = (worldDa
 
 	if (sourceWorld.version >= 241) {
 		world.isNotTheBeesWorld = readBoolean(worldDataSource);
+	}
+
+	if (sourceWorld.version >= 249) {
+		world.isRemixWorld = readBoolean(worldDataSource);
+	}
+
+	if (sourceWorld.version >= 266) {
+		world.isNoTrapsWorld = readBoolean(worldDataSource);
+	}
+
+	if (sourceWorld.version >= 267) {
+		world.isZenithWorld = readBoolean(worldDataSource);
 	}
 
 	if (sourceWorld.version >= 141) {

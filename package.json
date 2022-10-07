@@ -17,7 +17,7 @@
 	},
 	"scripts": {
 		"build": "del-cli dist && tsc",
-		"test:ava": "ava",
+		"test:ava": "ava --timeout=2m",
 		"test": "npm run lint && npm run test:ava && npm run build",
 		"lint": "npx eslint src test",
 		"lint:fix": "npx eslint src test --fix",

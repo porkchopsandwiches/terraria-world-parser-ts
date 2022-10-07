@@ -1,3 +1,3 @@
-import type { WorldV241 } from "./WorldV241";
+import type { WorldV273 } from "./WorldV273";
 
-export type WorldCurrent<TInterestingTypes extends number = number> = WorldV241<TInterestingTypes>;
+export type WorldCurrent<TInterestingTypes extends number = number> = WorldV273<TInterestingTypes>;
