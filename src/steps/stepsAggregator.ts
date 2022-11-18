@@ -3,34 +3,34 @@ import type { ParseAggregateStep } from "../types/ParseAggregateStep";
 import type { ParseStep } from "../types/ParseStep";
 import { aggregateStep } from "./aggregateStep";
 
-type GenericWorldData = Record<string, unknown>;
+type GenericData = Record<string, unknown>;
 
-type StepsAggregator<TInputWorld extends GenericWorldData, TOutputWorld extends GenericWorldData> = {
-	add: <TNextOutputWorld extends GenericWorldData>(nextStep: ParseStep<TOutputWorld, TNextOutputWorld>) => StepsAggregator<TInputWorld, TOutputWorld & TNextOutputWorld>;
-	final: ParseAggregateStep<TInputWorld, TOutputWorld>;
+type StepsAggregator<TInputData extends GenericData, TOutputData extends GenericData> = {
+	add: <TNextOutputData extends GenericData>(nextStep: ParseStep<TOutputData, TNextOutputData>) => StepsAggregator<TInputData, TOutputData & TNextOutputData>;
+	final: ParseAggregateStep<TInputData, TOutputData>;
 };
 
-type StepsAggregatorFactory = <TInputWorld extends GenericWorldData, TOutputWorld extends GenericWorldData>(firstStep: ParseStep<TInputWorld, TOutputWorld>) => StepsAggregator<TInputWorld, TOutputWorld>;
+type StepsAggregatorFactory = <TInputData extends GenericData, TOutputData extends GenericData>(firstStep: ParseStep<TInputData, TOutputData>) => StepsAggregator<TInputData, TOutputData>;
 
-export const stepsAggregator: StepsAggregatorFactory = <TInputWorld extends GenericWorldData, TOutputWorld extends GenericWorldData>(firstStep: ParseStep<TInputWorld, TOutputWorld>) => {
-	const steps: Array<ParseAggregateStep<GenericWorldData, GenericWorldData>> = [];
-	steps.push(aggregateStep(firstStep) as ParseAggregateStep<GenericWorldData, GenericWorldData>);
+export const stepsAggregator: StepsAggregatorFactory = <TInputData extends GenericData, TOutputData extends GenericData>(firstStep: ParseStep<TInputData, TOutputData>) => {
+	const steps: Array<ParseAggregateStep<GenericData, GenericData>> = [];
+	steps.push(aggregateStep(firstStep) as ParseAggregateStep<GenericData, GenericData>);
 
-	const aggregator: StepsAggregator<TInputWorld, TOutputWorld> = {
-		add<TNextOutputWorld extends GenericWorldData>(nextStep: ParseStep<TOutputWorld, TNextOutputWorld>): StepsAggregator<TInputWorld, TOutputWorld & TNextOutputWorld> {
-			steps.push(aggregateStep(nextStep) as ParseAggregateStep<GenericWorldData, GenericWorldData>);
+	const aggregator: StepsAggregator<TInputData, TOutputData> = {
+		add<TNextOutputData extends GenericData>(nextStep: ParseStep<TOutputData, TNextOutputData>): StepsAggregator<TInputData, TOutputData & TNextOutputData> {
+			steps.push(aggregateStep(nextStep) as ParseAggregateStep<GenericData, GenericData>);
 			return aggregator as never;
 		},
-		final(worldDataSource: Readonly<WorldDataSource>, sourceWorld: Readonly<TInputWorld>): TInputWorld & TOutputWorld {
+		final(worldDataSource: Readonly<WorldDataSource>, sourceData: Readonly<TInputData>): TInputData & TOutputData {
 			// Iterate through all steps as a pipeline
 			const stepsToExecute = [...steps];
-			let nextWorld: unknown = sourceWorld;
+			let nextData: unknown = sourceData;
 			while (stepsToExecute.length > 0) {
 				const nextStep = stepsToExecute.shift();
-				nextWorld = nextStep?.(worldDataSource, nextWorld as never);
+				nextData = nextStep?.(worldDataSource, nextData as never);
 			}
 
-			return nextWorld as TInputWorld & TOutputWorld;
+			return nextData as TInputData & TOutputData;
 		},
 	};
 

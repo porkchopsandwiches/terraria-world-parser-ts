@@ -1,0 +1,34 @@
+import type { PlayerArmor } from "../PlayerArmor";
+import type { RGB } from "../RGB";
+
+export type PlayerBase = {
+	version: number;
+	magicString: string;
+	fileType: number;
+	fileRevision: number;
+	isFavourite: boolean;
+	name: string;
+	difficulty: number;
+	playTime: number[];
+	hairStyle: number;
+	hairDye: number;
+	hideVisuals: boolean[];
+	hideMisc: boolean[];
+	skinVariant: number;
+	statLife: number;
+	statLifeMax: number;
+	statMana: number;
+	statManaMax: number;
+	extraAccessory: boolean;
+	beatDD2EventAnyDifficulty: boolean;
+	taxMoney: number;
+	hairColor: RGB;
+	skinColor: RGB;
+	eyeColor: RGB;
+	shirtColor: RGB;
+	underShirtColor: RGB;
+	pantsColor: RGB;
+	shoeColor: RGB;
+	armor: PlayerArmor[];
+	dye: PlayerArmor[];
+};

@@ -7,7 +7,7 @@ import { deriveInterestingTileType } from "../src/steps/tiles/deriveInterestingT
 
 dotenv.config();
 
-test("Parse works", async (t) => {
+test("Parse world works", async (t) => {
 	t.timeout(100_000); // 100 milliseconds
 	const fileBuffer = await promises.readFile(`${process.env["TEST_WORLD"]}`);
 	const worldDataSource = ByteBuffer.wrap(fileBuffer, "ut8", ByteBuffer.LITTLE_ENDIAN);
