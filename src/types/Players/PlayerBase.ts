@@ -1,4 +1,5 @@
 import type { PlayerArmor } from "../PlayerArmor";
+import type { PlayerInventoryItem } from "../PlayerInventoryItem";
 import type { RGB } from "../RGB";
 
 export type PlayerBase = {
@@ -31,4 +32,5 @@ export type PlayerBase = {
 	shoeColor: RGB;
 	armor: PlayerArmor[];
 	dye: PlayerArmor[];
+	inventory: PlayerInventoryItem[];
 };

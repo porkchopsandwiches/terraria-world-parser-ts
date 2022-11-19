@@ -1,8 +1,10 @@
 import type { PlayerArmor } from "../../types/PlayerArmor";
 import type { PlayerBase } from "../../types/Players/PlayerBase";
+import type { PlayerCurrent } from "../../types/Players/PlayerCurrent";
 import type { RGB } from "../../types/RGB";
 import type { WorldDataSource } from "../../types/WorldDataSource";
 import { readBoolean } from "../../worldDataSource/readBoolean";
+import { readByte } from "../../worldDataSource/readByte";
 import { readBytes } from "../../worldDataSource/readBytes";
 import { readFixedLengthString } from "../../worldDataSource/readFixedLengthString";
 import { readInt32 } from "../../worldDataSource/readInt32";
@@ -12,7 +14,7 @@ import { readUInt32 } from "../../worldDataSource/readUInt32";
 import type { ParseStep } from "../../types/ParseStep";
 
 type InputData = Record<string, unknown>;
-type OutputData = PlayerBase;
+type OutputData = PlayerBase & Partial<PlayerCurrent>;
 
 const readBitsByte = (size: number, dataSource: WorldDataSource) => {
 	const bytes = [];
@@ -40,8 +42,9 @@ const readPlayerArmor = (dataSource: WorldDataSource): PlayerArmor => {
 };
 
 export const parsePlayerHeader: ParseStep<InputData, OutputData> = (dataSource) => {
+	const version = readUInt32(dataSource);
 	const player: Partial<OutputData> = {
-		version: readUInt32(dataSource),
+		version,
 		magicString: readFixedLengthString(dataSource, 7),
 		fileType: readInt8(dataSource),
 		fileRevision: readUInt32(dataSource),
@@ -66,8 +69,31 @@ export const parsePlayerHeader: ParseStep<InputData, OutputData> = (dataSource) 
 	player.statMana = readInt32(dataSource);
 	player.statManaMax = readInt32(dataSource);
 	player.extraAccessory = readBoolean(dataSource);
+
+	if (version >= 229) {
+		player.unlockedBiomeTorches = readBoolean(dataSource);
+		player.usingBiomeTorches = readBoolean(dataSource);
+	}
+	if (version >= 256) {
+		player.ateArtisanBread = readBoolean(dataSource);
+	}
+	if (version >= 260) {
+		player.usedAegisCrystal = readBoolean(dataSource);
+		player.usedAegisFruit = readBoolean(dataSource);
+		player.usedArcaneCrystal = readBoolean(dataSource);
+		player.usedGalaxyPearl = readBoolean(dataSource);
+		player.usedGummyWorm = readBoolean(dataSource);
+		player.usedAmbrosia = readBoolean(dataSource);
+	}
+
 	player.beatDD2EventAnyDifficulty = readBoolean(dataSource);
 	player.taxMoney = readInt32(dataSource);
+
+	if (version >= 254) {
+		player.numberOfDeathsPVE = readInt32(dataSource);
+		player.numberOfDeathsPVP = readInt32(dataSource);
+	}
+
 	player.hairColor = readBytes(3, dataSource) as RGB;
 	player.skinColor = readBytes(3, dataSource) as RGB;
 	player.eyeColor = readBytes(3, dataSource) as RGB;
@@ -84,6 +110,30 @@ export const parsePlayerHeader: ParseStep<InputData, OutputData> = (dataSource) 
 	player.dye = [];
 	for (let index = 0; index < 10; index++) {
 		player.dye.push(readPlayerArmor(dataSource));
+	}
+
+	player.inventory = [];
+	for (let index = 0; index < 58; index++) {
+		const id = readInt32(dataSource);
+		if (id >= 3930) {
+			player.inventory[index] = {
+				id: 0,
+				prefix: 0,
+				stack: 0,
+			};
+			readInt32(dataSource);
+			readInt8(dataSource);
+			if (version >= 114) {
+				readBoolean(dataSource);
+			}
+		} else {
+			player.inventory[index] = {
+				id,
+				stack: readInt32(dataSource),
+				prefix: readByte(dataSource),
+				favourited: version >= 114 ? readBoolean(dataSource) : undefined,
+			};
+		}
 	}
 
 	console.log(player);
