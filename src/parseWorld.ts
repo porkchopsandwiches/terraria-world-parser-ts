@@ -71,7 +71,7 @@ export const parseWorld = <TInterestingTypes extends number>(worldDataSource: Wo
 
 		// Flags & Metadata
 		.add(parseFlagsMeta)
-		.add(validateVersion(95, 273))
+		.add(validateVersion(95, 279))
 		.add(parseFlagsWorldModes)
 		.add(parseFlagsAttributes)
 		.add(parseFlagsBeatenBosses)

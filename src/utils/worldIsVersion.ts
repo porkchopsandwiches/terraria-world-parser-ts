@@ -36,6 +36,19 @@ import type { WorldV238 } from "../types/Worlds/WorldV238";
 import type { WorldV239 } from "../types/Worlds/WorldV239";
 import type { WorldV240 } from "../types/Worlds/WorldV240";
 import type { WorldV241 } from "../types/Worlds/WorldV241";
+import type { WorldV249 } from "../types/Worlds/WorldV249";
+import type { WorldV250 } from "../types/Worlds/WorldV250";
+import type { WorldV251 } from "../types/Worlds/WorldV251";
+import type { WorldV259 } from "../types/Worlds/WorldV259";
+import type { WorldV260 } from "../types/Worlds/WorldV260";
+import type { WorldV261 } from "../types/Worlds/WorldV261";
+import type { WorldV264 } from "../types/Worlds/WorldV264";
+import type { WorldV266 } from "../types/Worlds/WorldV266";
+import type { WorldV267 } from "../types/Worlds/WorldV267";
+import type { WorldV268 } from "../types/Worlds/WorldV268";
+import type { WorldV269 } from "../types/Worlds/WorldV269";
+import type { WorldV273 } from "../types/Worlds/WorldV273";
+import type { WorldV279 } from "../types/Worlds/WorldV279";
 
 type VersionMap = {
 	95: WorldV095;
@@ -75,6 +88,19 @@ type VersionMap = {
 	239: WorldV239;
 	240: WorldV240;
 	241: WorldV241;
+	249: WorldV249;
+	250: WorldV250;
+	251: WorldV251;
+	259: WorldV259;
+	260: WorldV260;
+	261: WorldV261;
+	264: WorldV264;
+	266: WorldV266;
+	267: WorldV267;
+	268: WorldV268;
+	269: WorldV269;
+	273: WorldV273;
+	279: WorldV279;
 };
 
 export const worldIsVersion = <TVersion extends keyof VersionMap>(world: WorldBase, version: TVersion): world is VersionMap[TVersion] => {

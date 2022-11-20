@@ -1,6 +1,6 @@
 {
 	"name": "@porkchopsandwich/terraria-world-parser",
-	"version": "0.0.5",
+	"version": "0.0.6",
 	"description": "Library for parsing Terraria worlds",
 	"license": "MIT",
 	"repository": "porkchopsandwiches/terraria-world-parser-ts",
