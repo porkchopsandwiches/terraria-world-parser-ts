@@ -55,6 +55,34 @@ export const parseEntities: ParseStep<InputWorld, OutputWorld> = (worldDataSourc
 
 					break;
 				}
+
+				case EntityType.DisplayDoll: {
+					// For now, disregard all these values
+					const itemsBitMask = readByte(worldDataSource);
+					const dyeBitMask = readByte(worldDataSource);
+					for (let slot = 0; slot < 8; slot++) {
+
+						// If the byte at index i is on
+						if ((itemsBitMask & (1 << slot)) != 0) {
+							readInt16(worldDataSource); // Item ID
+							readByte(worldDataSource); // Prefix
+							readInt16(worldDataSource); // Stack
+						}
+					}
+					for (let slot = 0; slot < 8; slot++) {
+						if ((dyeBitMask & (1 << slot)) != 0) {
+							readInt16(worldDataSource); // Item ID
+							readByte(worldDataSource); // Prefix
+							readInt16(worldDataSource); // Stack
+						}
+					}
+					break;
+				}
+
+				default: {
+					// console.warn("Found unknown entity type", type);
+					// throw new Error(`Unknown entity type ${type}`);
+				}
 				// No default
 			}
 

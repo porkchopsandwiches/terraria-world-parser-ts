@@ -136,7 +136,7 @@ export const parsePlayerHeader: ParseStep<InputData, OutputData> = (dataSource) 
 		}
 	}
 
-	console.log(player);
+	// console.log(player);
 
 	return player as OutputData;
 };
